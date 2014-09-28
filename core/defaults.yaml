@@ -1,0 +1,16 @@
+common:
+    github_ident: &GITHUB_IDENT github_photon
+
+gateway:
+    peers_remote:
+        mz: !join ['ssh://', *GITHUB_IDENT, '/freifunk-mwu/peers-ffmz.git']
+        wi: !join ['ssh://', *GITHUB_IDENT, '/freifunk-mwu/peers-ffwi.git']
+    peers_local:
+        mz: '/etc/fastd/mzVPN/peers'
+        wi: '/etc/fastd/wiVPN/peers'
+
+builder:
+    branches:
+        - experimental
+        - beta
+        - stable
