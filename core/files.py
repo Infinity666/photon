@@ -7,7 +7,26 @@ def read_file(filename):
             return f.read()
 
 def read_yaml(filename, add_constructor=None):
+
     import yaml
+
     y = read_file(filename)
-    if add_constructor: yaml.add_constructor(*add_constructor)
+    if add_constructor:
+        if not isinstance(add_constructor, list):
+            add_constructor = [add_constructor]
+        for a in add_constructor:
+            yaml.add_constructor(*a)
     if y: return yaml.load(y)
+
+def write_file(filename, content):
+    if path.exists(path.dirname(filename)) and content:
+        with open(filename, 'w') as f:
+            return f.write(content)
+
+def write_yaml(filename, content):
+
+    import yaml
+
+    y = yaml.dump(content, indent=4, default_flow_style=False)
+    if y:
+        write_file(filename, y)

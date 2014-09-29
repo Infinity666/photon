@@ -1,8 +1,16 @@
 
-if __name__ == '__main__':
+IDENT = 'photon'
+
+def stop_me(reason, exitcode=23):
     from sys import exit
-    print('hahaha... NEIN!')
-    exit(23)
+    print('[FATAL] - %s' %(str(reason)))
+    exit(exitcode)
+
+def warn_me(reason):
+    print('[WARNING] - %s' %(str(reason)))
+
+if __name__ == '__main__':
+    stop_me('hahaha... NEIN!', exitcode=0)
 
 from core.settings import load_settings
 
@@ -13,3 +21,4 @@ class Photon(object):
 
     def __del__(self):
         pass
+
