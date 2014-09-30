@@ -1,6 +1,17 @@
 
 from os import path
 
+def get_files():
+
+    from util.locations import get_locations
+
+    locations = get_locations()
+    return {
+        'config': path.join(locations['config_dir'], 'config.yaml'),
+        'defaults': path.join(locations['core_dir'], 'defaults.yaml'),
+        'meta': path.join(locations['data_dir'], 'meta.yaml')
+    }
+
 def read_file(filename):
     if path.exists(filename):
         with open(filename, 'r') as f:

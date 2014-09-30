@@ -12,12 +12,12 @@ def warn_me(reason):
 if __name__ == '__main__':
     stop_me('hahaha... NEIN!', exitcode=0)
 
-from core.settings import load_settings
+from core.settings import Settings
 
 class Photon(object):
     def __init__(self):
         super().__init__()
-        self.s = load_settings()
+        self.s = Settings()
 
     def __del__(self):
         pass

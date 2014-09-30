@@ -1,52 +1,30 @@
 
-def string_join(loader, node):
+class Settings(object):
 
-    seq = loader.construct_sequence(node)
-    return ''.join([str(i) for i in seq])
+    def __init__(self):
+        super().__init__()
+        self._s = self.__load()
 
-def location_join(loader, node):
+    def __load(self):
 
-    from core.locations import get_locations
-    from os import path
+        from util.files import read_yaml, write_yaml, get_files
+        from util.locations import get_locations, make_locations
+        from util.structures import yaml_loc_join, yaml_str_join, dict_merge
 
-    locations = get_locations()
-    seq = loader.construct_sequence(node)
+        files = get_files()
+        res = {
+            'locations': get_locations(),
+            'files': files
+        }
 
-    for num, s in enumerate(seq):
-        if s in locations:
-            seq[num] = '%s' %(locations[s])
-    return path.join(*seq)
+        d = read_yaml(files['defaults'], add_constructor=[('!loc_join', yaml_loc_join,), ('!str_join', yaml_str_join,),])
+        if d: res = dict_merge(res, d)
 
-def dict_merge(o, v):
+        make_locations()
 
-    from copy import deepcopy
+        c = read_yaml(files['config'], add_constructor=('!loc_join', yaml_loc_join,))
+        if c: return dict_merge(res, c)
+        if c != res: write_yaml(files['config'], res)
 
-    if not isinstance(v, dict):
-        return v
-    res = deepcopy(o)
-    for key in v.keys():
-        if key in res and isinstance(res[key], dict):
-            res[key] = dict_merge(res[key], v[key])
-        else:
-            res[key] = deepcopy(v[key])
-    return res
-
-def load_settings(defaults='defaults.yaml', config='config.yaml'):
-
-    from core.files import read_yaml
-    from core.locations import get_locations, locate_file, make_dirs
-
-    res = {'locations': get_locations()}
-    d, c = None, None
-
-    make_dirs()
-
-    df = locate_file(defaults)
-    if df: d = read_yaml(df, add_constructor=[('!location_join', location_join,), ('!string_join', string_join,),])
-    if d: res = dict_merge(res, d)
-
-    cf = locate_file(config, critical=False)
-    if cf: c = read_yaml(cf, add_constructor=('!location_join', location_join,))
-    if c: res = dict_merge(res, c)
-
-    return res
+    def get(self):
+        return self._s
