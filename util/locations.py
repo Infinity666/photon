@@ -27,10 +27,10 @@ def make_locations(locations=None, warn=True):
     from photon import warn_me
 
     if not locations:
-        locations = list(reversed(sorted(get_locations().values())))
+        locations = list(get_locations().values())
     if not isinstance(locations, list):
         locations = [locations]
-    for p in locations:
+    for p in reversed(sorted(locations)):
         if not path.exists(p):
             makedirs(p)
             if warn: warn_me('path created %s' %(p))

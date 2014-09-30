@@ -1,17 +1,6 @@
 
 from os import path
 
-def get_files():
-
-    from util.locations import get_locations
-
-    locations = get_locations()
-    return {
-        'config': path.join(locations['config_dir'], 'config.yaml'),
-        'defaults': path.join(locations['core_dir'], 'defaults.yaml'),
-        'meta': path.join(locations['data_dir'], 'meta.yaml')
-    }
-
 def read_file(filename):
     if path.exists(filename):
         with open(filename, 'r') as f:
@@ -40,4 +29,28 @@ def write_yaml(filename, content):
 
     y = yaml.dump(content, indent=4, default_flow_style=False)
     if y:
-        write_file(filename, y)
+        return write_file(filename, y)
+
+def locate_file(filename, locations=None, critical=False, create_in=None):
+
+    from photon import stop_me
+    from util.locations import get_locations, make_locations
+
+    if path.exists(filename): return filename
+
+    if not locations:
+        locations = list(get_locations().values())
+    if not isinstance(locations, list):
+        locations = [locations]
+
+    for p in reversed(sorted(locations)):
+        f = path.join(p, filename)
+        if path.exists(f): return f
+
+    if critical: stop_me('filename %s not found\n\t%s' %('\n\t'.join(locations)))
+    if create_in:
+        l = get_locations()
+        c = l[create_in] if create_in in l else create_in
+        make_locations(locations=c)
+        return path.join(c, filename)
+

@@ -1,30 +1,47 @@
 
 class Settings(object):
 
-    def __init__(self):
+    def __init__(self, defaults='defaults.yaml', config='config.yaml'):
         super().__init__()
-        self._s = self.__load()
 
-    def __load(self):
+        from util.locations import get_locations
+        from util.files import locate_file
+        from util.structures import yaml_loc_join, yaml_str_join
 
-        from util.files import read_yaml, write_yaml, get_files
-        from util.locations import get_locations, make_locations
-        from util.structures import yaml_loc_join, yaml_str_join, dict_merge
-
-        files = get_files()
-        res = {
+        self._s = {
             'locations': get_locations(),
-            'files': files
+            'files': {
+                'defaults': locate_file(defaults, critical=True),
+                'config': locate_file(config, create_in='config_dir')
+            }
         }
 
-        d = read_yaml(files['defaults'], add_constructor=[('!loc_join', yaml_loc_join,), ('!str_join', yaml_str_join,),])
-        if d: res = dict_merge(res, d)
+        loaders = [
+            ('!loc_join', yaml_loc_join,),
+            ('!str_join', yaml_str_join,)
+        ]
 
-        make_locations()
+        [self.__y_load(*y) for y in [
+            (self._s['files']['defaults'], loaders, True, False),
+            (self._s['files']['config'], loaders[0], False, True)
+        ]]
 
-        c = read_yaml(files['config'], add_constructor=('!loc_join', yaml_loc_join,))
-        if c: return dict_merge(res, c)
-        if c != res: write_yaml(files['config'], res)
 
-    def get(self):
-        return self._s
+    def __y_load(self, filename, add_constructor=None, critical=True, writeback=False):
+
+        from photon import stop_me, warn_me
+        from util.files import read_yaml, write_yaml
+        from util.structures import dict_merge
+
+        y = read_yaml(filename, add_constructor=add_constructor)
+        if not y and critical: stop_me('could not load %s' %(filename))
+        if y: self._s = dict_merge(y, self._s)
+        if y != self._s and writeback: warn_me('file written: %s (%s bytes)' %(filename, write_yaml(filename, self._s)))
+
+    def get(self, lst=None):
+        res = self._s
+        if not lst: return self._s
+        for l in lst:
+            if l in res: res = res[l]
+            else: return False
+        return res
