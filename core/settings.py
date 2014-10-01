@@ -26,7 +26,6 @@ class Settings(object):
             (self._s['files']['config'], loaders[0], False, True)
         ]]
 
-
     def __y_load(self, filename, add_constructor=None, critical=True, writeback=False):
 
         from photon import stop_me, warn_me
@@ -38,7 +37,7 @@ class Settings(object):
         if y: self._s = dict_merge(y, self._s)
         if y != self._s and writeback: warn_me('file written: %s (%s bytes)' %(filename, write_yaml(filename, self._s)))
 
-    def get(self, lst=None):
+    def get_settings(self, lst=None):
         res = self._s
         if not lst: return self._s
         for l in lst:
