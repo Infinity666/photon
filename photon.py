@@ -12,13 +12,18 @@ def warn_me(reason):
 if __name__ == '__main__':
     stop_me('hahaha... NEIN!', exitcode=0)
 
-from core.settings import Settings
+from pprint import pprint
 
 class Photon(object):
     def __init__(self):
         super().__init__()
-        self.s = Settings()
+
+        from core.settings import Settings
+        self.settings = Settings()
+
+        from core.meta import Meta
+        self.meta = Meta()
 
     def __del__(self):
-        pass
+        print('end of %s' %(IDENT))
 

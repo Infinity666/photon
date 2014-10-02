@@ -30,16 +30,16 @@ def dict_merge(o, v):
             res[key] = deepcopy(v[key])
     return res
 
-def to_list(i):
+def to_list(i, the_keys=False):
 
     from photon import warn_me
 
     if isinstance(i, list): return i
     if isinstance(i, dict):
         res = list()
-        for v in i.values():
-            if isinstance(v, dict): res += to_list(v)
-            else: res.append(v)
+        for e in i.keys() if the_keys else i.values():
+            if isinstance(e, dict): res += to_list(e)
+            else: res.append(e)
         return res
     if isinstance(i, str): return [i]
     warn_me('type for %s uncovered: %s' %(i, type(i)))

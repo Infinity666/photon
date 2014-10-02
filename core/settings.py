@@ -37,10 +37,10 @@ class Settings(object):
         if y: self._s = dict_merge(y, self._s)
         if y != self._s and writeback: warn_me('file written: %s (%s bytes)' %(filename, write_yaml(filename, self._s)))
 
-    def get_settings(self, lst=None):
+    def get(self, lst=None):
         res = self._s
-        if not lst: return self._s
-        for l in lst:
-            if l in res: res = res[l]
-            else: return False
+        if lst:
+            for l in lst:
+                if l in res: res = res[l]
+                else: return False
         return res
