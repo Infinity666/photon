@@ -4,16 +4,13 @@ class Settings(object):
     def __init__(self, defaults='defaults.yaml', config='config.yaml'):
         super().__init__()
 
+        from photon import stop_me, warn_me
         from util.locations import get_locations
-        from util.files import locate_file
         from util.structures import yaml_loc_join, yaml_str_join
 
         self._s = {
             'locations': get_locations(),
-            'files': {
-                'defaults': locate_file(defaults, critical=True),
-                'config': locate_file(config, create_in='config_dir')
-            }
+            'files': dict()
         }
 
         loaders = [
@@ -21,21 +18,24 @@ class Settings(object):
             ('!str_join', yaml_str_join,)
         ]
 
-        [self.__y_load(*y) for y in [
-            (self._s['files']['defaults'], loaders, True, False),
-            (self._s['files']['config'], loaders[0], False, True)
-        ]]
+        if not self.load_file('defaults', defaults, loaders=loaders, merge=True): stop_me('could not load defaults: %s' %(defaults))
+        if self._s != self.load_file('config', config, loaders=loaders[0], merge=True, writeback=True): warn_me('file written: %s' %(config))
 
-    def __y_load(self, filename, add_constructor=None, critical=True, writeback=False):
+    def load_file(self, skey, sfile, loaders=None, merge=False, writeback=False):
 
-        from photon import stop_me, warn_me
         from util.files import read_yaml, write_yaml
+        from util.locations import locate_file
         from util.structures import dict_merge
 
-        y = read_yaml(filename, add_constructor=add_constructor)
-        if not y and critical: stop_me('could not load %s' %(filename))
-        if y: self._s = dict_merge(y, self._s)
-        if y != self._s and writeback: warn_me('file written: %s (%s bytes)' %(filename, write_yaml(filename, self._s)))
+        sfile = locate_file(sfile, create_in='config_dir' if writeback else None)
+
+        y = read_yaml(sfile, add_constructor=loaders)
+        if y:
+            self._s['files'].update({skey: sfile})
+            if merge: self._s = dict_merge(y, self._s)
+            else: self._s[skey] = y
+        if writeback and y != self._s: write_yaml(sfile, self._s)
+        return y
 
     def get(self, lst=None):
         res = self._s

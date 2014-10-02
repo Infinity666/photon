@@ -43,26 +43,3 @@ def write_json(filename, content):
 
     j = dumps(content, indent=4, sort_keys=True)
     if j: return write_file(filename, j)
-
-def locate_file(filename, locations=None, critical=False, create_in=None):
-
-    from photon import stop_me
-    from util.locations import get_locations, make_locations
-    from util.structures import to_list
-
-    if path.exists(filename): return filename
-
-    if not locations: locations = get_locations()
-    locations = to_list(locations)
-
-    for p in reversed(sorted(locations)):
-        f = path.join(p, filename)
-        if path.exists(f): return f
-
-    if critical: stop_me('filename %s not found\n\t%s' %('\n\t'.join(locations)))
-    if create_in:
-        l = get_locations()
-        c = l[create_in] if create_in in l else create_in
-        make_locations(locations=[c])
-        return path.join(c, filename)
-

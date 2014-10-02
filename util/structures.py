@@ -24,20 +24,20 @@ def dict_merge(o, v):
         return v
     res = deepcopy(o)
     for key in v.keys():
-        if key in res and isinstance(res[key], dict):
+        if res.get(key) and isinstance(res[key], dict):
             res[key] = dict_merge(res[key], v[key])
         else:
             res[key] = deepcopy(v[key])
     return res
 
-def to_list(i, the_keys=False):
+def to_list(i, use_keys=False):
 
     from photon import warn_me
 
     if isinstance(i, list): return i
     if isinstance(i, dict):
         res = list()
-        for e in i.keys() if the_keys else i.values():
+        for e in i.keys() if use_keys else i.values():
             if isinstance(e, dict): res += to_list(e)
             else: res.append(e)
         return res

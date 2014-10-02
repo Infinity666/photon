@@ -1,9 +1,9 @@
 
 class Meta(object):
-    def __init__(self, defaults='defaults.yaml', config='config.yaml', meta='meta.json', clean=True):
+    def __init__(self, meta='meta.json', clean=True):
         super().__init__()
 
-        from util.files import locate_file
+        from util.locations import locate_file
 
         self._meta = dict()
         self.stage(locate_file(meta, create_in='data_dir'), clean=clean)
@@ -23,15 +23,10 @@ class Meta(object):
                     'initialized': get_timestamp(),
                     'ident': '%s-%4X' %(IDENT, randint(0x1000,0xffff)),
                 },
-                'log': dict()
             }
         self._meta = dict_merge(self._meta, m)
         self._meta['header'].update({'stage': s})
         self.dump(warn='%s stage' %('clean' if clean else 'switched'))
-
-    def get(self):
-        m = self._meta
-        return m
 
     def dump(self, warn=False):
 
@@ -47,8 +42,12 @@ class Meta(object):
     def log(self, elem):
 
         from util.time import get_timestamp
-
-        if elem: self._meta['log'][get_timestamp(precice=True)] = elem
+        if not self._meta.get('log'): self._meta['log'] = list()
+        if elem: self._meta['log'].append({get_timestamp(precice=True): elem})
         self.dump()
 
-
+    def get(self, last=0):
+        m = self._meta
+        if last and m.get('log'):
+            m['log'] = m['log'][-last:]
+        return m
