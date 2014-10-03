@@ -23,7 +23,7 @@ def get_locations():
 
 def make_locations(locations=None, warn=True):
 
-    from photon import warn_me
+    from util.system import warn_me
     from util.structures import to_list
 
     if not locations: locations = get_locations().values()
@@ -36,22 +36,20 @@ def make_locations(locations=None, warn=True):
 
 def locate_file(filename, locations=None, critical=False, create_in=None):
 
-    from photon import stop_me
+    from util.system import stop_me
     from util.structures import to_list
 
     if path.exists(filename): return filename
 
     if not locations: locations = get_locations()
-    locations = to_list(locations)
 
-    for p in reversed(sorted(locations)):
+    for p in reversed(sorted(to_list(locations))):
         f = path.join(p, filename)
         if path.exists(f): return f
 
-    if critical: stop_me('filename %s not found\n\t%s' %('\n\t'.join(locations)))
+    if critical: stop_me('filename %s not found\n\t%s' %('\n\t'.join(to_list(locations))))
     if create_in:
-        l = get_locations()
-        c = l[create_in] if l.get(create_in) else create_in
+        c = locations[create_in] if locations.get(create_in) else create_in
         make_locations(locations=[c])
         return path.join(c, filename)
 

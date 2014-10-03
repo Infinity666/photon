@@ -2,7 +2,7 @@
 from os import path
 
 def read_file(filename):
-    if path.exists(filename):
+    if filename and path.exists(filename):
         with open(filename, 'r') as f:
             return f.read()
 
@@ -26,7 +26,7 @@ def read_json(filename):
     if j: return loads(j)
 
 def write_file(filename, content):
-    if path.exists(path.dirname(filename)) and content:
+    if filename and path.exists(path.dirname(filename)) and content:
         with open(filename, 'w') as f:
             return f.write(content)
 
