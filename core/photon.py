@@ -2,14 +2,14 @@
 IDENT = 'photon'
 
 class Photon(object):
-    def __init__(self):
+    def __init__(self, defaults='defaults.yaml', config='config.yaml', meta='meta.json'):
         super().__init__()
 
         from core.settings import Settings
         from core.meta import Meta
 
-        self.settings = Settings()
-        self.meta = Meta()
+        self.settings = Settings(defaults=defaults, config=config)
+        self.meta = Meta(meta=meta)
 
         self.meta.load('settings', IDENT, self.settings.get())
 

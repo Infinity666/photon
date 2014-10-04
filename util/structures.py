@@ -34,6 +34,8 @@ def to_list(i, use_keys=False):
 
     from util.system import warn_me
 
+    if not i: return []
+    if isinstance(i, str): return [i]
     if isinstance(i, list): return i
     if isinstance(i, dict):
         res = list()
@@ -41,5 +43,4 @@ def to_list(i, use_keys=False):
             if isinstance(e, dict): res += to_list(e)
             else: res.append(e)
         return res
-    if isinstance(i, str): return [i]
     warn_me('type for %s uncovered: %s' %(i, type(i)))

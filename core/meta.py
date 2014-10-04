@@ -4,7 +4,7 @@ class Meta(object):
         super().__init__()
 
         from random import randint
-        from photon import IDENT
+        from core.photon import IDENT
         from util.time import get_timestamp
 
         self._meta = {
@@ -37,6 +37,7 @@ class Meta(object):
             self._meta['header'].update({mkey: mdesc})
             if merge: self._meta = dict_merge(self._meta, j)
             else: self._meta['import'][mkey] = j
+            self.log('load %s (%s)' %(mkey, mdesc))
 
     def log(self, elem):
 

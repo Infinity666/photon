@@ -3,7 +3,7 @@ from os import path, environ, makedirs
 
 def get_locations():
 
-    from photon import IDENT
+    from core.photon import IDENT
 
     util_dir = path.abspath(path.dirname(__file__))
     base_dir = path.dirname(util_dir)
@@ -17,8 +17,7 @@ def get_locations():
         'core_dir': path.join(base_dir, 'core'),
         'home_dir': home_dir,
         'config_dir': config_dir,
-        'data_dir': data_dir,
-        'backup_dir': path.join(data_dir, 'backups')
+        'data_dir': data_dir
     }
 
 def make_locations(locations=None, warn=True):
