@@ -4,9 +4,9 @@ class Settings(object):
     def __init__(self, defaults='defaults.yaml', config='config.yaml'):
         super().__init__()
 
-        from util.system import stop_me, warn_me
-        from util.locations import get_locations, locate_file
-        from util.structures import yaml_loc_join, yaml_str_join
+        from .util.system import stop_me, warn_me
+        from .util.locations import get_locations, locate_file
+        from .util.structures import yaml_loc_join, yaml_str_join
 
         self._s = {
             'locations': get_locations(),
@@ -28,8 +28,8 @@ class Settings(object):
 
     def load(self, skey, sdescr, loaders=None, merge=False, writeback=False):
 
-        from util.files import read_yaml, write_yaml
-        from util.structures import dict_merge
+        from .util.files import read_yaml, write_yaml
+        from .util.structures import dict_merge
 
         y = read_yaml(sdescr, add_constructor=loaders)
         if y:
@@ -39,10 +39,6 @@ class Settings(object):
         if writeback and y != self._s: write_yaml(sdescr, self._s)
         return y
 
-    def get(self, lst=None):
-        res = self._s
-        if lst:
-            for l in lst:
-                if l in res: res = res[l]
-                else: return False
-        return res
+    @property
+    def get(self):
+        return self._s

@@ -16,7 +16,7 @@ def shell_run(c, cin=None, timeout=10, critical=True):
     if isinstance(c, str): c = shsplit(c)
     if cin: res.update({'stdin': cin})
 
-    try: p = Popen(c, stdin=PIPE, stdout=PIPE, stderr=PIPE, universal_newlines=True)
+    try: p = Popen(c, stdin=PIPE, stdout=PIPE, stderr=PIPE, bufsize=1, universal_newlines=True)
     except Exception as ex: res.update({'exception': ex})
     else:
         try:

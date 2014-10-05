@@ -3,7 +3,7 @@ from os import path, environ, makedirs
 
 def get_locations():
 
-    from core.photon import IDENT
+    from photon import IDENT
 
     util_dir = path.abspath(path.dirname(__file__))
     base_dir = path.dirname(util_dir)
@@ -14,7 +14,7 @@ def get_locations():
 
     return {
         'base_dir': base_dir,
-        'core_dir': path.join(base_dir, 'core'),
+        'util_dir': util_dir,
         'home_dir': home_dir,
         'config_dir': config_dir,
         'data_dir': data_dir
@@ -22,8 +22,8 @@ def get_locations():
 
 def make_locations(locations=None, warn=True):
 
-    from util.system import warn_me
-    from util.structures import to_list
+    from .system import warn_me
+    from .structures import to_list
 
     if not locations: locations = get_locations().values()
     locations = to_list(locations)
@@ -35,8 +35,8 @@ def make_locations(locations=None, warn=True):
 
 def locate_file(filename, locations=None, critical=False, create_in=None):
 
-    from util.system import stop_me
-    from util.structures import to_list
+    from .system import stop_me
+    from .structures import to_list
 
     if path.exists(filename): return filename
 

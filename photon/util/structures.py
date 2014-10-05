@@ -6,8 +6,8 @@ def yaml_str_join(l, n):
 
 def yaml_loc_join(l, n):
 
-    from util.locations import get_locations
     from os import path
+    from .locations import get_locations
 
     locations = get_locations()
     s = l.construct_sequence(n)
@@ -32,7 +32,7 @@ def dict_merge(o, v):
 
 def to_list(i, use_keys=False):
 
-    from util.system import warn_me
+    from .system import warn_me
 
     if not i: return []
     if isinstance(i, str): return [i]
