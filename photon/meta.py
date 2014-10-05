@@ -4,12 +4,12 @@ class Meta(object):
         super().__init__()
 
         from random import randint
-        from photon import IDENT
+        from photon import __ident__
         from .util.time import get_timestamp
 
         self._m = {
             'header': {
-                'ident': '%s-%4X' %(IDENT, randint(0x1000, 0xffff)),
+                'ident': '%s-%4X' %(__ident__, randint(0x1000, 0xffff)),
                 'initialized': get_timestamp(),
             },
             'import': dict(),

@@ -1,5 +1,5 @@
 
-from photon import IDENT
+from photon import __ident__
 
 class Photon(object):
     def __init__(self, defaults='defaults.yaml', config='config.yaml', meta='meta.json'):
@@ -11,8 +11,8 @@ class Photon(object):
         self.settings = Settings(defaults=defaults, config=config)
         self.meta = Meta(meta=meta)
 
-        self.meta.load('settings', IDENT, self.settings.get)
+        self.meta.load('settings', __ident__, self.settings.get)
 
     def __del__(self):
-        print('end of %s' %(IDENT))
+        print('end of %s' %(__ident__))
 
