@@ -1,11 +1,11 @@
 
 class Settings(object):
 
-    def __init__(self, defaults='defaults.yaml', config='config.yaml'):
+    def __init__(self, defaults='defaults.yaml', config='config.yaml', verbose=True):
 
         super().__init__()
 
-        from .util.system import shell_notif
+        from .util.system import notify
         from .util.locations import get_locations, locate_file
         from .util.structures import yaml_loc_join, yaml_str_join
 
@@ -21,11 +21,11 @@ class Settings(object):
 
         defaults = locate_file(defaults)
         if not self.load('defaults', defaults, loaders=loaders, merge=True):
-            shell_notif('could not load defaults', state=True, more=defaults)
+            notify('could not load defaults', state=True, more=defaults, verbose=verbose)
 
         config = locate_file(config, create_in='config_dir')
         if self._s != self.load('config', config, loaders=loaders[0], merge=True, writeback=True):
-            shell_notif('file written', state=None, more=config)
+            notify('file written', state=None, more=config, verbose=verbose)
 
     def load(self, skey, sdescr, loaders=None, merge=False, writeback=False):
 
@@ -35,7 +35,7 @@ class Settings(object):
         y = read_yaml(sdescr, add_constructor=loaders)
         if y:
             self._s['files'].update({skey: sdescr})
-            if merge: self._s = dict_merge(y, self._s)
+            if merge: self._s = dict_merge(self._s, y)
             else: self._s[skey] = y
         if writeback and y != self._s: write_yaml(sdescr, self._s)
         return y

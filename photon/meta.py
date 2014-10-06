@@ -1,16 +1,17 @@
 
 class Meta(object):
-    def __init__(self, meta='meta.json'):
+    def __init__(self, meta='meta.json', verbose=True):
         super().__init__()
 
         from random import randint as _randint
         from photon import __ident__
-        from .util.time import get_timestamp
+        from .util.system import get_timestamp
 
         self._m = {
             'header': {
                 'ident': '%s-%4X' %(__ident__, _randint(0x1000, 0xffff)),
                 'initialized': get_timestamp(),
+                'verbose': verbose
             },
             'import': dict(),
             'log': dict()
@@ -20,24 +21,34 @@ class Meta(object):
     def stage(self, s, clean=False):
 
         from .util.locations import locate_file
+        from .util.system import notify
 
         s = locate_file(s, create_in='data_dir')
         if not clean: self.load('stage', s, merge=True)
 
         self._m['header'].update({'stage': s})
-        self.log = {'stage': dict(meta=s, clean=clean)}
+        self.log = notify(
+            '%s stage' %('new clean' if clean else 'loaded'),
+            more=dict(meta=s, clean=clean),
+            verbose=False
+        )
 
     def load(self, mkey, mdesc, mdict=None, merge=False):
 
         from .util.files import read_json
         from .util.structures import dict_merge
+        from .util.system import notify
 
         j = mdict if mdict else read_json(mdesc)
         if j:
             self._m['header'].update({mkey: mdesc})
             if merge: self._m = dict_merge(self._m, j)
             else: self._m['import'][mkey] = j
-            self.log = {'load': dict(mkey=mkey, mdesc=mdesc, merge=merge)}
+            self.log = notify(
+                'load %s data and %s it into meta' %('got' if mdict else 'read', 'merged' if merge else 'imported'),
+                more=dict(mkey=mkey, mdesc=mdesc, merge=merge),
+                verbose=False
+            )
 
     @property
     def log(self):
@@ -48,7 +59,7 @@ class Meta(object):
     def log(self, elem):
 
         from .util.files import read_json, write_json
-        from .util.time import get_timestamp
+        from .util.system import get_timestamp
 
         if elem: self._m['log'].update({get_timestamp(precice=True): elem})
         mfile = self._m['header']['stage']

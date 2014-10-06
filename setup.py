@@ -1,24 +1,29 @@
 '''
-Photon
-------
+photon_core
+-----------
 
-Photon is a backend for developing freifunk related scripts
+Photon is a backend utility for freifunk related gateway scripts
 
 '''
 
 from setuptools import setup
-from photon import __version__, __url__, __author__, __email__
+from os import path as _path
+from info import __release__, __url__, __author__, __email__
+
+__long_desc = __doc__
+with open(_path.join(_path.dirname(_path.abspath(__file__)), 'Readme.rst'), 'r') as readme:
+    __long_desc = readme.read()
 
 setup(
     name='photon_core',
-    version=__version__,
+    version=__release__,
     url=__url__,
     license='BSD',
     author=__author__,
     author_email=__email__,
-    description='A backend for developing freifunk related scripts',
-    long_description=__doc__,
-    packages=['photon', 'photon.util'],
+    description=__doc__,
+    long_description=__long_desc,
+    packages=['photon', 'photon.util', 'photon.tools'],
     include_package_data=True,
     zip_safe=False,
     platforms='posix',

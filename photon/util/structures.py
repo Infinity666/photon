@@ -32,7 +32,7 @@ def dict_merge(o, v):
 
 def to_list(i, use_keys=False):
 
-    from .system import shell_notif
+    from .system import notify
 
     if not i: return []
     if isinstance(i, str): return [i]
@@ -43,4 +43,4 @@ def to_list(i, use_keys=False):
             if isinstance(e, dict): res += to_list(e)
             else: res.append(e)
         return res
-    shell_notif('type for %s uncovered' %(i), state=True, more=type(i))
+    notify('type for %s uncovered' %(i), state=True, more=type(i))
