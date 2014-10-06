@@ -1,6 +1,6 @@
 
 class Photon(object):
-    def __init__(self, defaults='defaults.yaml', config='config.yaml', meta='meta.json', verbose=True):
+    def __init__(self, config='config.yaml', summary='summary.yaml', meta='meta.json', verbose=True):
 
         super().__init__()
 
@@ -8,7 +8,7 @@ class Photon(object):
         from photon import Settings, Meta, __ident__
         from .util.system import notify
 
-        self.settings = Settings(defaults=defaults, config=config, verbose=verbose)
+        self.settings = Settings(config=config, summary=summary, verbose=verbose)
         self.meta = Meta(meta=meta, verbose=verbose)
         self.__verbose = verbose
 
@@ -21,7 +21,7 @@ class Photon(object):
 
         self.meta.log = notify(
             '%s startup done' %(__ident__),
-            more=dict(config=config, defaults=defaults, meta=meta, verbose=verbose),
+            more=dict(config=config, summary=summary, meta=meta, verbose=verbose),
             verbose=False
         )
 

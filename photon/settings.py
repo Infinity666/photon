@@ -1,7 +1,7 @@
 
 class Settings(object):
 
-    def __init__(self, defaults='defaults.yaml', config='config.yaml', verbose=True):
+    def __init__(self, config='config.yaml', summary='summary.yaml', verbose=True):
 
         super().__init__()
 
@@ -19,13 +19,13 @@ class Settings(object):
             ('!str_join', yaml_str_join,)
         ]
 
-        defaults = locate_file(defaults)
-        if not self.load('defaults', defaults, loaders=loaders, merge=True):
-            notify('could not load defaults', state=True, more=defaults, verbose=verbose)
+        config = locate_file(config)
+        if not self.load('config', config, loaders=loaders, merge=True):
+            notify('could not load config', state=True, more=config, verbose=verbose)
 
-        config = locate_file(config, create_in='config_dir')
-        if self._s != self.load('config', config, loaders=loaders[0], merge=True, writeback=True):
-            notify('file written', state=None, more=config, verbose=verbose)
+        summary = locate_file(summary, create_in='config_dir')
+        if self._s != self.load('summary', summary, loaders=loaders[0], merge=True, writeback=True):
+            notify('file written', state=None, more=summary, verbose=verbose)
 
     def load(self, skey, sdescr, loaders=None, merge=False, writeback=False):
 
