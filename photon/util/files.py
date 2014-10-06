@@ -1,45 +1,49 @@
 
-from os import path
-
 def read_file(filename):
-    if filename and path.exists(filename):
+
+    from os import path as _path
+
+    if filename and _path.exists(filename):
         with open(filename, 'r') as f:
             return f.read()
 
 def read_yaml(filename, add_constructor=None):
 
-    import yaml
+    import yaml as _yaml
 
     y = read_file(filename)
     if add_constructor:
         if not isinstance(add_constructor, list):
             add_constructor = [add_constructor]
         for a in add_constructor:
-            yaml.add_constructor(*a)
-    if y: return yaml.load(y)
+            _yaml.add_constructor(*a)
+    if y: return _yaml.load(y)
 
 def read_json(filename):
 
-    from json import loads
+    from json import loads as _loads
 
     j = read_file(filename)
-    if j: return loads(j)
+    if j: return _loads(j)
 
 def write_file(filename, content):
-    if filename and path.exists(path.dirname(filename)) and content:
+
+    from os import path as _path
+
+    if filename and _path.exists(_path.dirname(filename)) and content:
         with open(filename, 'w') as f:
             return f.write(content)
 
 def write_yaml(filename, content):
 
-    import yaml
+    import yaml as _yaml
 
-    y = yaml.dump(content, indent=4, default_flow_style=False)
+    y = _yaml.dump(content, indent=4, default_flow_style=False)
     if y: return write_file(filename, y)
 
 def write_json(filename, content):
 
-    from json import dumps
+    from json import dumps as _dumps
 
-    j = dumps(content, indent=4, sort_keys=True)
+    j = _dumps(content, indent=4, sort_keys=True)
     if j: return write_file(filename, j)

@@ -1,54 +1,55 @@
 
-from os import path, environ, makedirs
+from os import path as _path
 
 def get_locations():
 
-    from photon import IDENT
+    from os import environ as _environ
+    from sys import argv as _argv
+    from photon import __ident__
 
-    util_dir = path.abspath(path.dirname(__file__))
-    base_dir = path.dirname(util_dir)
-    home_dir = path.expanduser('~')
+    home_dir = _path.expanduser('~')
+    call_dir = _path.dirname(_path.abspath(_argv[0]))
 
-    config_dir = path.join(environ.get('XDG_CONFIG_HOME', path.join(home_dir, '.config')), IDENT)
-    data_dir = path.join(environ.get('XDG_DATA_HOME', path.join(home_dir, '.local', 'share')), IDENT)
+    config_dir = _path.join(_environ.get('XDG_CONFIG_HOME', _path.join(home_dir, '.config')), __ident__)
+    data_dir = _path.join(_environ.get('XDG_DATA_HOME', _path.join(home_dir, '.local', 'share')), __ident__)
 
     return {
-        'base_dir': base_dir,
-        'util_dir': util_dir,
         'home_dir': home_dir,
+        'call_dir': call_dir,
         'config_dir': config_dir,
         'data_dir': data_dir
     }
 
 def make_locations(locations=None, warn=True):
 
-    from .system import warn_me
+    from os import makedirs as _makedirs
+    from .system import shell_notif
     from .structures import to_list
 
     if not locations: locations = get_locations().values()
     locations = to_list(locations)
 
     for p in reversed(sorted(locations)):
-        if not path.exists(p):
-            makedirs(p)
-            if warn: warn_me('path created %s' %(p))
+        if not _path.exists(p):
+            _makedirs(p)
+            if warn: shell_notif('path created', state=None, more=p)
 
 def locate_file(filename, locations=None, critical=False, create_in=None):
 
-    from .system import stop_me
+    from .system import shell_notif
     from .structures import to_list
 
-    if path.exists(filename): return filename
+    if _path.exists(filename): return _path.abspath(filename)
 
     if not locations: locations = get_locations()
 
     for p in reversed(sorted(to_list(locations))):
-        f = path.join(p, filename)
-        if path.exists(f): return f
+        f = _path.join(p, filename)
+        if _path.exists(f): return f
 
-    if critical: stop_me('filename %s not found\n\t%s' %('\n\t'.join(to_list(locations))))
+    if critical: shell_notif('filename %s not found', state=True, more=locations)
     if create_in:
         c = locations[create_in] if locations.get(create_in) else create_in
         make_locations(locations=[c])
-        return path.join(c, filename)
+        return _path.join(c, filename)
 

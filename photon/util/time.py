@@ -2,9 +2,9 @@
 
 def get_timestamp(precice=False):
 
-    from datetime import datetime
+    from datetime import datetime as _datetime
 
     f = '%Y.%m.%d-%H.%M.%S'
     if precice: f += '-%f'
-    return datetime.now().strftime(f)
+    return _datetime.now().strftime(f)
 

@@ -2,9 +2,10 @@
 class Settings(object):
 
     def __init__(self, defaults='defaults.yaml', config='config.yaml'):
+
         super().__init__()
 
-        from .util.system import stop_me, warn_me
+        from .util.system import shell_notif
         from .util.locations import get_locations, locate_file
         from .util.structures import yaml_loc_join, yaml_str_join
 
@@ -20,11 +21,11 @@ class Settings(object):
 
         defaults = locate_file(defaults)
         if not self.load('defaults', defaults, loaders=loaders, merge=True):
-            stop_me('could not load defaults: %s' %(defaults))
+            shell_notif('could not load defaults', state=True, more=defaults)
 
         config = locate_file(config, create_in='config_dir')
         if self._s != self.load('config', config, loaders=loaders[0], merge=True, writeback=True):
-            warn_me('file written: %s' %(config))
+            shell_notif('file written', state=None, more=config)
 
     def load(self, skey, sdescr, loaders=None, merge=False, writeback=False):
 
@@ -41,4 +42,5 @@ class Settings(object):
 
     @property
     def get(self):
+
         return self._s
