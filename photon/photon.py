@@ -13,11 +13,16 @@ class Photon(object):
         self.__verbose = verbose
 
         @_register
-        def __copy_settings_to_meta_and_say_goodbye():
+        def __say_goodbye():
 
             if self.meta:
-                if self.settings: self.meta.load('%s settings' %(__ident__), 'copy %s settings at exit' %(__ident__), mdict=self.settings.get)
                 self.meta.log = notify('end of %s' %(__ident__), verbose=False)
+
+        @_register
+        def __copy_settings_to_meta():
+
+            if self.meta and self.settings:
+                self.meta.load('%s settings' %(__ident__), 'copy %s settings at exit' %(__ident__), mdict=self.settings.get)
 
         self.meta.log = notify(
             '%s startup done' %(__ident__),
@@ -61,3 +66,13 @@ class Photon(object):
 
         self.meta.log = notify(msg, more=more, verbose=sh_verb)
         return res
+
+    def new_mail(self, to, sender, subject=None, punchline=None, cc=None, bcc=None, add_meta=False, add_settings=True):
+
+        from .tools.mail import Mail
+
+        m = Mail(meta=self.meta, to=to, sender=sender, subject=subject, cc=cc, bcc=bcc, verbose=self.__verbose)
+        if punchline: m.text = '-> ' + punchline + ' <-'
+        if add_meta: m.text = self.meta.log
+        if add_settings: m.text = self.settings.get
+        return m
