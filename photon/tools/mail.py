@@ -1,6 +1,6 @@
 
 class Mail(object):
-    def __init__(self, meta, to, sender, subject=None, cc=None, bcc=None, verbose=True):
+    def __init__(self, to, sender, m, subject=None, cc=None, bcc=None):
 
         super().__init__()
 
@@ -10,10 +10,10 @@ class Mail(object):
         from email.utils import formatdate as _formatdate
         from photon import __ident__
         from ..util.structures import to_list
-        from ..util.system import notify, get_timestamp
+        from ..util.system import get_timestamp
 
-        if hasattr(meta, 'log'): self.meta = meta
-        else: notify('could not load mail tool', state=True, more=str(type(meta)))
+        if callable(m): self.m = m
+        else: raise Exception('wrong m(')
 
         to = to_list(to)
         cc = to_list(cc)
@@ -34,9 +34,7 @@ class Mail(object):
         self.__message.add_header('Date', _formatdate())
         self.__message.add_header('X-Mailer', 'Postbote Willy')
 
-        self.__verbose = verbose
-
-        self.meta.log = notify(
+        self.m(
             'mail tool startup done',
             more=dict(to=to, cc=cc, bcc=bcc, sender=sender, subject=subject),
             verbose=False
@@ -52,14 +50,12 @@ class Mail(object):
 
         from email.mime.text import MIMEText as _MIMEText
         from pprint import pformat as _pformat
-        from ..util.system import notify
 
         if elem:
             if not isinstance(elem, str): elem = _pformat(elem)
-            self.meta.log = notify(
+            self.m(
                 'add text to mail',
-                more=dict(len=len(elem)),
-                verbose=False
+                more=dict(len=len(elem))
             )
             return self.__message.attach(_MIMEText(elem, 'plain', 'UTF-8'))
 
@@ -67,25 +63,22 @@ class Mail(object):
 
         from smtplib import SMTP as _SMTP, SMTPException as _SMTPException
         from socket import error as _error
-        from ..util.system import notify
 
         if self.__message:
             try:
                 s = _SMTP()
                 s.connect('localhost')
                 r = s.sendmail(self.__sender, self.__recipients, self.__message.as_string().encode('UTF-8'))
-                self.meta.log = notify(
+                self.m(
                     'mail sent',
-                    more=dict(sender=self.__sender, recipients=self.__recipients, result=r),
-                    verbose=self.__verbose
+                    more=dict(sender=self.__sender, recipients=self.__recipients, result=str(r))
                 )
-                return r
             except (_SMTPException, _error) as ex:
-                self.meta.log = notify(
+                self.m(
                     'error sending mail',
-                    state=None,
-                    more=dict(sender=self.__sender, recipients=self.__recipients, exception=str(ex)),
-                    verbose=self.__verbose
+                    state=True,
+                    more=dict(sender=self.__sender, recipients=self.__recipients, exception=str(ex))
                 )
-                return False
+
+
 

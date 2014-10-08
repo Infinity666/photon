@@ -23,23 +23,26 @@ def get_locations():
 def make_locations(locations=None, warn=True):
 
     from os import makedirs as _makedirs
-    from .system import notify
+    from .system import shell_notify
     from .structures import to_list
 
     if not locations: locations = get_locations().values()
     locations = to_list(locations)
 
+    r = list()
     for p in reversed(sorted(locations)):
         if not _path.exists(p):
             _makedirs(p)
-            if warn: notify('path created', state=None, more=p)
+            r.append(p)
+    if warn: shell_notify('path created', state=None, more=r)
+    return r
 
 def locate_file(filename, locations=None, critical=False, create_in=None):
 
-    from .system import notify
+    from .system import shell_notify
     from .structures import to_list
 
-    if _path.exists(filename): return _path.abspath(filename)
+    if _path.exists(filename): return _path.abspath(_path.expanduser(filename))
 
     if not locations: locations = get_locations()
 
@@ -47,9 +50,9 @@ def locate_file(filename, locations=None, critical=False, create_in=None):
         f = _path.join(p, filename)
         if _path.exists(f): return f
 
-    if critical: notify('filename %s not found', state=True, more=locations)
+    if critical: shell_notify('filename %s not found', state=True, more=locations)
     if create_in:
-        c = locations[create_in] if locations.get(create_in) else create_in
+        c = locations[create_in] if isinstance(locations, dict) and locations.get(create_in) else create_in
         make_locations(locations=[c])
         return _path.join(c, filename)
 

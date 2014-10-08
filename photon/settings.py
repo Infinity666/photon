@@ -5,7 +5,7 @@ class Settings(object):
 
         super().__init__()
 
-        from .util.system import notify
+        from .util.system import shell_notify
         from .util.locations import get_locations, locate_file
         from .util.structures import yaml_loc_join, yaml_str_join
 
@@ -21,11 +21,11 @@ class Settings(object):
 
         config = locate_file(config)
         if not self.load('config', config, loaders=loaders, merge=True):
-            notify('could not load config', state=True, more=config, verbose=verbose)
+            shell_notify('could not load config', state=True, more=config, verbose=verbose)
 
         summary = locate_file(summary, create_in='config_dir')
         if self._s != self.load('summary', summary, loaders=loaders[0], merge=True, writeback=True):
-            notify('file written', state=None, more=summary, verbose=verbose)
+            shell_notify('file written', state=None, more=summary, verbose=verbose)
 
     def load(self, skey, sdescr, loaders=None, merge=False, writeback=False):
 

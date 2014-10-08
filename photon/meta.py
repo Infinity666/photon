@@ -1,6 +1,7 @@
 
 class Meta(object):
     def __init__(self, meta='meta.json', verbose=True):
+
         super().__init__()
 
         from random import randint as _randint
@@ -21,13 +22,13 @@ class Meta(object):
     def stage(self, s, clean=False):
 
         from .util.locations import locate_file
-        from .util.system import notify
+        from .util.system import shell_notify
 
         s = locate_file(s, create_in='data_dir')
         if not clean: self.load('stage', s, merge=True)
 
         self._m['header'].update({'stage': s})
-        self.log = notify(
+        self.log = shell_notify(
             '%s stage' %('new clean' if clean else 'loaded'),
             more=dict(meta=s, clean=clean),
             verbose=False
@@ -37,14 +38,14 @@ class Meta(object):
 
         from .util.files import read_json
         from .util.structures import dict_merge
-        from .util.system import notify
+        from .util.system import shell_notify
 
         j = mdict if mdict else read_json(mdesc)
         if j:
             self._m['header'].update({mkey: mdesc})
             if merge: self._m = dict_merge(self._m, j)
             else: self._m['import'][mkey] = j
-            self.log = notify(
+            self.log = shell_notify(
                 'load %s data and %s it into meta' %('got' if mdict else 'read', 'merged' if merge else 'imported'),
                 more=dict(mkey=mkey, mdesc=mdesc, merge=merge),
                 verbose=False

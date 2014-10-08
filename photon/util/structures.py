@@ -20,8 +20,7 @@ def dict_merge(o, v):
 
     from copy import deepcopy as _deepcopy
 
-    if not isinstance(v, dict):
-        return v
+    if not isinstance(v, dict): return v
     res = _deepcopy(o)
     for key in v.keys():
         if res.get(key) and isinstance(res[key], dict):
@@ -32,7 +31,7 @@ def dict_merge(o, v):
 
 def to_list(i, use_keys=False):
 
-    from .system import notify
+    from .system import shell_notify
 
     if not i: return []
     if isinstance(i, str): return [i]
@@ -43,4 +42,4 @@ def to_list(i, use_keys=False):
             if isinstance(e, dict): res += to_list(e)
             else: res.append(e)
         return res
-    notify('type for %s uncovered' %(i), state=True, more=type(i))
+    shell_notify('type for %s uncovered' %(i), state=True, more=type(i))
