@@ -1,10 +1,5 @@
 '''
-photon_core
------------
-
-``photon_core`` is the name of Photon on pypi.
-Photon is a module which helps developing freifunk related scripts
-
+Photon is a backend utility for freifunk related scripts e.g. on gateways.
 '''
 
 from setuptools import setup
@@ -13,13 +8,13 @@ from info import __pkg_name__, __release__, __url__, __author__, __email__
 
 __long_desc = __doc__
 with open(_path.join(_path.dirname(_path.abspath(__file__)), 'Readme.rst'), 'r') as readme:
-    __long_desc = readme.read() + __doc__
+    __long_desc += readme.read()
 
 setup(
     name=__pkg_name__,
     version=__release__,
     url=__url__,
-    download_url='%s/archive/%s.tar.gz' %(__url__, __release__),
+    download_url='%sarchive/%s.tar.gz' %(__url__, __release__),
     license='BSD',
     author=__author__,
     author_email=__email__,

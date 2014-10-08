@@ -1,4 +1,4 @@
-include LICENSE
+include LICENSE info.py Readme.rst
 recursive-exclude docs *.pyc
 recursive-exclude docs *.pyo
 recursive-exclude photon *.yaml

@@ -1,3 +1,6 @@
+'''
+Photon
+'''
 
 __pkg_name__ = 'photon_core'
 __version__ = '0.1'
@@ -11,4 +14,4 @@ __email__ = 'frieder.griesshammer@der-beweis.de'
 __contributors__ = [
     __author__,
 ]
-__contributor_str__ = ', '.join(__contributors__)
+__contributors_str__ = ', '.join(__contributors__)
