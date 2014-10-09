@@ -1,5 +1,11 @@
 include LICENSE info.py Readme.rst
+recursive-include docs *
+recursive-include examples *
 recursive-exclude docs *.pyc
 recursive-exclude docs *.pyo
+recursive-exclude docs .DS_Store
+recursive-exclude examples *.pyc
+recursive-exclude examples *.pyo
+recursive-exclude examples .DS_Store
 recursive-exclude photon *.yaml
 prune docs/_build

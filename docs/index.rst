@@ -24,6 +24,9 @@ Photon aimes to be modular and can be divided into :ref:`core`, it's :ref:`backe
    util
 
 
+.. automodule:: info
+    :members:
+
 Indices and tables
 ------------------
 

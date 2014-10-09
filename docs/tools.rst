@@ -47,7 +47,7 @@ Mail Tool Example
     :linenos:
     :language: yaml
 
-* sending_mail.py
+* sending_mail.sample.py
 
 .. literalinclude:: ../examples/sending_mail.sample.py
     :linenos:

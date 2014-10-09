@@ -63,3 +63,12 @@ def get_timestamp(precice=False):
     f = '%Y.%m.%d-%H.%M.%S'
     if precice: f += '-%f'
     return _datetime.now().strftime(f)
+
+def get_hostname():
+
+    h = shell_run('uname -n', critical=False, verbose=False)
+    if not h: h = shell_run('hostname', critical=False, verbose=False)
+    if not h: shell_notify('could not retrieve hostname', state=True)
+    return str(h.get('out')).split('.')[0]
+
+

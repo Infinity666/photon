@@ -21,7 +21,7 @@ def get_locations():
         'backup_dir': _path.join(data_dir, 'backups')
     }
 
-def make_locations(locations=None, warn=True):
+def make_locations(locations=None, verbose=True):
 
     from os import makedirs as _makedirs
     from .system import shell_notify
@@ -35,7 +35,7 @@ def make_locations(locations=None, warn=True):
         if not _path.exists(p):
             _makedirs(p)
             r.append(p)
-    if warn and len(r) > 0: shell_notify('path created', state=None, more=r)
+    if verbose and len(r) > 0: shell_notify('path created', state=None, more=r)
     return r
 
 def locate_file(loc, locations=None, critical=False, create_in=None, verbose=True):
@@ -43,7 +43,7 @@ def locate_file(loc, locations=None, critical=False, create_in=None, verbose=Tru
     from .system import shell_notify
     from .structures import to_list
 
-    if _path.exists(loc): return _path.abspath(_path.expanduser(loc))
+    if _path.exists(_path.abspath(_path.expanduser(loc))): return _path.abspath(_path.expanduser(loc))
 
     if not locations: locations = get_locations()
 

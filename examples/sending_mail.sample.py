@@ -23,4 +23,4 @@ No, that's too formal..
 
 '''
 
-mail.send()
+mail.send

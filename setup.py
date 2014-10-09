@@ -1,33 +1,28 @@
-'''
-Photon is a backend utility for freifunk related scripts e.g. on gateways.
-The package is called ``photon_core`` because photon was already taken :/
-
-'''
 
 from setuptools import setup
 from os import path as _path
-from info import __pkg_name__, __release__, __url__, __author__, __email__
+from info import pkg_name, release, url, __author, __email, __doc__ as __setup_doc__
 
-__long_desc = __doc__
+__long_desc = __setup_doc__
 with open(_path.join(_path.dirname(_path.abspath(__file__)), 'Readme.rst'), 'r') as readme:
-    __long_desc += '\n\n' + readme.read()
+    __long_desc = readme.read() + __setup_doc__
 
 setup(
-    name=__pkg_name__,
-    version=__release__,
-    url=__url__,
-    download_url='%sarchive/%s.tar.gz' %(__url__, __release__),
+    name=pkg_name(),
+    version=release(),
+    url=url(),
+    download_url='%sarchive/%s.tar.gz' %(url(), release()),
     license='BSD',
-    author=__author__,
-    author_email=__email__,
-    description=__doc__,
+    author=__author(),
+    author_email=__email(),
+    description=__setup_doc__,
     long_description=__long_desc,
     packages=['photon', 'photon.util', 'photon.tools'],
     include_package_data=True,
     zip_safe=False,
     platforms='posix',
     scripts=['photon_settings_shell.py'],
-    provides=[__pkg_name__],
+    provides=[pkg_name()],
     requires=['PyYAML (>=3.11)'],
     classifiers=[
         'Development Status :: 2 - Pre-Alpha',

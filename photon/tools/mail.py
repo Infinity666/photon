@@ -44,7 +44,7 @@ class Mail(object):
     @property
     def text(self):
 
-        return self.__message.as_string()
+        return self.__message.as_string().encode('UTF-8')
 
     @text.setter
     def text(self, elem):
@@ -58,28 +58,22 @@ class Mail(object):
                 'add text to mail',
                 more=dict(len=len(elem))
             )
-            return self.__message.attach(_MIMEText(elem, 'plain', 'UTF-8'))
+            self.__message.attach(_MIMEText(elem, 'plain', 'UTF-8'))
+            return self.text
 
+    @property
     def send(self):
 
         from smtplib import SMTP as _SMTP, SMTPException as _SMTPException
         from socket import error as _error
 
-        if self.__message:
-            try:
-                s = _SMTP()
-                s.connect('localhost')
-                r = s.sendmail(self.__sender, self.__recipients, self.__message.as_string().encode('UTF-8'))
-                self.m(
-                    'mail sent',
-                    more=dict(sender=self.__sender, recipients=self.__recipients, result=str(r))
-                )
-            except (_SMTPException, _error) as ex:
-                self.m(
-                    'error sending mail',
-                    state=True,
-                    more=dict(sender=self.__sender, recipients=self.__recipients, exception=str(ex))
-                )
-
-
-
+        res = dict(sender=self.__sender, recipients=self.__recipients)
+        try:
+            s = _SMTP()
+            s.connect('localhost')
+            res.update(dict(result=s.sendmail(self.__sender, self.__recipients, self.text)))
+            self.m('mail sent', more=res)
+        except (_SMTPException, _error) as ex:
+            res.update(dict(exception=str(ex)))
+            self.m('error sending mail', state=True, more=res)
+        return res
