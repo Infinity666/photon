@@ -1,0 +1,5 @@
+mail:
+    recipient: you@example.com
+    sender: me@example.com
+    subject: 'Fire!'
+    punchline: 'Dear Sir or Madam, I am writing to inform you about a fire in the building ...'

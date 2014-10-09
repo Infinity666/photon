@@ -4,7 +4,7 @@ Photon
 
 __pkg_name__ = 'photon_core'
 __version__ = '0.1'
-__release__ = '%sa5' %(__version__)
+__release__ = '%sa6' %(__version__)
 
 __url__ = 'https://github.com/spookey/photon/'
 
