@@ -37,7 +37,7 @@ def shell_run(cmd, cin=None, cwd=None, timeout=10, critical=True, verbose=True):
             out, err = p.communicate(input=cin, timeout=timeout)
             if out: res.update(dict(stdout=[o for o in out.split('\n') if o]))
             if err: res.update(dict(stderr=[e for e in err.split('\n') if e]))
-            res.update({'returncode': p.returncode})
+            res.update(dict(returncode=p.returncode))
         except _TimeoutExpired as ex: res.update(dict(exception=str(ex),timeout=timeout)); p.kill()
         except Exception as ex: res.update(dict(exception=str(ex)))
 

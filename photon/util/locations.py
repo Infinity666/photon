@@ -8,18 +8,16 @@ def get_locations():
     from photon import __ident__
 
     home_dir = _path.expanduser('~')
-    call_dir = _path.dirname(_path.abspath(_argv[0]))
+    config_dir=_path.join(_environ.get('XDG_CONFIG_HOME', _path.join(home_dir, '.config')), __ident__),
+    data_dir=_path.join(_environ.get('XDG_DATA_HOME', _path.join(home_dir, '.local', 'share')), __ident__)
 
-    config_dir = _path.join(_environ.get('XDG_CONFIG_HOME', _path.join(home_dir, '.config')), __ident__)
-    data_dir = _path.join(_environ.get('XDG_DATA_HOME', _path.join(home_dir, '.local', 'share')), __ident__)
-
-    return {
-        'home_dir': home_dir,
-        'call_dir': call_dir,
-        'config_dir': config_dir,
-        'data_dir': data_dir,
-        'backup_dir': _path.join(data_dir, 'backups')
-    }
+    return dict(
+        home_dir=home_dir,
+        call_dir=_path.dirname(_path.abspath(_argv[0])),
+        config_dir=config_dir,
+        data_dir=data_dir,
+        backup_dir=_path.join(data_dir, 'backups')
+    )
 
 def make_locations(locations=None, verbose=True):
 

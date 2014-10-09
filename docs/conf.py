@@ -21,6 +21,8 @@ import os
 # documentation root, use os.path.abspath to make it absolute, like shown here.
 #sys.path.insert(0, os.path.abspath('.'))
 
+sys.path.insert(0, os.path.join(os.path.abspath('..'), 'photon'))
+
 sys.path.append(os.path.abspath('..'))
 from info import version, release, __contributors, __contributors_str
 

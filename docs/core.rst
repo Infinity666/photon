@@ -22,7 +22,7 @@ Bundling :ref:`Settings` and :ref:`Meta` together plus adding :ref:`frontend` ha
 Settings
 --------
 
-.. automodule:: photon.settings
+.. automodule:: settings
     :members:
     :undoc-members:
     :private-members:
@@ -45,7 +45,7 @@ Example Settings File
 Meta
 ----
 
-.. automodule:: photon.meta
+.. automodule:: meta
     :members:
     :undoc-members:
     :private-members:
@@ -57,7 +57,7 @@ Meta
 Photon
 ------
 
-.. automodule:: photon.photon
+.. automodule:: photon
     :members:
     :undoc-members:
     :private-members:

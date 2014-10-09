@@ -16,9 +16,7 @@ class Mail(object):
         if callable(m): self.m = m
         else: raise Exception('wrong m(')
 
-        to = to_list(to)
-        cc = to_list(cc)
-        bcc = to_list(bcc)
+        to, cc, bcc = to_list(to), to_list(cc), to_list(bcc)
         if not subject: subject = __ident__
         subject = '%s - %s' %(subject, get_timestamp())
 
@@ -35,11 +33,7 @@ class Mail(object):
         self.__message.add_header('Date', _formatdate())
         self.__message.add_header('X-Mailer', 'Postbote Willy')
 
-        self.m(
-            'mail tool startup done',
-            more=dict(to=to, cc=cc, bcc=bcc, sender=sender, subject=subject),
-            verbose=False
-        )
+        self.m('mail tool startup done', more=dict(to=to, cc=cc, bcc=bcc, sender=sender, subject=subject), verbose=False)
 
     @property
     def text(self):

@@ -18,7 +18,7 @@ Some functionality here is bought from the :ref:`backend`:
 Git Tool
 --------
 
-.. automodule:: photon.tools.git
+.. automodule:: tools.git
     :members:
     :undoc-members:
     :private-members:
@@ -30,7 +30,7 @@ Git Tool
 Mail Tool
 ---------
 
-.. automodule:: photon.tools.mail
+.. automodule:: tools.mail
     :members:
     :undoc-members:
     :private-members:

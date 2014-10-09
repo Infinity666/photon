@@ -9,15 +9,9 @@ class Settings(object):
         from .util.locations import get_locations, locate_file
         from .util.structures import yaml_loc_join, yaml_str_join
 
-        self._s = {
-            'locations': get_locations(),
-            'files': dict()
-        }
+        self._s = dict(locations=get_locations(), files=dict())
 
-        loaders = [
-            ('!loc_join', yaml_loc_join,),
-            ('!str_join', yaml_str_join,)
-        ]
+        loaders = [('!loc_join', yaml_loc_join,), ('!str_join', yaml_str_join,)]
 
         config = locate_file(config)
         if not self.load('config', config, loaders=loaders, merge=True):

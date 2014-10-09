@@ -27,6 +27,8 @@ Photon aimes to be modular and can be divided into :ref:`core`, it's :ref:`backe
 .. automodule:: info
     :members:
 
+.. note:: The info file is not vital to Photon, it just helps to share common values between documentation and the package builder (setup file).
+
 Indices and tables
 ------------------
 

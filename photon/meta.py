@@ -9,15 +9,15 @@ class Meta(object):
         from .util.system import get_timestamp
 
         self.__verbose = verbose
-        self._m = {
-            'header': {
-                'ident': '%s-%4X' %(__ident__, _randint(0x1000, 0xffff)),
-                'initialized': get_timestamp(),
-                'verbose': verbose
-            },
-            'import': dict(),
-            'log': dict()
-        }
+        self._m = dict(
+            header=dict(
+                ident='%s-%4X' %(__ident__, _randint(0x1000, 0xffff)),
+                initialized=get_timestamp(),
+                verbose=verbose
+            ),
+            load=dict(),
+            log=dict()
+        )
         self.stage(meta, clean=True)
 
     def stage(self, s, clean=False):
@@ -28,7 +28,7 @@ class Meta(object):
         s = locate_file(s, create_in='data_dir')
         if not clean: self.load('stage', s, merge=True)
 
-        self._m['header'].update({'stage': s})
+        self._m['header'].update(dict(stage=s))
         self.log = shell_notify(
             '%s stage' %('new clean' if clean else 'loaded'),
             more=dict(meta=s, clean=clean),
@@ -45,7 +45,7 @@ class Meta(object):
         if j:
             self._m['header'].update({mkey: mdesc})
             if merge: self._m = dict_merge(self._m, j)
-            else: self._m['import'][mkey] = j
+            else: self._m['load'][mkey] = j
             self.log = shell_notify(
                 'load %s data and %s it into meta' %('got' if mdict else 'read', 'merged' if merge else 'imported'),
                 more=dict(mkey=mkey, mdesc=mdesc, merge=merge),

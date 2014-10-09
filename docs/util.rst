@@ -20,7 +20,7 @@ As well as used by the :ref:`frontend`:
 Files
 -----
 
-.. automodule:: photon.util.files
+.. automodule:: util.files
     :members:
     :undoc-members:
 
@@ -30,7 +30,7 @@ Files
 Locations
 ---------
 
-.. automodule:: photon.util.locations
+.. automodule:: util.locations
     :members:
     :undoc-members:
 
@@ -40,7 +40,7 @@ Locations
 Structures
 ----------
 
-.. automodule:: photon.util.structures
+.. automodule:: util.structures
     :members:
     :undoc-members:
 
@@ -50,7 +50,7 @@ Structures
 System
 ------
 
-.. automodule:: photon.util.system
+.. automodule:: util.system
     :members:
     :undoc-members:
 
