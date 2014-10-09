@@ -1,5 +1,7 @@
 '''
 Photon is a backend utility for freifunk related scripts e.g. on gateways.
+The package is called ``photon_core`` because photon was already taken :/
+
 '''
 
 from setuptools import setup
@@ -8,7 +10,7 @@ from info import __pkg_name__, __release__, __url__, __author__, __email__
 
 __long_desc = __doc__
 with open(_path.join(_path.dirname(_path.abspath(__file__)), 'Readme.rst'), 'r') as readme:
-    __long_desc += readme.read()
+    __long_desc += '\n\n' + readme.read()
 
 setup(
     name=__pkg_name__,

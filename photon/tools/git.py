@@ -20,6 +20,8 @@ class Git(object):
                 )
             else: self.__clone()
 
+        self.remote
+
         self.m(
             'git tool startup done',
             more=self._r,

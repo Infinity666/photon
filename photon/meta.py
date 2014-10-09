@@ -8,6 +8,7 @@ class Meta(object):
         from photon import __ident__
         from .util.system import get_timestamp
 
+        self.__verbose = verbose
         self._m = {
             'header': {
                 'ident': '%s-%4X' %(__ident__, _randint(0x1000, 0xffff)),

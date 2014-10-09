@@ -21,11 +21,11 @@ class Settings(object):
 
         config = locate_file(config)
         if not self.load('config', config, loaders=loaders, merge=True):
-            shell_notify('could not load config', state=True, more=config, verbose=verbose)
+            shell_notify('could not load config', state=True, more=config)
 
         summary = locate_file(summary, create_in='config_dir')
         if self._s != self.load('summary', summary, loaders=loaders[0], merge=True, writeback=True):
-            shell_notify('file written', state=None, more=summary, verbose=verbose)
+            shell_notify('settings summary written', state=None, more=summary, verbose=verbose)
 
     def load(self, skey, sdescr, loaders=None, merge=False, writeback=False):
 

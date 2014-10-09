@@ -1,5 +1,6 @@
 
 class Mail(object):
+
     def __init__(self, to, sender, m, subject=None, cc=None, bcc=None):
 
         super().__init__()
