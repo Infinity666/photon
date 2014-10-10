@@ -1,11 +1,14 @@
+'''
+Photon - a shell backend as python module
+''' # do not use restructured text here!
 
 from setuptools import setup
 from os import path as _path
-from info import pkg_name, release, url, __author, __email, __doc__ as __setup_doc__
+from info import pkg_name, release, url, __author, __email
 
-__long_desc = __setup_doc__
+__long_desc = __doc__
 with open(_path.join(_path.dirname(_path.abspath(__file__)), 'Readme.rst'), 'r') as readme:
-    __long_desc = readme.read() + __setup_doc__
+    __long_desc = readme.read()
 
 setup(
     name=pkg_name(),
@@ -15,7 +18,7 @@ setup(
     license='BSD',
     author=__author(),
     author_email=__email(),
-    description=__setup_doc__,
+    description=__doc__,
     long_description=__long_desc,
     packages=['photon', 'photon.util', 'photon.tools'],
     include_package_data=True,

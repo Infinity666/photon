@@ -9,7 +9,10 @@ class Settings(object):
         from .util.locations import get_locations, locate_file
         from .util.structures import yaml_loc_join, yaml_str_join
 
-        self._s = dict(locations=get_locations(), files=dict())
+        self._s = {
+            'locations': get_locations(),
+            'files': dict()
+        }
 
         loaders = [('!loc_join', yaml_loc_join,), ('!str_join', yaml_str_join,)]
 
@@ -17,7 +20,7 @@ class Settings(object):
         if not self.load('config', config, loaders=loaders, merge=True):
             shell_notify('could not load config', state=True, more=config)
 
-        summary = locate_file(summary, create_in='config_dir')
+        summary = locate_file(summary, create_in='conf_dir')
         if self._s != self.load('summary', summary, loaders=loaders[0], merge=True, writeback=True):
             shell_notify('settings summary written', state=None, more=summary, verbose=verbose)
 

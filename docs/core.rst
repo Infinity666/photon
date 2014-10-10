@@ -33,12 +33,15 @@ Settings
 Example Settings File
 ^^^^^^^^^^^^^^^^^^^^^
 
+.. rubric:: config.sample.yaml
+
 .. literalinclude:: ../config.sample.yaml
     :linenos:
     :language: yaml
 
 
 .. seealso:: |allexamples|
+
 
 .. _meta:
 

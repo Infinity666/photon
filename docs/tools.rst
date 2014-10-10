@@ -41,13 +41,13 @@ Mail Tool
 Mail Tool Example
 ^^^^^^^^^^^^^^^^^
 
-* sending_mail.sample.yaml
+.. rubric:: sending_mail.sample.yaml
 
 .. literalinclude:: ../examples/sending_mail.sample.yaml
     :linenos:
     :language: yaml
 
-* sending_mail.sample.py
+.. rubric:: sending_mail.sample.py
 
 .. literalinclude:: ../examples/sending_mail.sample.py
     :linenos:

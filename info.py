@@ -1,11 +1,8 @@
 '''
 
-Photon as a Package
--------------------
+.. topic:: The *info* file
 
-Photon is available as *photon_core* from `pypi <https://pypi.python.org/pypi/photon_core/>`_.
-
-(The package is called ``photon_core`` because photon was already taken :/ )
+    The *info* file is not vital to Photon, it just helps to share common values between documentation and the package builder (*setup* file).
 
 '''
 
@@ -19,7 +16,7 @@ def version():
     return version.__doc__
 
 def release():
-    '''a8'''
+    '''a9'''
     return version.__doc__ + release.__doc__
 
 def url():
@@ -28,9 +25,7 @@ def url():
 
 def __contributors():
     '''
-Max Mütze
-Thomas Schneidereith
-Gerlinde Girlande
+...
 & Frieder Griesshammer
     '''
     return __contributors.__doc__.strip().split('\n')
@@ -43,4 +38,4 @@ def __email():
     return __email.__doc__
 
 def __contributors_str():
-    return ', '.join(__contributors()).replace(', &', ' &')
+    return ', '.join(__contributors()).replace('..., &', '').replace(', &', ' &')

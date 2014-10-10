@@ -47,22 +47,3 @@ def write_json(filename, content):
 
     j = _dumps(content, indent=4, sort_keys=True)
     if j: return write_file(filename, j)
-
-def copy_location(src, tgt, move=False, verbose=True):
-
-    from os import path as _path
-    from shutil import rmtree as _rmtree
-
-    def cpy(s, t):
-
-        from shutil import copy2 as _copy2, copytree as _copytree
-        from .locations import locate_file
-
-        if not _path.isdir(s):
-            return _copy2(s, locate_file(t, create_in=_path.dirname(t), verbose=verbose))
-        if _path.exists(t): t = _path.join(t, _path.basename(s))
-        return _copytree(s, t)
-
-    res = cpy(src, tgt)
-    if move: res = _rmtree(src)
-    return res

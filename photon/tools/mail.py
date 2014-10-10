@@ -16,7 +16,9 @@ class Mail(object):
         if callable(m): self.m = m
         else: raise Exception('wrong m(')
 
-        to, cc, bcc = to_list(to), to_list(cc), to_list(bcc)
+        to = to_list(to)
+        cc = to_list(cc)
+        bcc = to_list(bcc)
         if not subject: subject = __ident__
         subject = '%s - %s' %(subject, get_timestamp())
 

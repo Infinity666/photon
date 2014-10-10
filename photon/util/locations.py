@@ -8,16 +8,16 @@ def get_locations():
     from photon import __ident__
 
     home_dir = _path.expanduser('~')
-    config_dir=_path.join(_environ.get('XDG_CONFIG_HOME', _path.join(home_dir, '.config')), __ident__),
-    data_dir=_path.join(_environ.get('XDG_DATA_HOME', _path.join(home_dir, '.local', 'share')), __ident__)
+    conf_dir = _path.join(_environ.get('XDG_CONFIG_HOME', _path.join(home_dir, '.config')), __ident__)
+    data_dir = _path.join(_environ.get('XDG_DATA_HOME', _path.join(home_dir, '.local', 'share')), __ident__)
 
-    return dict(
-        home_dir=home_dir,
-        call_dir=_path.dirname(_path.abspath(_argv[0])),
-        config_dir=config_dir,
-        data_dir=data_dir,
-        backup_dir=_path.join(data_dir, 'backups')
-    )
+    return {
+        'home_dir': home_dir,
+        'call_dir': _path.dirname(_path.abspath(_argv[0])),
+        'conf_dir': conf_dir,
+        'data_dir': data_dir,
+        'backup_dir': _path.join(data_dir, 'backups')
+    }
 
 def make_locations(locations=None, verbose=True):
 
@@ -54,3 +54,21 @@ def locate_file(loc, locations=None, critical=False, create_in=None, verbose=Tru
         c = locations[create_in] if isinstance(locations, dict) and locations.get(create_in) else create_in
         make_locations(locations=[c], verbose=verbose)
         return _path.join(c, loc)
+
+def change_location(src, tgt, move=True, verbose=True):
+
+    from os import path as _path
+    from shutil import rmtree as _rmtree
+
+    def cpy(s, t):
+
+        from shutil import copy2 as _copy2, copytree as _copytree
+
+        if not _path.isdir(s):
+            return _copy2(s, locate_file(t, create_in=_path.dirname(t), verbose=verbose))
+        if _path.exists(t): t = _path.join(t, _path.basename(s))
+        return _copytree(s, t)
+
+    res = cpy(src, tgt)
+    if move: res = _rmtree(src)
+    return res

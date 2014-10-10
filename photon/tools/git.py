@@ -12,22 +12,22 @@ class Git(object):
         self.__local = locate_file(local, create_in=local)
         self.__remote_url = remote_url
 
-        if not self.__log(num=0, critical=False).get('returncode', False) == 0: self.__clone()
+        if not self._log(num=0, critical=False).get('returncode', False) == 0: self._clone()
 
         self.m('git tool startup done', more=self.info, verbose=False)
 
     @property
     def info(self):
 
-        return dict(
-            local=self.local,
-            remote=self.remote,
-            remote_url=self.remote_url,
-            commit=self.commit,
-            log=self.log,
-            status=self.status,
-            branch=self.branch,
-        )
+        return {
+            'local': self.local,
+            'remote': self.remote,
+            'remote_url': self.remote_url,
+            'commit': self.commit,
+            'log': self.log,
+            'status': self.status,
+            'branch': self.branch,
+        }
 
     @property
     def local(self):
@@ -42,19 +42,19 @@ class Git(object):
     @property
     def remote(self):
 
-        return self.__remote_show().get('out')
+        return self._remote_show().get('out')
 
 
     @property
     def commit(self):
 
-        return self.__log(num=1, format='%H').get('out')
+        return self._log(num=1, format='%H').get('out')
 
 
     @property
     def log(self):
 
-        log = self.__log(num=10, format='%h::%b').get('stdout')
+        log = self._log(num=10, format='%h::%b').get('stdout')
         if log: return [dict(commit=c, message=m) for c, m in [l.split('::') for l in log]]
 
     @property
@@ -78,21 +78,21 @@ class Git(object):
     @property
     def branch(self):
 
-        branch = self.__branch_show().get('stdout')
+        branch = self._branch_show().get('stdout')
         if branch: return ''.join([b for b in branch if '*' in b]).replace('*', '').strip()
 
     @branch.setter
     def branch(self, branch):
 
         if not branch: branch = 'master'
-        tracking = '' if branch in self.__branch_show(remotes=True).get('out') else '-B '
+        tracking = '' if branch in self._branch_show(remotes=True).get('out') else '-B '
         self.m(
             'checking out branch',
             cmdd=dict(cmd='git checkout %s%s' %(tracking, branch), cwd=self.local)
         )
         return self.branch
 
-    def __clone(self):
+    def _clone(self):
 
         if not self.remote_url: self.m('a new git clone without remote url is not possible. sorry', state=True, more=dict(local=self.local))
         return self.m(
@@ -100,7 +100,7 @@ class Git(object):
             cmdd=dict(cmd='git clone %s %s' %(self.remote_url, self.local))
         )
 
-    def __remote_show(self, cached=True):
+    def _remote_show(self, cached=True):
 
         return self.m(
             'getting current remote',
@@ -108,7 +108,7 @@ class Git(object):
             verbose=False
         )
 
-    def __log(self, num=None, format=None, critical=True):
+    def _log(self, num=None, format=None, critical=True):
 
         num = '-n %s' %(num) if num else ''
         format = '--format="%s"' %(format) if format else ''
@@ -119,7 +119,7 @@ class Git(object):
             verbose=False
         )
 
-    def __branch_show(self, remotes=None):
+    def _branch_show(self, remotes=None):
 
         return self.m(
             'getting git branch information',
