@@ -44,6 +44,7 @@ class Photon(object):
                 cmdd.get('cmd'),
                 cin=cmdd.get('cin'),
                 cwd=cmdd.get('cwd'),
+                timeout=cmdd.get('timeout', 120),
                 critical=False,
                 verbose=cmdd.get('verbose', verbose)
             ))

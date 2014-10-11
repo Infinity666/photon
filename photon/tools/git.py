@@ -12,22 +12,14 @@ class Git(object):
         self.__local = locate_file(local, create_in=local)
         self.__remote_url = remote_url
 
-        if not self._log(num=0, critical=False).get('returncode', False) == 0: self._clone()
+        if not self._log(num=0, critical=False).get('returncode', False) == 0:
+            if not self.remote_url: self.m('a new git clone without remote url is not possible. sorry', state=True, more=dict(local=self.local))
+            self.m(
+                'cloning into repo',
+                cmdd=dict(cmd='git clone %s %s' %(self.remote_url, self.local))
+            )
 
-        self.m('git tool startup done', more=self.info, verbose=False)
-
-    @property
-    def info(self):
-
-        return {
-            'local': self.local,
-            'remote': self.remote,
-            'remote_url': self.remote_url,
-            'commit': self.commit,
-            'log': self.log,
-            'status': self.status,
-            'branch': self.branch,
-        }
+        self.m('git tool startup done', more=dict(remote_url=self.remote_url, local=self.local), verbose=False)
 
     @property
     def local(self):
@@ -65,15 +57,16 @@ class Git(object):
             cmdd=dict(cmd='git status --porcelain', cwd=self.local),
             verbose=False
         ).get('stdout')
-        untracked, modified, deleted, conflicting = list(), list(), list(), list()
+        o, m, f, g = list(), list(), list(), list()
         if status:
-            for c in status:
-                s, f = c[:2], c[3:]
-                if '?' in s: untracked.append(f)
-                if 'M' in s: modified.append(f)
-                if 'D' in s: deleted.append(f)
-                if 'U' in s: conflicting.append(f)
-        return dict(untracked=untracked or None, modified=modified or None, deleted=deleted or None, conflicting=conflicting or None)
+            for w in status:
+                s, t = w[:2], w[3:]
+                if '?' in s: o.append(t)
+                if 'M' in s: m.append(t)
+                if 'D' in s: f.append(t)
+                if 'U' in s: g.append(t)
+        clean = False if o + m + f + g else True
+        return dict(untracked=o, modified=m, deleted=f, conflicting=g, clean=clean)
 
     @property
     def branch(self):
@@ -92,12 +85,68 @@ class Git(object):
         )
         return self.branch
 
-    def _clone(self):
+    @property
+    def cleanup(self):
 
-        if not self.remote_url: self.m('a new git clone without remote url is not possible. sorry', state=True, more=dict(local=self.local))
+        from photon import __ident__
+        from ..util.system import get_hostname
+
+        hostname = get_hostname()
+        old_branch = self.branch
+
+        changes = self.status
+        if not changes.get('clean'):
+
+            self.branch = hostname
+
+            for f in changes.get('untracked', []) + changes.get('modified', []):
+                self.m(
+                    'adding file to repository',
+                    cmdd=(dict(cmd='git add %s' %(f), cwd=self.local)),
+                    more=f
+                )
+            for f in changes.get('deleted', []):
+                self.m(
+                    'deleting file from repository',
+                    cmdd=(dict(cmd='git rm %s' %(f), cwd=self.local)),
+                    more=f
+                )
+            if changes.get('conflicting'): self.m('you have conflicting files in your repository!', state=True, more=changes)
+
+            self.m(
+                'auto commiting changes',
+                cmdd=dict(cmd='git commit -m "%s %s auto commit"' %(hostname, __ident__), cwd=self.local),
+                more=changes
+            )
+
+        self.branch = old_branch
+
+        fetch = self.m(
+            'fetching remote changes',
+            cmdd=dict(cmd='git fetch --tag', cwd=self.local)
+        )
+
+        if 'CONFLICT' in fetch.get('out'): self.m('you have a merge conflict with your remote repository!', state=True, more=fetch)
+        if fetch.get('stdout'):
+            self.m(
+                'merging with remote changes',
+                cmdd=dict(cmd='git merge master -m "%s %s auto merge"' %(hostname, __ident__), cwd=self.local),
+                more=fetch
+            )
+
+        return dict(changes=changes, fetch=fetch)
+
+    @property
+    def publish(self):
+
+        self.cleanup
+
+        remote = self.remote
+        branch = self.branch
         return self.m(
-            'cloning into repo',
-            cmdd=dict(cmd='git clone %s %s' %(self.remote_url, self.local))
+            'pushing changes to %s/%s' %(remote, branch),
+            cmdd=dict(cmd='git push -u %s %s' %(remote, branch), cwd=self.local),
+            more=dict(remote=remote, branch=branch)
         )
 
     def _remote_show(self, cached=True):
