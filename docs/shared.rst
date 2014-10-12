@@ -10,7 +10,7 @@
 
 .. |alltools| replace:: :ref:`git tool`, :ref:`mail tool`
 
-.. |allexamples| replace:: :ref:`settings file example`, :ref:`mail tool example`
+.. |allexamples| replace:: :ref:`settings file example`, :ref:`mail tool example`, :ref:`ping tool example`
 
 
 

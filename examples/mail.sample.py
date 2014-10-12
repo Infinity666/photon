@@ -1,7 +1,7 @@
 
 from photon import Photon
 
-p = Photon(config='sending_mail.sample.yaml')
+p = Photon(config='mail.sample.yaml')
 
 s = p.settings.get['mail']
 
@@ -13,14 +13,19 @@ mail = p.new_mail(
     add_meta=True
 )
 
+###
+# Shows the message source so far
 print(mail.text)
 
+###
+# Add some more text (do this as often as you like):
 mail.text = '''
 Dear Sir or Madam,
 bla bla
 
 No, that's too formal..
-
 '''
 
+###
+# Guess what happens here:
 mail.send

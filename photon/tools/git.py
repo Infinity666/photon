@@ -5,10 +5,9 @@ class Git(object):
         super().__init__()
 
         from ..util.locations import locate_file
+        from ..photon import check_m
 
-        if callable(m): self.m = m
-        else: raise Exception('wrong m(')
-
+        self.m = check_m(m)
         self.__local = locate_file(local, create_in=local)
         self.__remote_url = remote_url
 
@@ -126,13 +125,13 @@ class Git(object):
             cmdd=dict(cmd='git fetch --tag', cwd=self.local)
         )
 
-        if 'CONFLICT' in fetch.get('out'): self.m('you have a merge conflict with your remote repository!', state=True, more=fetch)
         if fetch.get('stdout'):
-            self.m(
+            if 'CONFLICT' in self.m(
                 'merging with remote changes',
                 cmdd=dict(cmd='git merge master -m "%s %s auto merge"' %(hostname, __ident__), cwd=self.local),
                 more=fetch
-            )
+            ).get('out'):
+                self.m('you have a merge conflict with your remote repository!', state=True, more=fetch)
 
         return dict(changes=changes, fetch=fetch)
 

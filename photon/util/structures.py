@@ -39,7 +39,6 @@ def to_list(i, use_keys=False):
     if isinstance(i, dict):
         res = list()
         for e in i.keys() if use_keys else i.values():
-            if isinstance(e, dict): res += to_list(e)
-            else: res.append(e)
+            res.append(to_list(e)) if isinstance(e, dict) else res.append(e)
         return res
     shell_notify('type for %s uncovered' %(i), state=True, more=type(i))

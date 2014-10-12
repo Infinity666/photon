@@ -59,13 +59,18 @@ class Photon(object):
         return res
 
     def new_git(self, local, remote_url=None):
+        '''
+        .. seealso:: :class:`tools.git.Git`
+        '''
 
         from .tools.git import Git
 
         return Git(local, self.m, remote_url=remote_url)
 
     def new_mail(self, to, sender, subject=None, cc=None, bcc=None, punchline=None, add_meta=False, add_settings=True):
-
+        '''
+        .. seealso:: :class:`tools.mail.Mail`
+        '''
         from .tools.mail import Mail
 
         m = Mail(to, sender, self.m, subject=subject, cc=cc, bcc=bcc)
@@ -73,3 +78,20 @@ class Photon(object):
         if add_meta: m.text = self.meta.log
         if add_settings: m.text = self.settings.get
         return m
+
+    def new_ping(self, net_if=None):
+        '''
+        .. seealso:: :class:`tools.ping.Ping`
+        '''
+        from .tools.ping import Ping
+
+        return Ping(self.m, net_if=net_if)
+
+
+def check_m(pm):
+
+    from .util.system import shell_notify
+
+    if not callable(pm) or pm.__name__ != Photon.m.__name__ or pm.__doc__ != Photon.m.__doc__:
+        shell_notify('wrong "m-function" passed!', state=True, more=pm.__name__)
+    return pm

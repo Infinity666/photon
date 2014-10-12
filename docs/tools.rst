@@ -41,15 +41,46 @@ Mail Tool
 Mail Tool Example
 ^^^^^^^^^^^^^^^^^
 
-.. rubric:: sending_mail.sample.yaml
+.. rubric:: mail.sample.yaml
 
-.. literalinclude:: ../examples/sending_mail.sample.yaml
+.. literalinclude:: ../examples/mail.sample.yaml
     :linenos:
     :language: yaml
 
-.. rubric:: sending_mail.sample.py
+.. rubric:: mail.sample.py
 
-.. literalinclude:: ../examples/sending_mail.sample.py
+.. literalinclude:: ../examples/mail.sample.py
+    :linenos:
+    :language: python3
+
+.. seealso:: |allexamples|
+
+
+.. _ping tool:
+
+Ping Tool
+---------
+
+.. automodule:: tools.ping
+    :members:
+    :undoc-members:
+    :private-members:
+    :special-members: __init__
+
+.. _ping tool example:
+
+Ping Tool Example
+^^^^^^^^^^^^^^^^^
+
+.. rubric:: ping.sample.yaml
+
+.. literalinclude:: ../examples/ping.sample.yaml
+    :linenos:
+    :language: yaml
+
+.. rubric:: ping.sample.py
+
+.. literalinclude:: ../examples/ping.sample.py
     :linenos:
     :language: python3
 
