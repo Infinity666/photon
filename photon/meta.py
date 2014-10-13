@@ -32,7 +32,7 @@ class Meta(object):
         self.log = shell_notify(
             '%s stage' %('new clean' if clean else 'loaded'),
             more=dict(meta=s, clean=clean),
-            verbose=False
+            verbose=self.__verbose
         )
 
     def load(self, mkey, mdesc, mdict=None, merge=False):
@@ -49,7 +49,7 @@ class Meta(object):
             self.log = shell_notify(
                 'load %s data and %s it into meta' %('got' if mdict else 'read', 'merged' if merge else 'imported'),
                 more=dict(mkey=mkey, mdesc=mdesc, merge=merge),
-                verbose=False
+                verbose=self.__verbose
             )
 
     @property
