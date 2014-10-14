@@ -42,7 +42,7 @@ class Meta(object):
         from .util.system import shell_notify
 
         j = mdict if mdict else read_json(mdesc)
-        if j:
+        if j and isinstance(j, dict):
             self._m['header'].update({mkey: mdesc})
             if merge: self._m = dict_merge(self._m, j)
             else: self._m['import'][mkey] = j
@@ -51,6 +51,7 @@ class Meta(object):
                 more=dict(mkey=mkey, mdesc=mdesc, merge=merge),
                 verbose=self.__verbose
             )
+        return j
 
     @property
     def log(self):
