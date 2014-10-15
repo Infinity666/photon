@@ -8,7 +8,7 @@ def shell_notify(msg, state=False, more=None, exitcode=None, verbose=True):
         state = '[FATAL]'
         exitcode = 23
     elif state == None: state = '[WARNING]'
-    elif state == False: state = '|'
+    elif state == False: state = '~'
     else: state = '[%s]' %(str(state))
     m = '%s %s' %(state, str(msg))
     if more: m += '\n\t' + _pformat(more).replace('\n', '\n\t')

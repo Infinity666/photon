@@ -55,7 +55,6 @@ class Mail(object):
                 more=dict(len=len(elem))
             )
             self.__message.attach(_MIMEText(elem, 'plain', 'UTF-8'))
-            return self.text
 
     @property
     def send(self):

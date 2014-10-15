@@ -79,10 +79,30 @@ class Git(object):
         if not branch: branch = 'master'
         tracking = '' if branch in self._branch_show(remotes=True).get('out') else '-B '
         self.m(
-            'checking out branch',
+            'checkout branch %s' %(branch),
             cmdd=dict(cmd='git checkout %s%s' %(tracking, branch), cwd=self.local)
         )
-        return self.branch
+
+    @property
+    def tag(self):
+
+        tag = self.m(
+            'getting git tags',
+            cmdd=dict(cmd='git tag -l --sort="version:refname"', cwd=self.local),
+            verbose=False,
+        ).get('stdout')
+        if tag: return tag
+
+    @tag.setter
+    def tag(self, tag):
+        if not tag:
+            t = self.tag
+            tag = t[-1] if t else None
+        if tag:
+            self.m(
+                'checkout tag %s' %(tag),
+                cmdd=dict(cmd='git checkout %s' %(tag), cwd=self.local),
+            )
 
     @property
     def cleanup(self):
