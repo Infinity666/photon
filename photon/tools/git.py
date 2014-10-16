@@ -105,7 +105,7 @@ class Git(object):
     @property
     def cleanup(self):
 
-        from photon import __ident__
+        from photon import IDENT
         from ..util.system import get_hostname
 
         hostname = get_hostname()
@@ -132,7 +132,7 @@ class Git(object):
 
             self.m(
                 'auto commiting changes',
-                cmdd=dict(cmd='git commit -m "%s %s auto commit"' %(hostname, __ident__), cwd=self.local),
+                cmdd=dict(cmd='git commit -m "%s %s auto commit"' %(hostname, IDENT), cwd=self.local),
                 more=changes
             )
 
@@ -146,7 +146,7 @@ class Git(object):
         if fetch.get('stdout'):
             if 'CONFLICT' in self.m(
                 'merging with remote changes',
-                cmdd=dict(cmd='git merge master -m "%s %s auto merge"' %(hostname, __ident__), cwd=self.local),
+                cmdd=dict(cmd='git merge master -m "%s %s auto merge"' %(hostname, IDENT), cwd=self.local),
                 more=fetch
             ).get('out'):
                 self.m('you have a merge conflict with your remote repository!', state=True, more=fetch)

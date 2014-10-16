@@ -1,5 +1,5 @@
 
-__ident__ = 'photon'
+IDENT = 'photon'
 
 from .settings import Settings
 from .meta import Meta

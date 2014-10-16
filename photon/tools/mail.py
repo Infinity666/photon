@@ -9,7 +9,7 @@ class Mail(object):
         from email import charset as _charset
         from email.mime.multipart import MIMEMultipart as _MIMEMultipart
         from email.utils import formatdate as _formatdate
-        from photon import __ident__
+        from photon import IDENT
         from ..photon import check_m
         from ..util.structures import to_list
         from ..util.system import get_timestamp
@@ -19,7 +19,7 @@ class Mail(object):
         to = to_list(to)
         cc = to_list(cc)
         bcc = to_list(bcc)
-        if not subject: subject = __ident__
+        if not subject: subject = IDENT
         subject = '%s - %s' %(subject, get_timestamp())
 
         self.__sender = sender

@@ -5,11 +5,11 @@ def get_locations():
 
     from os import environ as _environ
     from sys import argv as _argv
-    from photon import __ident__
+    from photon import IDENT
 
     home_dir = _path.expanduser('~')
-    conf_dir = _path.join(_environ.get('XDG_CONFIG_HOME', _path.join(home_dir, '.config')), __ident__)
-    data_dir = _path.join(_environ.get('XDG_DATA_HOME', _path.join(home_dir, '.local', 'share')), __ident__)
+    conf_dir = _path.join(_environ.get('XDG_CONFIG_HOME', _path.join(home_dir, '.config')), IDENT)
+    data_dir = _path.join(_environ.get('XDG_DATA_HOME', _path.join(home_dir, '.local', 'share')), IDENT)
 
     return {
         'home_dir': home_dir,

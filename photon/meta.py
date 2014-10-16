@@ -5,13 +5,13 @@ class Meta(object):
         super().__init__()
 
         from random import randint as _randint
-        from photon import __ident__
+        from photon import IDENT
         from .util.system import get_timestamp
 
         self.__verbose = verbose
         self._m = {
             'header': {
-                'ident': '%s-%4X' %(__ident__, _randint(0x1000, 0xffff)),
+                'ident': '%s-%4X' %(IDENT, _randint(0x1000, 0xffff)),
                 'initialized': get_timestamp(),
                 'verbose': verbose
             },

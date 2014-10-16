@@ -5,7 +5,7 @@ class Photon(object):
         super().__init__()
 
         from atexit import register as _register
-        from photon import Settings, Meta, __ident__
+        from photon import Settings, Meta, IDENT
         from .util.system import shell_notify
 
         self.settings = Settings(config=config, summary=summary, verbose=verbose)
@@ -16,16 +16,16 @@ class Photon(object):
         def __say_goodbye():
 
             if self.meta:
-                self.meta.log = shell_notify('end of %s' %(__ident__), verbose=False)
+                self.meta.log = shell_notify('end of %s' %(IDENT), verbose=False)
 
         @_register
         def __copy_settings_to_meta():
 
             if self.meta and self.settings:
-                self.meta.load('%s settings' %(__ident__), 'copy %s settings at exit' %(__ident__), mdict=self.settings.get)
+                self.meta.load('%s settings' %(IDENT), 'copy %s settings at exit' %(IDENT), mdict=self.settings.get)
 
         self.meta.log = shell_notify(
-            '%s startup done' %(__ident__),
+            '%s startup done' %(IDENT),
             more=dict(config=config, summary=summary, meta=meta, verbose=verbose),
             verbose=False
         )
