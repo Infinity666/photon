@@ -41,15 +41,15 @@ def locate_file(loc, locations=None, critical=False, create_in=None, verbose=Tru
     from .system import shell_notify
     from .structures import to_list
 
-    if _path.exists(_path.abspath(_path.expanduser(loc))): return _path.abspath(_path.expanduser(loc))
-
     if not locations: locations = get_locations()
 
     for p in reversed(sorted(to_list(locations))):
         f = _path.join(p, loc)
         if _path.exists(f): return f
 
-    if critical: shell_notify('filename %s not found', state=True, more=locations)
+    if _path.exists(_path.abspath(_path.expanduser(loc))): return _path.abspath(_path.expanduser(loc))
+
+    if critical: shell_notify('could not locate' %(loc), state=True, more=dict(file=loc, locations=locations))
     if create_in:
         c = locations[create_in] if isinstance(locations, dict) and locations.get(create_in) else create_in
         make_locations(locations=[c], verbose=verbose)
@@ -69,6 +69,6 @@ def change_location(src, tgt, move=True, verbose=True):
         if _path.exists(t): t = _path.join(t, _path.basename(s))
         return _copytree(s, t)
 
-    res = cpy(src, tgt)
+    if tgt: res = cpy(src, tgt)
     if move: res = _rmtree(src)
     return res

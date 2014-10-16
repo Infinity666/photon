@@ -16,7 +16,7 @@ def version():
     return version.__doc__
 
 def release():
-    '''b4'''
+    '''b5'''
     return version.__doc__ + release.__doc__
 
 def url():

@@ -11,7 +11,12 @@ class Git(object):
         self.__local = locate_file(local, create_in=local)
         self.__remote_url = remote_url
 
-        if not self._log(num=0, critical=False).get('returncode', False) == 0:
+        if self.m(
+            'checking for git repo',
+            cmdd=dict(cmd='git rev-parse --show-toplevel', cwd=self.local),
+            critical=False,
+            verbose=False
+        ).get('out') != self.local:
             if not self.remote_url: self.m('a new git clone without remote url is not possible. sorry', state=True, more=dict(local=self.local))
             self.m(
                 'cloning into repo',
@@ -33,7 +38,7 @@ class Git(object):
     @property
     def remote(self):
 
-        return self._remote_show().get('out')
+        return self._get_remote().get('out')
 
 
     @property
@@ -70,18 +75,15 @@ class Git(object):
     @property
     def branch(self):
 
-        branch = self._branch_show().get('stdout')
+        branch = self._get_branch().get('stdout')
         if branch: return ''.join([b for b in branch if '*' in b]).replace('*', '').strip()
 
     @branch.setter
     def branch(self, branch):
 
         if not branch: branch = 'master'
-        tracking = '' if branch in self._branch_show(remotes=True).get('out') else '-B '
-        self.m(
-            'checkout branch %s' %(branch),
-            cmdd=dict(cmd='git checkout %s%s' %(tracking, branch), cwd=self.local)
-        )
+        tracking = '' if branch in self._get_branch(remotes=True).get('out') else '-B '
+        self._checkout(treeish='%s%s' %(tracking, branch))
 
     @property
     def tag(self):
@@ -98,11 +100,7 @@ class Git(object):
         if not tag:
             t = self.tag
             tag = t[-1] if t else None
-        if tag:
-            self.m(
-                'checkout tag %s' %(tag),
-                cmdd=dict(cmd='git checkout %s' %(tag), cwd=self.local),
-            )
+        if tag: self._checkout(treeish=tag)
 
     @property
     def cleanup(self):
@@ -168,7 +166,7 @@ class Git(object):
             more=dict(remote=remote, branch=branch)
         )
 
-    def _remote_show(self, cached=True):
+    def _get_remote(self, verbose=True):
 
         return self.m(
             'getting current remote',
@@ -187,10 +185,18 @@ class Git(object):
             verbose=False
         )
 
-    def _branch_show(self, remotes=None):
+    def _get_branch(self, remotes=None):
 
         return self.m(
             'getting git branch information',
             cmdd=dict(cmd='git branch %s' %('-r' if remotes else ''), cwd=self.local),
+            verbose=False
+        )
+
+    def _checkout(self, treeish):
+
+        return self.m(
+            'checking out "%s"' %(treeish),
+            cmdd=dict(cmd='git checkout %s' %(treeish), cwd=self.local),
             verbose=False
         )
