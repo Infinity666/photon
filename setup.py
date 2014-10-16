@@ -4,7 +4,7 @@ Photon - a shell backend as python module
 
 from setuptools import setup
 from os import path as _path
-from info import pkg_name, release, url, __author, __email
+from info import pkg_name, release, url, author, email
 
 __long_desc = __doc__
 with open(_path.join(_path.dirname(_path.abspath(__file__)), 'Readme.rst'), 'r') as readme:
@@ -16,8 +16,8 @@ setup(
     url=url(),
     download_url='%sarchive/%s.tar.gz' %(url(), release()),
     license='BSD',
-    author=__author(),
-    author_email=__email(),
+    author=author(),
+    author_email=email(),
     description=__doc__,
     long_description=__long_desc,
     packages=['photon', 'photon.util', 'photon.tools'],

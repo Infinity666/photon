@@ -24,7 +24,7 @@ import os
 sys.path.insert(0, os.path.join(os.path.abspath('..'), 'photon'))
 
 sys.path.append(os.path.abspath('..'))
-from info import version, release, __contributors, __contributors_str
+from info import version, release, contributors, contributors_str
 
 # -- General configuration ------------------------------------------------
 
@@ -58,7 +58,7 @@ master_doc = 'index'
 
 # General information about the project.
 project = 'Photon'
-copyright = '2014, %s' %(__contributors_str())
+copyright = '2014, %s' %(contributors_str())
 
 # The version info for the project you're documenting, acts as replacement for
 # |version| and |release|, also used in various other places throughout the
@@ -211,7 +211,7 @@ latex_elements = {
 #  author, documentclass [howto, manual, or own class]).
 latex_documents = [
   ('index', 'Photon.tex', 'Photon Documentation',
-   __contributors_str(), 'manual'),
+   contributors_str(), 'manual'),
 ]
 
 # The name of an image file (relative to this directory) to place at the top of
@@ -241,7 +241,7 @@ latex_documents = [
 # (source start file, name, description, authors, manual section).
 man_pages = [
     ('index', 'photon', 'Photon Documentation',
-     __contributors(), 1)
+     contributors(), 1)
 ]
 
 # If true, show URL addresses after external links.
@@ -255,7 +255,7 @@ man_pages = [
 #  dir menu entry, description, category)
 texinfo_documents = [
   ('index', 'Photon', 'Photon Documentation',
-   __contributors_str(), 'Photon', 'One line description of project.',
+   contributors_str(), 'Photon', 'One line description of project.',
    'Miscellaneous'),
 ]
 

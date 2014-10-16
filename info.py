@@ -6,36 +6,50 @@
 
 '''
 
-
 def pkg_name():
-    '''photon_core'''
-    return pkg_name.__doc__
+    '''
+    :returns: The package name (on pypi)
+    '''
+    return 'photon_core'
 
 def version():
-    '''0.1'''
-    return version.__doc__
+    '''
+    :returns: Current version string
+    :current: |version|
+    '''
+    return '0.1'
 
 def release():
-    '''b6'''
-    return version.__doc__ + release.__doc__
+    '''
+    :returns: Current release string
+    :current: |release|
+    '''
+    return version() + 'b7'
 
 def url():
-    '''https://github.com/spookey/photon/'''
-    return url.__doc__
-
-def __contributors():
     '''
-...
-& Frieder Griesshammer
+    :returns: The repo url (on github)
     '''
-    return __contributors.__doc__.strip().split('\n')
+    return 'https://github.com/spookey/photon/'
 
-def __author():
-    return __contributors()[-1].replace('& ', '')
+def contributors():
+    '''
+    :returns: A list of all contributors
+    '''
+    return [
+        '...',
+        '& Frieder Griesshammer'
+    ]
 
-def __email():
-    '''frieder.griesshammer@der-beweis.de'''
-    return __email.__doc__
+def author():
+    ''':returns: The main author (last entry of :meth:`contributors`)'''
+    return contributors()[-1].replace('& ', '')
 
-def __contributors_str():
-    return ', '.join(__contributors()).replace('..., &', '').replace(', &', ' &')
+def email():
+    ''':returns: Main :meth:`author`'s mail'''
+    return 'frieder.griesshammer@der-beweis.de'
+
+def contributors_str():
+    ''':returns: The :meth:`contributors` as comma joined string'''
+
+    return ', '.join(contributors()).replace('..., &', '').replace(', &', ' &')
