@@ -36,7 +36,7 @@ def make_locations(locations=None, verbose=True):
     if verbose and len(r) > 0: shell_notify('path created', state=None, more=r)
     return r
 
-def locate_file(loc, locations=None, critical=False, create_in=None, verbose=True):
+def search_location(loc, locations=None, critical=False, create_in=None, verbose=True):
 
     from .system import shell_notify
     from .structures import to_list
@@ -65,7 +65,7 @@ def change_location(src, tgt, move=True, verbose=True):
         from shutil import copy2 as _copy2, copytree as _copytree
 
         if not _path.isdir(s):
-            return _copy2(s, locate_file(t, create_in=_path.dirname(t), verbose=verbose))
+            return _copy2(s, search_location(t, create_in=_path.dirname(t), verbose=verbose))
         if _path.exists(t): t = _path.join(t, _path.basename(s))
         return _copytree(s, t)
 

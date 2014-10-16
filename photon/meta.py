@@ -22,10 +22,10 @@ class Meta(object):
 
     def stage(self, s, clean=False):
 
-        from .util.locations import locate_file
+        from .util.locations import search_location
         from .util.system import shell_notify
 
-        s = locate_file(s, create_in='data_dir')
+        s = search_location(s, create_in='data_dir')
         if not clean: self.load('stage', s, merge=True)
 
         self._m['header'].update({'stage': s})

@@ -6,7 +6,7 @@ class Settings(object):
         super().__init__()
 
         from .util.system import shell_notify
-        from .util.locations import get_locations, locate_file
+        from .util.locations import get_locations, search_location
         from .util.structures import yaml_loc_join, yaml_str_join
 
         self.__verbose = verbose
@@ -17,13 +17,13 @@ class Settings(object):
 
         loaders = [('!loc_join', yaml_loc_join,), ('!str_join', yaml_str_join,)]
 
-        config, sdict = ('startup import', config) if isinstance(config, dict) else (locate_file(config), None)
+        config, sdict = ('startup import', config) if isinstance(config, dict) else (search_location(config), None)
 
         if not self.load('config', config, sdict=sdict, loaders=loaders, merge=True):
             shell_notify('could not load config', state=True, more=dict(config=config, sdict=sdict))
 
         if summary:
-            summary = locate_file(summary, create_in='conf_dir')
+            summary = search_location(summary, create_in='conf_dir')
             if self._s != self.load('summary', summary, loaders=loaders, merge=True, writeback=True):
                 shell_notify('settings summary written', more=summary, verbose=verbose)
 

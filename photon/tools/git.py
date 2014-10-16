@@ -4,11 +4,11 @@ class Git(object):
 
         super().__init__()
 
-        from ..util.locations import locate_file
+        from ..util.locations import search_location
         from ..photon import check_m
 
         self.m = check_m(m)
-        self.__local = locate_file(local, create_in=local)
+        self.__local = search_location(local, create_in=local)
         self.__remote_url = remote_url
 
         if self.m(
