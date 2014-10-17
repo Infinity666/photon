@@ -166,7 +166,7 @@ class Git(object):
             more=dict(remote=remote, branch=branch)
         )
 
-    def _get_remote(self, verbose=True):
+    def _get_remote(self, cached=True):
 
         return self.m(
             'getting current remote',

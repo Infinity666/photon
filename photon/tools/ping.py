@@ -41,7 +41,8 @@ class Ping(object):
                 ms = _findall('time=([\d.]*) ms\n', p)
                 rtt = _search('(?P<min>[\d.]+)/(?P<avg>[\d.]+)/(?P<max>[\d.]+)/(?P<stddev>[\d.]+) ms', p)
 
-                self.__p[host].update(dict(ms=ms, loss=loss.group('loss'), rtt=rtt.groupdict()))
+                if loss: loss = loss.group('loss')
+                self.__p[host].update(dict(ms=ms, loss=loss, rtt=rtt.groupdict()))
 
     @property
     def status(self):

@@ -16,6 +16,17 @@ def yaml_loc_join(l, n):
         if seq in locations: s[num] = '%s' %(locations[seq])
     return _path.join(*s)
 
+def yaml_var_join(l, n):
+
+    from .system import get_hostname, get_timestamp
+
+    s = l.construct_sequence(n)
+
+    for num, seq in enumerate(s):
+        if seq == 'hostname': s[num] = '%s' %(get_hostname())
+        elif seq == 'timestamp': s[num] = '%s' %(get_timestamp())
+    return ''.join([str(i) for i in s])
+
 def dict_merge(o, v):
 
     from copy import deepcopy as _deepcopy

@@ -55,10 +55,11 @@ def search_location(loc, locations=None, critical=False, create_in=None, verbose
         make_locations(locations=[c], verbose=verbose)
         return _path.join(c, loc)
 
-def change_location(src, tgt, move=True, verbose=True):
+def change_location(src, tgt, move=False, verbose=True):
 
     from os import path as _path
     from shutil import rmtree as _rmtree
+    from .system import shell_notify
 
     def cpy(s, t):
 
@@ -69,6 +70,12 @@ def change_location(src, tgt, move=True, verbose=True):
         if _path.exists(t): t = _path.join(t, _path.basename(s))
         return _copytree(s, t)
 
-    if tgt: res = cpy(src, tgt)
-    if move: res = _rmtree(src)
+    res = None
+    if _path.exists(src):
+        if tgt: res = cpy(src, tgt)
+        if move: res = _rmtree(src)
+        if verbose: shell_notify(
+            '%s location' %('deleted' if not tgt and move else 'moved' if move else 'copied'),
+            more=dict(src=src, tgt=tgt)
+        )
     return res
