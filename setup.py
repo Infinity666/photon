@@ -7,7 +7,7 @@ from os import path as _path
 from info import pkg_name, release, url, author, email
 
 __long_desc = __doc__
-with open(_path.join(_path.dirname(_path.abspath(__file__)), 'Readme.rst'), 'r') as readme:
+with open(_path.join(_path.dirname(_path.abspath(__file__)), 'README.rst'), 'r') as readme:
     __long_desc = readme.read()
 
 setup(

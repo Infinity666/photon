@@ -12,7 +12,7 @@ Welcome to the Photon Documentation.
 |
 |
 
-.. include:: ../Readme.rst
+.. include:: ../README.rst
 
 Structure
 ---------

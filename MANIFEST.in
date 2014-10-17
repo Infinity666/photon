@@ -1,4 +1,4 @@
-include LICENSE info.py Readme.rst
+include LICENSE README.rst info.py
 recursive-include docs *
 recursive-include examples *
 recursive-exclude docs *.pyc
