@@ -34,6 +34,8 @@ If you just want to use Photon in your Scripts as a normal User you may especial
 * :ref:`modindex`
 * :ref:`search`
 
+Info
+----
 
 .. automodule:: info
     :members:

@@ -120,13 +120,15 @@ class Git(object):
                 self.m(
                     'adding file to repository',
                     cmdd=(dict(cmd='git add %s' %(f), cwd=self.local)),
-                    more=f
+                    more=f,
+                    critical=False
                 )
             for f in changes.get('deleted', []):
                 self.m(
                     'deleting file from repository',
                     cmdd=(dict(cmd='git rm %s' %(f), cwd=self.local)),
-                    more=f
+                    more=f,
+                    critical=False
                 )
             if changes.get('conflicting'): self.m('you have conflicting files in your repository!', state=True, more=changes)
 
@@ -136,22 +138,21 @@ class Git(object):
                 more=changes
             )
 
-        self.branch = old_branch
+            self.branch = None
 
-        fetch = self.m(
-            'fetching remote changes',
-            cmdd=dict(cmd='git fetch --tag', cwd=self.local)
-        )
+            self.m(
+                'auto merging branches',
+                cmdd=dict(cmd='git merge %s -m "%s %s auto merge"' %(hostname, hostname, IDENT), cwd=self.local),
+                more=dict(branch=old_branch, temp_branch=hostname)
+            )
 
-        if fetch.get('stdout'):
-            if 'CONFLICT' in self.m(
-                'merging with remote changes',
-                cmdd=dict(cmd='git merge master -m "%s %s auto merge"' %(hostname, IDENT), cwd=self.local),
-                more=fetch
-            ).get('out'):
-                self.m('you have a merge conflict with your remote repository!', state=True, more=fetch)
+            self.branch = old_branch
 
-        return dict(changes=changes, fetch=fetch)
+        pull = self.m('pulling remote changes', cmdd=dict(cmd='git pull --tags', cwd=self.local), critical=False)
+
+        if 'CONFLICT' in pull.get('out'): self.m('you have a merge conflict with your remote repository!', state=True, more=pull)
+
+        return dict(changes=changes, pull=pull)
 
     @property
     def publish(self):
@@ -185,7 +186,7 @@ class Git(object):
             verbose=False
         )
 
-    def _get_branch(self, remotes=None):
+    def _get_branch(self, remotes=False):
 
         return self.m(
             'getting git branch information',

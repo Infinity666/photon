@@ -2,11 +2,7 @@
 Photon Intro
 ------------
 
-Photon is a backend utility for freifunk related scripts e.g. on gateways.
-
 It could be best described as a **shell backend as python module**
-
-The **/examples** directory contains some basic receipts on how to use Photon in your scripts.
 
 Contributions are highly welcome [#contributions]_, also feel free to use the `issue tracker <http://github.com/spookey/photon/issues>`_ if you encounter any problems.
 
@@ -14,6 +10,12 @@ Contributions are highly welcome [#contributions]_, also feel free to use the `i
 :Documentation: `photon.readthedocs.org <http://photon.readthedocs.org/en/latest/>`_
 :Package: `pypi.python.org/pypi/photon_core <https://pypi.python.org/pypi/photon_core/>`_
 
+Examples
+^^^^^^^^
+
+The **/examples** directory contains some basic receipts on how to use Photon in your scripts.
+
+Photon helps at `Freifunk MWU <http://freifunk-mwu.de/>`_ to solve common tasks. See `github.com/freifunk-mwu/backend-scripts <https://github.com/freifunk-mwu/backend-scripts>`_ for some examples used in production.
 
 Installation
 ------------

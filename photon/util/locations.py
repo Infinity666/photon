@@ -56,26 +56,28 @@ def search_location(loc, locations=None, critical=False, create_in=None, verbose
         return _path.join(c, loc)
 
 def change_location(src, tgt, move=False, verbose=True):
+    '''
+        :param src: source location where to copy/move from
+        :param tgt: target location where to copy/move to
+        :param move: deletes original after copy
+        :param verbose: show warnings
 
-    from os import path as _path
-    from shutil import rmtree as _rmtree
+        .. note:: set `tgt` explicit to ``None`` and `move` to ``True`` to delete locations
+
+    '''
+
+    from os import path as _path, listdir as _listdir, remove as _remove
+    from shutil import copy2 as _copy2, rmtree as _rmtree
     from .system import shell_notify
 
-    def cpy(s, t):
-
-        from shutil import copy2 as _copy2, copytree as _copytree
-
-        if not _path.isdir(s):
-            return _copy2(s, search_location(t, create_in=_path.dirname(t), verbose=verbose))
-        if _path.exists(t): t = _path.join(t, _path.basename(s))
-        return _copytree(s, t)
-
-    res = None
     if _path.exists(src):
-        if tgt: res = cpy(src, tgt)
-        if move: res = _rmtree(src)
+        if _path.isfile(src):
+            _copy2(src, search_location(tgt, create_in=_path.dirname(tgt), verbose=verbose))
+        else:
+            for l in _listdir(src): change_location(_path.abspath(_path.join(src, l)), _path.abspath(_path.join(tgt, l)))
+
+        if move: _rmtree(src) if _path.isdir(src) else _remove(src)
         if verbose: shell_notify(
             '%s location' %('deleted' if not tgt and move else 'moved' if move else 'copied'),
             more=dict(src=src, tgt=tgt)
         )
-    return res
