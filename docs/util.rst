@@ -2,8 +2,8 @@
 
 .. _utility:
 
-Backend utility
-===============
+Utility
+=======
 
 This is the toolbox used by :ref:`core`:
 

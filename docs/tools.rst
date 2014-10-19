@@ -2,16 +2,17 @@
 
 .. _tools:
 
-Frontend tools
-==============
+Tools
+=====
 
-This are the tools for the user using Photon. You should not directly use them, instead they will get provided to you by :ref:`core` (most commonly by :ref:`photon`):
+This are the tools for the user using Photon. You should not directly use them, instead they will get provided to you by :ref:`photon`.
 
 .. seealso:: |allcore|
 
 Some functionality here is bought from the :ref:`utility`:
 
 .. seealso:: |allutil|
+
 
 .. _git tool:
 
@@ -35,6 +36,7 @@ Mail Tool
     :undoc-members:
     :private-members:
     :special-members: __init__
+
 
 .. _mail tool example:
 
@@ -66,6 +68,7 @@ Ping Tool
     :undoc-members:
     :private-members:
     :special-members: __init__
+
 
 .. _ping tool example:
 

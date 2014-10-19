@@ -11,11 +11,10 @@ All three modules depend on the :ref:`utility`:
 
 :ref:`settings` and :ref:`meta` could be used independently or both together.
 
-Bundling :ref:`Settings` and :ref:`Meta` together plus adding :ref:`tools` handlers, :ref:`photon` provides a simple, yet powerful interface.
+Bundling :ref:`Settings` and :ref:`Meta` together plus adding the :ref:`tools`, :ref:`photon` provides a interface to use in your scripts.
 
 .. seealso:: |alltools|
 
-.. note:: Rule of thumb - Always work through Photon itself.
 
 .. _settings:
 
@@ -27,6 +26,7 @@ Settings
     :undoc-members:
     :private-members:
     :special-members: __init__
+
 
 .. _settings file example:
 
@@ -43,8 +43,8 @@ Example Settings File
 
 .. seealso::
 
-    * `!loc_join`: :meth:`util.structures.yaml_loc_join` (get system locations and join paths)
-    * `!str_join`: :meth:`util.structures.yaml_str_join` (join strings)
+    * `!loc_join`: :func:`util.structures.yaml_loc_join` (get locations by keyword and join paths)
+    * `!str_join`: :func:`util.structures.yaml_str_join` (get variables by keyword and join strings)
 
 .. seealso:: |allexamples|
 
