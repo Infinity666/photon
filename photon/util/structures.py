@@ -1,5 +1,21 @@
+'''
+.. |yaml_loader_returns| replace:: with keywords extended. Used in :meth:`settings.Settings.load`
+.. |yaml_loader_seealso| replace:: The yaml files mentioned in: |allexamples|
+'''
 
 def yaml_str_join(l, n):
+    '''
+    YAML loader to join strings
+
+    The keywords are as following:
+
+    * `hostname`: Your hostname (from :meth:`util.system.get_hostname`)
+    * `timestamp`: Current timestamp (from :meth:`util.system.get_timestamp`)
+
+    :returns: A `non character` joined string |yaml_loader_returns|
+
+    .. seealso:: |yaml_loader_seealso|
+    '''
 
     from .system import get_hostname, get_timestamp
 
@@ -11,6 +27,15 @@ def yaml_str_join(l, n):
     return ''.join([str(i) for i in s])
 
 def yaml_loc_join(l, n):
+    '''
+    YAML loader to join paths
+
+    The keywords come directly from :meth:`util.locations.get_locations`. See there!
+
+    :returns: A `path seperator` (``/``) joined string |yaml_loader_returns|
+
+    .. seealso:: |yaml_loader_seealso|
+    '''
 
     from os import path as _path
     from .locations import get_locations
@@ -23,6 +48,15 @@ def yaml_loc_join(l, n):
     return _path.join(*s)
 
 def dict_merge(o, v):
+    '''
+    Recursively climbs through dictionaries and merges them together.
+
+    :param o: The first dictionary
+    :param v: The second dictionary
+    :returns: A dictionary (who would have guessed?)
+
+    .. note:: Make sure `o` & `v` are indeed dictionaries, bad things will happen otherwise!
+    '''
 
     from copy import deepcopy as _deepcopy
 
@@ -36,6 +70,19 @@ def dict_merge(o, v):
     return res
 
 def to_list(i, use_keys=False):
+    '''
+    Converts items to a list.
+
+    :param i: Item to convert
+    :param use_keys: If i is a dictionary, use the keys instead of values
+    :returns: All items in i as list
+
+    The following rules apply:
+
+        * If `i` is ``None``, the result is an empty list
+        * If `i` is 'string', the result won't be ``['s', 't', 'r',...]`` rather more like ``['string']``
+        * If `i` is a nested dictionary, the result will be a flattened list.
+    '''
 
     from .system import shell_notify
 
