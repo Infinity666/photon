@@ -9,12 +9,12 @@ This are the tools for the user using Photon. You should not directly use them, 
 
 .. seealso:: |allcore|
 
-Some functionality here is bought from the :ref:`utility`:
+Some functionality here is bought from the :ref:`util`:
 
 .. seealso:: |allutil|
 
 
-.. _git tool:
+.. _tools_git:
 
 Git Tool
 --------
@@ -26,7 +26,7 @@ Git Tool
     :special-members: __init__
 
 
-.. _mail tool:
+.. _tools_mail:
 
 Mail Tool
 ---------
@@ -38,7 +38,7 @@ Mail Tool
     :special-members: __init__
 
 
-.. _mail tool example:
+.. _tools_mail_example:
 
 Mail Tool Example
 ^^^^^^^^^^^^^^^^^
@@ -58,7 +58,7 @@ Mail Tool Example
 .. seealso:: |allexamples|
 
 
-.. _ping tool:
+.. _tools_ping:
 
 Ping Tool
 ---------
@@ -70,7 +70,7 @@ Ping Tool
     :special-members: __init__
 
 
-.. _ping tool example:
+.. _tools_ping_example:
 
 Ping Tool Example
 ^^^^^^^^^^^^^^^^^

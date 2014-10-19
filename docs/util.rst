@@ -1,6 +1,6 @@
 .. include:: shared.rst
 
-.. _utility:
+.. _util:
 
 Utility
 =======
@@ -15,7 +15,7 @@ As well as used by the :ref:`tools`:
 
 .. note:: If you have no explicit reason to do so do not use them directly. You
 
-.. _files util:
+.. _util_files:
 
 Files
 -----
@@ -25,7 +25,7 @@ Files
     :undoc-members:
 
 
-.. _locations util:
+.. _util_locations:
 
 Locations
 ---------
@@ -35,7 +35,7 @@ Locations
     :undoc-members:
 
 
-.. _structures util:
+.. _util_structures:
 
 Structures
 ----------
@@ -45,7 +45,7 @@ Structures
     :undoc-members:
 
 
-.. _system util:
+.. _util_system:
 
 System
 ------

@@ -5,7 +5,7 @@
 The core
 ========
 
-All three modules depend on the :ref:`utility`:
+All three modules depend on the :ref:`util`:
 
 .. seealso:: |allutil|
 
@@ -28,7 +28,7 @@ Settings
     :special-members: __init__
 
 
-.. _settings file example:
+.. _settings_file_example:
 
 Example Settings File
 ^^^^^^^^^^^^^^^^^^^^^

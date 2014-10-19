@@ -60,7 +60,7 @@ class Photon(object):
 
     def new_git(self, local, remote_url=None):
         '''
-        .. seealso:: :class:`tools.git.Git`
+        .. seealso:: :ref:`tools_git`
         '''
 
         from .tools.git import Git
@@ -69,7 +69,7 @@ class Photon(object):
 
     def new_mail(self, to, sender, subject=None, cc=None, bcc=None, punchline=None, add_meta=False, add_settings=True):
         '''
-        .. seealso:: :class:`tools.mail.Mail`
+        .. seealso:: :ref:`tools_mail`
         '''
         from .tools.mail import Mail
 
@@ -81,7 +81,7 @@ class Photon(object):
 
     def new_ping(self, net_if=None):
         '''
-        .. seealso:: :class:`tools.ping.Ping`
+        .. seealso:: :ref:`tools_ping`
         '''
         from .tools.ping import Ping
 
