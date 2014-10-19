@@ -1,7 +1,25 @@
+'''
+.. |param_local| replace:: The local folder of the repository
+.. |param_remote_url| replace:: The remote URL of the repository
+'''
 
 class Git(object):
-    def __init__(self, local, m, remote_url=None):
+    '''
+    The git tools help to deal with git repositories.
 
+    :param local: |param_local|
+    :param remote_url: |param_remote_url|
+
+    .. glossary::
+
+        remote_url
+            If ``None`` given (default), it will be ignored if there is already a git repo at `local`
+
+            If no git repo is found at `local`, a new one gets cloned from `remote_url`
+
+    '''
+
+    def __init__(self, local, m, remote_url=None):
         super().__init__()
 
         from ..util.locations import search_location
@@ -27,34 +45,62 @@ class Git(object):
 
     @property
     def local(self):
+        '''
+        :returns: |param_local|
+        '''
 
         return self.__local
 
     @property
     def remote_url(self):
+        '''
+        :returns: |param_remote_url|
+        '''
 
         return self.__remote_url
 
     @property
     def remote(self):
+        '''
+        :returns: Current remote
+        '''
 
         return self._get_remote().get('out')
 
 
     @property
     def commit(self):
+        '''
+        :returns: The current commit
+        '''
 
         return self._log(num=1, format='%H').get('out')
 
 
     @property
     def log(self):
+        '''
+        :returns: The last 10 commit entries as dictionary
+
+        * 'commit': The commit-ID
+        * 'message': First line of the commit message
+
+        '''
 
         log = self._log(num=10, format='%h::%b').get('stdout')
         if log: return [dict(commit=c, message=m) for c, m in [l.split('::') for l in log]]
 
     @property
     def status(self):
+        '''
+        :returns: Current repository status as dictionary:
+
+        * 'clean': ``True`` if there are no changes ``False`` otherwise
+        * 'untracked': A list of untracked files (if any and not 'clean')
+        * 'modified': A list of modified files (if any and not 'clean')
+        * 'deleted': A list of deleted files (if any and not 'clean')
+        * 'conflicting': A list of conflicting files (if any and not 'clean')
+        '''
 
         status = self.m(
             'getting git status',
@@ -74,12 +120,20 @@ class Git(object):
 
     @property
     def branch(self):
+        '''
+        :param branch: Checks out specified branch (tracking if it exists on remote). If set to ``None``, 'master' will be checked out
+        :returns: The current branch (This could also be 'master (Detatched-Head)' - Be warned)
+        '''
 
         branch = self._get_branch().get('stdout')
         if branch: return ''.join([b for b in branch if '*' in b]).replace('*', '').strip()
 
     @branch.setter
     def branch(self, branch):
+        '''
+        .. seealso:: :attr:`branch`
+        '''
+
 
         if not branch: branch = 'master'
         tracking = '' if branch in self._get_branch(remotes=True).get('out') else '-B '
@@ -87,6 +141,10 @@ class Git(object):
 
     @property
     def tag(self):
+        '''
+        :param tag: Checks out specified tag. If set to ``None`` the latest tag will be checked out
+        :returns: A list of all tags, sorted as version numbers, ascending
+        '''
 
         tag = self.m(
             'getting git tags',
@@ -97,6 +155,10 @@ class Git(object):
 
     @tag.setter
     def tag(self, tag):
+        '''
+        .. seealso:: :attr:`tag`
+        '''
+
         if not tag:
             t = self.tag
             tag = t[-1] if t else None
@@ -104,6 +166,11 @@ class Git(object):
 
     @property
     def cleanup(self):
+        '''
+        Commits all local changes (if any) into a working branch, merges it with 'master'.
+
+        Checks out your old branch afterwards.
+        '''
 
         from photon import IDENT
         from ..util.system import get_hostname
@@ -156,6 +223,9 @@ class Git(object):
 
     @property
     def publish(self):
+        '''
+        Runs :func:`cleanup` first to push the changes to the :attr:`remote`.
+        '''
 
         self.cleanup
 
@@ -168,6 +238,11 @@ class Git(object):
         )
 
     def _get_remote(self, cached=True):
+        '''
+        Helper function to determine remote
+
+        :param cached: Use cached values or query remotes
+        '''
 
         return self.m(
             'getting current remote',
@@ -175,18 +250,28 @@ class Git(object):
             verbose=False
         )
 
-    def _log(self, num=None, format=None, critical=True):
+    def _log(self, num=None, format=None):
+        '''
+        Helper function to receive git log
+
+        :param num: Number of entries
+        :param format: Use formatted output with specified format string
+        '''
 
         num = '-n %s' %(num) if num else ''
         format = '--format="%s"' %(format) if format else ''
         return self.m(
             'getting git log',
             cmdd=dict(cmd='git log %s %s' %(num, format), cwd=self.local),
-            critical=critical,
             verbose=False
         )
 
     def _get_branch(self, remotes=False):
+        '''
+        Helper function to determine current branch
+
+        :param remotes: List the remote-tracking branches
+        '''
 
         return self.m(
             'getting git branch information',
@@ -195,6 +280,11 @@ class Git(object):
         )
 
     def _checkout(self, treeish):
+        '''
+        Helper function to checkout something
+
+        :param treeish: String for '`tag`', '`branch`', or remote tracking '-B `banch`'
+        '''
 
         return self.m(
             'checking out "%s"' %(treeish),
