@@ -8,7 +8,6 @@ class Mail(object):
     :param subject: The subject line
     :param cc: One or a list of CCs
     :param bcc: One or a list of BCCs
-
     '''
 
 
@@ -50,16 +49,14 @@ class Mail(object):
     @property
     def text(self):
         '''
-        Add more text to the mail
-
-        :param elem: Add some more text
+        :param text: Add some more text
         :returns: All text & headers as raw mail source
         '''
 
         return self.__message.as_string().encode('UTF-8')
 
     @text.setter
-    def text(self, elem):
+    def text(self, text):
         '''
         .. seealso:: :attr:`text`
         '''
@@ -67,18 +64,23 @@ class Mail(object):
         from email.mime.text import MIMEText as _MIMEText
         from pprint import pformat as _pformat
 
-        if elem:
-            if not isinstance(elem, str): elem = _pformat(elem)
+        if text:
+            if not isinstance(text, str): text = _pformat(text)
             self.m(
                 'add text to mail',
-                more=dict(len=len(elem))
+                more=dict(len=len(text))
             )
-            self.__message.attach(_MIMEText(elem, 'plain', 'UTF-8'))
+            self.__message.attach(_MIMEText(text, 'plain', 'UTF-8'))
 
     @property
     def send(self):
         '''
-        Sends the compiled mail
+        :returns: A dictionary with the following:
+
+        * 'sender': The `sender`
+        * 'recipients': All recipients, compiled from `to`, `cc` and `bcc`
+        * 'result': The :py:meth:`smtplib.SMTP.sendmail`-result
+        * 'exception': The exception message (if any)
 
         .. note:: You need to have a postfix/sendmail running and listening on localhost
         '''
