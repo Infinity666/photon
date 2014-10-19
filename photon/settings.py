@@ -7,7 +7,7 @@ class Settings(object):
 
         from .util.system import shell_notify
         from .util.locations import get_locations, search_location
-        from .util.structures import yaml_str_join, yaml_loc_join, yaml_var_join
+        from .util.structures import yaml_str_join, yaml_loc_join
 
         self.__verbose = verbose
         self._s = {
@@ -15,7 +15,7 @@ class Settings(object):
             'files': dict()
         }
 
-        loaders = [('!str_join', yaml_str_join,), ('!loc_join', yaml_loc_join,), ('!var_join', yaml_var_join,)]
+        loaders = [('!str_join', yaml_str_join,), ('!loc_join', yaml_loc_join,)]
 
         config, sdict = ('startup import', config) if isinstance(config, dict) else (search_location(config), None)
 
