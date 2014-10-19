@@ -1,8 +1,18 @@
 
 class Mail(object):
+    '''
+    The Mail tool helps to send out mails.
+
+    :param to: Where to ('user@example.com')
+    :param sender: Yourself ('me@example.com' - you should have set ``example.com`` as reverse dns not to get caught up in spamfilters)
+    :param subject: The subject line
+    :param cc: One or a list of CCs
+    :param bcc: One or a list of BCCs
+
+    '''
+
 
     def __init__(self, to, sender, m, subject=None, cc=None, bcc=None):
-
         super().__init__()
 
         from itertools import chain as _chain
@@ -39,11 +49,20 @@ class Mail(object):
 
     @property
     def text(self):
+        '''
+        Add more text to the mail
+
+        :param elem: Add some more text
+        :returns: All text & headers as raw mail source
+        '''
 
         return self.__message.as_string().encode('UTF-8')
 
     @text.setter
     def text(self, elem):
+        '''
+        .. seealso:: :attr:`text`
+        '''
 
         from email.mime.text import MIMEText as _MIMEText
         from pprint import pformat as _pformat
@@ -58,6 +77,11 @@ class Mail(object):
 
     @property
     def send(self):
+        '''
+        Sends the compiled mail
+
+        .. note:: You need to have a postfix/sendmail running and listening on localhost
+        '''
 
         from smtplib import SMTP as _SMTP, SMTPException as _SMTPException
         from socket import error as _error
@@ -70,5 +94,5 @@ class Mail(object):
             self.m('mail sent', more=res)
         except (_SMTPException, _error) as ex:
             res.update(dict(exception=str(ex)))
-            self.m('error sending mail', state=True, more=res)
+            self.m('error sending mail', verbose=True, more=res)
         return res
