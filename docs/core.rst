@@ -25,7 +25,6 @@ Settings
     :members:
     :undoc-members:
     :private-members:
-    :special-members: __init__
 
 
 .. _settings_file_example:
@@ -58,7 +57,6 @@ Meta
     :members:
     :undoc-members:
     :private-members:
-    :special-members: __init__
 
 
 .. _photon:
@@ -70,4 +68,3 @@ Photon
     :members:
     :undoc-members:
     :private-members:
-    :special-members: __init__

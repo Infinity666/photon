@@ -23,7 +23,6 @@ Git Tool
     :members:
     :undoc-members:
     :private-members:
-    :special-members: __init__
 
 
 .. _tools_mail:
@@ -35,7 +34,6 @@ Mail Tool
     :members:
     :undoc-members:
     :private-members:
-    :special-members: __init__
 
 
 .. _tools_mail_example:
@@ -67,7 +65,6 @@ Ping Tool
     :members:
     :undoc-members:
     :private-members:
-    :special-members: __init__
 
 
 .. _tools_ping_example:
