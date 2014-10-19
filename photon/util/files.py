@@ -20,7 +20,7 @@ def read_yaml(filename, add_constructor=None):
     :param add_constructor: A list of yaml constructors (loaders)
     :returns: Loaded YAML content as represented data structure
 
-    .. seealso:: :meth:`util.structures.yaml_str_join`, :meth:`util.structures.yaml_loc_join`
+    .. seealso:: :func:`util.structures.yaml_str_join`, :func:`util.structures.yaml_loc_join`
     '''
 
     import yaml as _yaml

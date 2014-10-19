@@ -1,5 +1,5 @@
 '''
-.. |yaml_loader_returns| replace:: with keywords extended. Used in :meth:`settings.Settings.load`
+.. |yaml_loader_returns| replace:: with keywords extended. Used in :func:`settings.Settings.load`
 .. |yaml_loader_seealso| replace:: The yaml files mentioned in: |allexamples|
 '''
 
@@ -9,8 +9,8 @@ def yaml_str_join(l, n):
 
     The keywords are as following:
 
-    * `hostname`: Your hostname (from :meth:`util.system.get_hostname`)
-    * `timestamp`: Current timestamp (from :meth:`util.system.get_timestamp`)
+    * `hostname`: Your hostname (from :func:`util.system.get_hostname`)
+    * `timestamp`: Current timestamp (from :func:`util.system.get_timestamp`)
 
     :returns: A `non character` joined string |yaml_loader_returns|
 
@@ -30,7 +30,7 @@ def yaml_loc_join(l, n):
     '''
     YAML loader to join paths
 
-    The keywords come directly from :meth:`util.locations.get_locations`. See there!
+    The keywords come directly from :func:`util.locations.get_locations`. See there!
 
     :returns: A `path seperator` (``/``) joined string |yaml_loader_returns|
 

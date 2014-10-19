@@ -2,11 +2,11 @@
 .. glossary::
 
     location
-        Most functions do not treat files and folders different.
-        This is why we use the expression `location` here.
+        Most functions here do not treat files and folders different.
+        This is why we use the expression `location`.
 
-.. |params_locations_dict| replace:: If `locations` is not a list, but a dictionary, all values in the dictionary will be used (as specified in :meth:`util.structures.to_list`)
-.. |param_locations_none| replace:: If `locations` is set to ``None`` (by default), it will be filled with the output of :meth:`get_locations`.
+.. |params_locations_dict| replace:: If `locations` is not a list, but a dictionary, all values in the dictionary will be used (as specified in :func:`util.structures.to_list`)
+.. |param_locations_none| replace:: If `locations` is set to ``None`` (by default), it will be filled with the output of :func:`get_locations`.
 '''
 
 from os import path as _path
@@ -19,15 +19,15 @@ def get_locations():
 
     The keys are as following:
 
-    * `home_dir`: Your home-directory (``~``)
-    * `call_dir`: Where you called the first Python script from. (``argv[0]``)
+    * 'home_dir': Your home-directory (``~``)
+    * 'call_dir': Where you called the first Python script from. (``argv[0]``)
         * Mostly used to locate the configuration within the same folder.
-    * `conf_dir`: The `XDG_CONFIG_HOME`-directory + ``photon`` (``~/.config/photon``)
-    * `data_dir`: The `XDG_DATA_HOME`-directory + ``photon`` (``~/.local/share/photon``)
-    * `backup_dir`: The `data_dir` + ``backups``
+    * 'conf_dir': The `XDG_CONFIG_HOME`-directory + ``photon`` (``~/.config/photon``)
+    * 'data_dir': The `XDG_DATA_HOME`-directory + ``photon`` (``~/.local/share/photon``)
+    * 'backup_dir': The `data_dir` + ``backups``
 
     .. note::
-        Both :meth:`search_location` and :meth:`make_locations` have the argument `locations`.
+        Both :func:`search_location` and :func:`make_locations` have the argument `locations`.
 
         |param_locations_none|
     '''
@@ -83,9 +83,9 @@ def search_location(loc, locations=None, critical=False, create_in=None, verbose
 
     :param loc: Filename to search
     :param locations: A list of possible locations to search within (can be a dictionary, see note below)
-    :param critical: Exit whole script if file was not found (see `state`-parameter in :meth:`util.system.shell_notify`)
+    :param critical: Exit whole script if file was not found (see `state`-parameter in :func:`util.system.shell_notify`)
     :param create_in: If `loc` was not found, the folder `create_in` is created. If `locations` is a dictionary, `create_in` can also specify a key of `locations`. The value will be used then.
-    :param verbose: Pass verbose flag to :meth:`make_locations`
+    :param verbose: Pass verbose flag to :func:`make_locations`
 
     .. note::
 
