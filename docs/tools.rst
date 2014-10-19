@@ -1,6 +1,6 @@
 .. include:: shared.rst
 
-.. _frontend:
+.. _tools:
 
 Frontend tools
 ==============
@@ -9,7 +9,7 @@ This are the tools for the user using Photon. You should not directly use them, 
 
 .. seealso:: |allcore|
 
-Some functionality here is bought from the :ref:`backend`:
+Some functionality here is bought from the :ref:`utility`:
 
 .. seealso:: |allutil|
 

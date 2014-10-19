@@ -5,13 +5,13 @@
 The core
 ========
 
-All three modules depend on the :ref:`backend`:
+All three modules depend on the :ref:`utility`:
 
 .. seealso:: |allutil|
 
 :ref:`settings` and :ref:`meta` could be used independently or both together.
 
-Bundling :ref:`Settings` and :ref:`Meta` together plus adding :ref:`frontend` handlers, :ref:`photon` provides a simple, yet powerful interface.
+Bundling :ref:`Settings` and :ref:`Meta` together plus adding :ref:`tools` handlers, :ref:`photon` provides a simple, yet powerful interface.
 
 .. seealso:: |alltools|
 

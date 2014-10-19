@@ -1,6 +1,6 @@
 .. include:: shared.rst
 
-.. _backend:
+.. _utility:
 
 Backend utility
 ===============
@@ -9,7 +9,7 @@ This is the toolbox used by :ref:`core`:
 
 .. seealso:: |allcore|
 
-As well as used by the :ref:`frontend`:
+As well as used by the :ref:`tools`:
 
 .. seealso:: |alltools|
 
