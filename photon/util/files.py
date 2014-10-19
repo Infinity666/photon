@@ -1,6 +1,11 @@
 
 def read_file(filename):
+    '''
+    Reads files
 
+    :param filename: The full path of the file to read
+    :returns: The content of the file as string (if `filename` exists)
+    '''
     from os import path as _path
 
     if filename and _path.exists(filename):
@@ -8,6 +13,15 @@ def read_file(filename):
             return f.read()
 
 def read_yaml(filename, add_constructor=None):
+    '''
+    Reads YAML files
+
+    :param filename: The full path to the YAML file
+    :param add_constructor: A list of yaml constructors (loaders)
+    :returns: Loaded YAML content as represented data structure
+
+    .. seealso:: :meth:`util.structures.yaml_str_join`, :meth:`util.structures.yaml_loc_join`
+    '''
 
     import yaml as _yaml
 
@@ -20,6 +34,12 @@ def read_yaml(filename, add_constructor=None):
     if y: return _yaml.load(y)
 
 def read_json(filename):
+    '''
+    Reads json files
+
+    :param filename: The full path to the json file
+    :returns: Loaded json content as represented data structure
+    '''
 
     from json import loads as _loads
 
@@ -27,6 +47,13 @@ def read_json(filename):
     if j: return _loads(j)
 
 def write_file(filename, content):
+    '''
+    Writes files
+
+    :param filename: The full path of the file to write (enclosing folder must already exist)
+    :param content: The content to write
+    :returns: The size of the data written
+    '''
 
     from os import path as _path
 
@@ -35,6 +62,13 @@ def write_file(filename, content):
             return f.write(content)
 
 def write_yaml(filename, content):
+    '''
+    Writes YAML files
+
+    :param filename: The full path to the YAML file
+    :param content: The content to dump
+    :returns: The size written
+    '''
 
     import yaml as _yaml
 
@@ -42,6 +76,13 @@ def write_yaml(filename, content):
     if y: return write_file(filename, y)
 
 def write_json(filename, content):
+    '''
+    Writes json files
+
+    :param filename: The full path to the json file
+    :param content: The content to dump
+    :returns: The size written
+    '''
 
     from json import dumps as _dumps
 
