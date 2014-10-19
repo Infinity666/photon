@@ -74,14 +74,13 @@ def to_list(i, use_keys=False):
     Converts items to a list.
 
     :param i: Item to convert
-    :param use_keys: If i is a dictionary, use the keys instead of values
-    :returns: All items in i as list
-
-    The following rules apply:
 
         * If `i` is ``None``, the result is an empty list
         * If `i` is 'string', the result won't be ``['s', 't', 'r',...]`` rather more like ``['string']``
         * If `i` is a nested dictionary, the result will be a flattened list.
+
+    :param use_keys: If i is a dictionary, use the keys instead of values
+    :returns: All items in i as list
     '''
 
     from .system import shell_notify

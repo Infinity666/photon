@@ -1,10 +1,4 @@
 '''
-.. glossary::
-
-    location
-        Most functions here do not treat files and folders different.
-        This is why we use the expression `location`.
-
 .. |params_locations_dict| replace:: If `locations` is not a list, but a dictionary, all values in the dictionary will be used (as specified in :func:`util.structures.to_list`)
 .. |param_locations_none| replace:: If `locations` is set to ``None`` (by default), it will be filled with the output of :func:`get_locations`.
 '''
@@ -15,13 +9,10 @@ def get_locations():
     '''
     Compiles default locations
 
-    :returns: A dictionary with folders as values.
-
-    The keys are as following:
+    :returns: A dictionary with folders as values:
 
     * 'home_dir': Your home-directory (``~``)
     * 'call_dir': Where you called the first Python script from. (``argv[0]``)
-        * Mostly used to locate the configuration within the same folder.
     * 'conf_dir': The `XDG_CONFIG_HOME`-directory + ``photon`` (``~/.config/photon``)
     * 'data_dir': The `XDG_DATA_HOME`-directory + ``photon`` (``~/.local/share/photon``)
     * 'backup_dir': The `data_dir` + ``backups``

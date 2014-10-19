@@ -23,17 +23,13 @@ class Ping(object):
     @property
     def probe(self):
         '''
-        Sends `num` pings through `net_if`
-
         :param hosts: One or a list of hosts (URLs, IP-addresses)
-        :returns: A dictionary with all hosts probed as keys
+        :returns: A dictionary with all hosts probed as keys specified as following:
 
-        The values are specified as following:
-
-            * 'up': ``True`` or ``False`` depending if ping was successful
-            * 'loss': The packet loss as list (if 'up')
-            * 'ms': A list of times each packet sent (if 'up')
-            * 'rtt': A dictionary with the fields *avg*, *min*, *max* & *stddev* (if 'up')
+        * 'up': ``True`` or ``False`` depending if ping was successful
+        * 'loss': The packet loss as list (if 'up')
+        * 'ms': A list of times each packet sent (if 'up')
+        * 'rtt': A dictionary with the fields *avg*, *min*, *max* & *stddev* (if 'up')
         '''
 
         return self.__p
@@ -73,19 +69,18 @@ class Ping(object):
     @property
     def status(self):
         '''
-        Calculates a ratio between all up and down hosts.
+        :returns: A dictionary with the following:
 
-        :returns: A dictionary (see below)
+        * 'num': Total number of hosts already probed
+        * 'up': Number of hosts up
+        * 'down': Number of hosts down
+        * 'ratio': Ratio between 'up'/'down' as float
 
-        The result is specified as following:
+        Ratio:
 
-            * 'num': Total number of hosts already probed
-            * 'up': Number of hosts up
-            * 'down': Number of hosts down
-            * 'ratio': Ratio between 'up'/'down' as float
-                * ``100%`` up == `1.0`
-                * ``10%`` up == `0.1`
-                * ``0%`` up == `0.0`
+        * ``100%`` up == `1.0`
+        * ``10%`` up == `0.1`
+        * ``0%`` up == `0.0`
         '''
 
 

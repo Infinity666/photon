@@ -8,15 +8,11 @@ class Git(object):
     The git tools help to deal with git repositories.
 
     :param local: |param_local|
+
+        * If ``None`` given (default), it will be ignored if there is already a git repo at `local`
+        * If no git repo is found at `local`, a new one gets cloned from `remote_url`
+
     :param remote_url: |param_remote_url|
-
-    .. glossary::
-
-        remote_url
-            If ``None`` given (default), it will be ignored if there is already a git repo at `local`
-
-            If no git repo is found at `local`, a new one gets cloned from `remote_url`
-
     '''
 
     def __init__(self, local, m, remote_url=None):

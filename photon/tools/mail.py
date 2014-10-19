@@ -3,8 +3,11 @@ class Mail(object):
     '''
     The Mail tool helps to send out mails.
 
-    :param to: Where to ('user@example.com')
-    :param sender: Yourself ('me@example.com' - you should have set ``example.com`` as reverse dns not to get caught up in spamfilters)
+    :param to: Where to send the mail ('user@example.com')
+    :param sender: Yourself ('me@example.com')
+
+        * you should have set ``example.com`` as reverse dns not to get caught up in spamfilters
+
     :param subject: The subject line
     :param cc: One or a list of CCs
     :param bcc: One or a list of BCCs
