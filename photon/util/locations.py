@@ -1,7 +1,36 @@
+'''
+.. glossary::
+
+    location
+        Most functions do not treat files and folders different.
+        This is why we use the expression `location` here.
+
+.. |params_locations_dict| replace:: If `locations` is not a list, but a dictionary, all values in the dictionary will be used (as specified in :meth:`util.structures.to_list`)
+.. |param_locations_none| replace:: If `locations` is set to ``None`` (by default), it will be filled with the output of :meth:`get_locations`.
+'''
 
 from os import path as _path
 
 def get_locations():
+    '''
+    Compiles default locations
+
+    :returns: A dictionary with folders as values.
+
+    The keys are as following:
+
+    * `home_dir`: Your home-directory (``~``)
+    * `call_dir`: Where you called the first Python script from. (``argv[0]``)
+        * Mostly used to locate the configuration within the same folder.
+    * `conf_dir`: The `XDG_CONFIG_HOME`-directory + ``photon`` (``~/.config/photon``)
+    * `data_dir`: The `XDG_DATA_HOME`-directory + ``photon`` (``~/.local/share/photon``)
+    * `backup_dir`: The `data_dir` + ``backups``
+
+    .. note::
+        Both :meth:`search_location` and :meth:`make_locations` have the argument `locations`.
+
+        |param_locations_none|
+    '''
 
     from os import environ as _environ
     from sys import argv as _argv
@@ -20,6 +49,18 @@ def get_locations():
     }
 
 def make_locations(locations=None, verbose=True):
+    '''
+    Creates folders
+
+    :param locations: A list of folders to create (can be a dictionary, see note below)
+    :param verbose: Warn if any folders were created
+
+    .. note::
+
+        |params_locations_dict|
+
+        |param_locations_none|
+    '''
 
     from os import makedirs as _makedirs
     from .system import shell_notify
@@ -37,6 +78,21 @@ def make_locations(locations=None, verbose=True):
     return r
 
 def search_location(loc, locations=None, critical=False, create_in=None, verbose=True):
+    '''
+    Locates files
+
+    :param loc: Filename to search
+    :param locations: A list of possible locations to search within (can be a dictionary, see note below)
+    :param critical: Exit whole script if file was not found (see `state`-parameter in :meth:`util.system.shell_notify`)
+    :param create_in: If `loc` was not found, the folder `create_in` is created. If `locations` is a dictionary, `create_in` can also specify a key of `locations`. The value will be used then.
+    :param verbose: Pass verbose flag to :meth:`make_locations`
+
+    .. note::
+
+        |params_locations_dict|
+
+        |param_locations_none|
+    '''
 
     from .system import shell_notify
     from .structures import to_list
@@ -57,13 +113,14 @@ def search_location(loc, locations=None, critical=False, create_in=None, verbose
 
 def change_location(src, tgt, move=False, verbose=True):
     '''
-        :param src: source location where to copy/move from
-        :param tgt: target location where to copy/move to
-        :param move: deletes original after copy
-        :param verbose: show warnings
+    Copies/moves/deletes locations
 
-        .. note:: set `tgt` explicit to ``None`` and `move` to ``True`` to delete locations
+    :param src: source location where to copy from
+    :param tgt: target location where to copy to
+    :param move: deletes original after copy (a.k.a. move)
+    :param verbose: show warnings
 
+    .. note:: set `tgt` explicit to ``None`` and `move` to ``True`` to delete locations. (be careful!!1!)
     '''
 
     from os import path as _path, listdir as _listdir, remove as _remove
