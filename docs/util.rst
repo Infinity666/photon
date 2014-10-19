@@ -81,4 +81,4 @@ You can also directly compare against not equal zero, and use ``r.get('out')`` f
     else:
         print('here is your log: %s' %(r.get('stdout')))
 
-.. seealso:: :func:`util.system.shell_run`
+.. seealso:: :func:`util.system.shell_run` and |allexamples|
