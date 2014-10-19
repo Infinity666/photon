@@ -35,10 +35,16 @@ Example Settings File
 
 .. rubric:: config.sample.yaml
 
-.. literalinclude:: ../config.sample.yaml
+.. literalinclude:: ../examples/config.sample.yaml
     :linenos:
     :language: yaml
 
+.. seealso:: The `wikipedia page on YAML <http://en.wikipedia.org/wiki/YAML>`_ for some syntax reference.
+
+.. seealso::
+
+    * `!loc_join`: :meth:`util.structures.yaml_loc_join` (get system locations and join paths)
+    * `!str_join`: :meth:`util.structures.yaml_str_join` (join strings)
 
 .. seealso:: |allexamples|
 

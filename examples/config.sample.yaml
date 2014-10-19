@@ -1,0 +1,97 @@
+
+# The syntax of the settings files is YAML:
+
+01_syntax:
+    dictionary: 'value is a string'
+    dictionary_with_list: ['value', 'is', 'a', 'list']
+    dictionary_with_list2:
+    - this
+    - is
+    - another
+    - list
+
+
+# ----
+
+# YAML supports backreferences by anchors.
+
+# First yo have define a dictionary value as anchor:
+02_anchor:
+    prefix: &MY_PRFX 'Photon is a software that '
+
+# Then use them together with !str_join:
+    poll:
+        yay: !str_join [*MY_PRFX, 'realy helps me']
+        nay: !str_join [*MY_PRFX, 'sucks']
+
+
+# This turns into:
+#     yay: Photon is a software that really helps me
+#     nay: Photon is a software that sucks
+# (The anchor ('&'-sign) must appear before the Reference ('*'-sign) in the YAML-file.
+# (Note the whitespace.)
+
+
+# ----
+
+# !str_join can listen to the keywords - 'hostname' & 'timestamp':
+
+03_keywords:
+    message:
+    - !str_join ['my machine "', 'hostname', '" is the best']
+    - !str_join ['yours, herbert. date: ', 'timestamp']
+
+
+# This turns into:
+#     message:
+#     - my machine "blechschachtel" is the best
+#     - 'yours, herbert. date: YYYY.MM.DD-HH.MM.SS'
+# (with current date expanded)
+
+
+# ----
+
+# Use !loc_join to combine files and paths:
+
+04_locations:
+    simple_file: !loc_join ['/', 'usr', 'local', 'bin', 'myscript.sh']
+    same_simple_file: !loc_join ['/usr/local/bin', 'myscript.sh']
+# This turns into:
+#    simple_file: /usr/local/bin/myscript.sh
+#    same_simple_file: /usr/local/bin/myscript.sh
+
+# But be careful with leading '/'-signs:
+    not_the_simple_file: !loc_join ['/usr/local', '/bin', 'myscript.sh']
+# This turns into not what we wanted:
+#     not_the_simple_file: /bin/myscript.sh
+
+
+# It can also listen to keywords:
+    in_the_home_dir: !loc_join ['home_dir', 'my_directory']
+#     in_the_home_dir: /home/herbert/my_directory
+
+
+# ----
+
+# Combine them alltogether:
+
+05_combined:
+    name: &MY_ASS my_awesome_server_software
+
+    main: &OH_MY !loc_join ['home_dir', *MY_ASS, 'main']
+
+    main_run: !loc_join [*OH_MY, 'run.py']
+
+    backup_dir: !loc_join ['data_dir', *MY_ASS, !str_join ['backup-', 'timestamp']]
+
+    git-remote: !str_join
+    - 'https://github.com/user404/'
+    - *MY_ASS
+    - .git
+
+# This turns into:
+#     name: my_awesome_server_software
+#     main: /home/herbert/my_awesome_server_software/main
+#     main_exec: /home/herbert/my_awesome_server_software/main/run.py
+#     backup_dir: /home/herbert/.local/share/photon/my_awesome_server_software/backup-YYYY.MM.DD-HH.MM.SS
+#     git-remote: https://github.com/user404/my_awesome_server_software.git
