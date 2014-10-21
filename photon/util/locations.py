@@ -74,7 +74,7 @@ def search_location(loc, locations=None, critical=False, create_in=None, verbose
 
     :param loc: Filename to search
     :param locations: A list of possible locations to search within (can be a dictionary, see note below)
-    :param critical: Exit whole script if file was not found (see `state`-parameter in :func:`util.system.shell_notify`)
+    :param critical: |appteardown| if file was not found
     :param create_in: If `loc` was not found, the folder `create_in` is created. If `locations` is a dictionary, `create_in` can also specify a key of `locations`. The value will be used then.
     :param verbose: Pass verbose flag to :func:`make_locations`
 

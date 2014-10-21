@@ -13,6 +13,9 @@ class Git(object):
         * If no git repo is found at `local`, a new one gets cloned from `remote_url`
 
     :param remote_url: |param_remote_url|
+
+        * |appteardown| if `remote_url` is set to ``None`` but a new clone is necessary
+
     '''
 
     def __init__(self, local, m, remote_url=None):
@@ -166,6 +169,8 @@ class Git(object):
         Commits all local changes (if any) into a working branch, merges it with 'master'.
 
         Checks out your old branch afterwards.
+
+        |appteardown| if conflicts are discovered
         '''
 
         from photon import IDENT

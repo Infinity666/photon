@@ -1,25 +1,30 @@
+'''
+.. |use_photon_m| replace:: This method is just a helper method within photon. If you need this functionality use :func:`photon.Photon.m` instead
+'''
 
 def shell_notify(msg, state=False, more=None, exitcode=None, verbose=True):
     '''
     A pretty long wrapper for a :py:func:`print` function. But this :py:func:`print` is the only one in Photon.
+
+    .. note:: |use_photon_m|
 
     :param msg: The message to show
     :param state: The message will be prefixed with [`state`]
 
         * If ``False`` (default): Prefixed with ~
         * If ``None``: Prefixed with [WARNING]
-        * If ``True``: Prefixed with [FATAL] and the exitcode will be set, so the application will tear down afterwards
+        * If ``True``: Prefixed with [FATAL] and the exitcode will be set (see below)
 
     :param more: Something to add to the message (see below)
 
         * Anything you have. Just for further information.
         * Will be displayed after the message, pretty printed using :py:func:`pprint.pformat`
 
-    :param exitcode: Exit the application with given code after printing
+    :param exitcode: |appteardown| with given code
     :param verbose: Show message or not (see below)
 
         * If set to ``False``, you can use :func:`shell_notify` for the dictionary it returns.
-        * Will be overwritten if `exitcode` is set.
+        * Will be overruled if `exitcode` is set.
 
     :returns: A dictionary containing untouched `msg`, `more` and `verbose`
     '''
@@ -43,6 +48,8 @@ def shell_run(cmd, cin=None, cwd=None, timeout=10, critical=True, verbose=True):
     '''
     Runs a shell command within a controlled environment.
 
+    .. note:: |use_photon_m|
+
     :param cmd: The command to run
 
         * A string one would type into a console like ``git push -u origin master``.
@@ -52,7 +59,7 @@ def shell_run(cmd, cin=None, cwd=None, timeout=10, critical=True, verbose=True):
     :param cin: Add something to stdin of `cmd`
     :param cwd: Run `cmd` insde specified current working directory
     :param timeout: Catch infinite loops (e.g. ``ping``). Exit after `timeout` seconds
-    :param critical: If set to ``True``, tears down whole application on failure of `cmd`
+    :param critical: If set to ``True``: |appteardown| on failure of `cmd`
     :param verbose: Show messages and warnings
     :returns: A dictionary containing the results from running `cmd` with the following:
 
@@ -129,7 +136,7 @@ def get_hostname():
     '''
     Determines the current hostname by probing  ``uname -n``. Falls back to ``hostname`` in case of problems.
 
-    Tears down whole application if both failed (usually they don't but consider this if you are debugging weird problems..)
+    |appteardown| if both failed (usually they don't but consider this if you are debugging weird problems..)
 
     :returns: The hostname as string. Domain parts will be split off
     '''
