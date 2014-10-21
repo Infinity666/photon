@@ -72,8 +72,6 @@ def shell_run(cmd, cin=None, cwd=None, timeout=10, critical=True, verbose=True):
             * 'stderr': List from stderr (If any)
             * 'returncode': The returncode (If not any exception)
             * 'out': The most urgent message as joined string. ('exception' > 'stderr' > 'stdout')
-
-    .. seealso:: :ref:`util_system_shell_run_example`
     '''
 
     from shlex import split as _split
