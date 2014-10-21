@@ -15,7 +15,7 @@ def pkg_name():
 def version():
     '''
     :returns: Current version string
-    :current: |version|
+    :current: |version| (Release: |release|)
     '''
     return '0.2'
 
@@ -24,7 +24,7 @@ def release():
     :returns: Current release string
     :current: |release|
     '''
-    return version() + 'c0'
+    return version() + ''
 
 def url():
     '''

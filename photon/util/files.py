@@ -5,6 +5,11 @@ def read_file(filename):
 
     :param filename: The full path of the file to read
     :returns: The content of the file as string (if `filename` exists)
+
+
+    .. note:: If `filename`'s content is empty, ``None`` will also returned.
+
+        To check if a file really exists use :func:`util.locations.search_location`
     '''
     from os import path as _path
 
