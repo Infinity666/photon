@@ -18,7 +18,7 @@ class Git(object):
 
     '''
 
-    def __init__(self, local, m, remote_url=None):
+    def __init__(self, m, local, remote_url=None):
         super().__init__()
 
         from ..util.locations import search_location

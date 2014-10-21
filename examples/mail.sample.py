@@ -5,7 +5,7 @@ p = Photon(config='mail.sample.yaml')
 
 s = p.settings.get['mail']
 
-mail = p.new_mail(
+mail = p.mail_handler(
     s['recipient'],
     sender=s['sender'],
     subject=s['subject'],

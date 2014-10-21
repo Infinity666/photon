@@ -6,7 +6,7 @@ p = Photon(config='ping.sample.yaml')
 
 s = p.settings.get['hosts']
 
-ping = p.new_ping()
+ping = p.ping_handler()
 
 
 ###

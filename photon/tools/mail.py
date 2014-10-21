@@ -14,7 +14,7 @@ class Mail(object):
     '''
 
 
-    def __init__(self, to, sender, m, subject=None, cc=None, bcc=None):
+    def __init__(self, m, to, sender, subject=None, cc=None, bcc=None):
         super().__init__()
 
         from itertools import chain as _chain
