@@ -1,5 +1,31 @@
 
 class Settings(object):
+    '''
+    :param config: The initial configuration to load. |filelocate|
+
+        * The common way is to use a short-filename to locate it next to the script using Photon.
+        * Can also be a full path.
+        * Bring your own initial config!  |appteardown| if not found.
+        * Can also passed directly as a dict
+    :param summary: Where to store the loaded output from the config. |filelocate|
+
+        * File must already exist, will be created in 'conf_dir' from :func:`util.locations.get_locations` otherwise
+
+            * so only use a short name if it is intended to be created
+
+        .. note:: The last loaded file wins
+
+            * The summary is intended to provide a editable config-file for the end-user
+            * If a values differs from the values in `config`, the value in `summary` wins
+            * Other values which not exist in `summary` will be set from `config`
+
+                * If the end-user wants to completely reset the config to the shipped one he should do::
+
+                    echo > the_summary.yaml
+
+
+        * Can be skipped by explicitly setting it to ``None``
+    '''
 
     def __init__(self, config='config.yaml', summary='summary.yaml', verbose=True):
 
@@ -28,6 +54,19 @@ class Settings(object):
                 shell_notify('settings summary written', more=summary, verbose=verbose)
 
     def load(self, skey, sdesc, sdict=None, loaders=None, merge=False, writeback=False):
+        '''
+        Loads a dictionary into current settings
+
+        :param skey: Type of data to load. Is be used to reference the data in the files sections within settings
+        :param sdesc: Either filename of yaml-file to load or further description of imported data when `sdict` is used
+        :param dict sdict: Directly pass data as dictionary instead of loading it from a yaml-file. Make sure to set `skey` and `sdesc` accordingly
+        :param list loaders: Append custom loaders to the YAML-loader.
+        :param merge: Merge received data into current settings or place it under `skey` within meta
+        :param writeback: Write back loaded (and merged/imported) result back to the original file. This is used to generate the summary files
+        :returns: The loaded (or directly passed) content
+
+        .. seealso:: :func:`util.structures.yaml_str_join` and :func:`util.structures.yaml_loc_join`
+        '''
 
         from .util.files import read_yaml, write_yaml
         from .util.structures import dict_merge
@@ -48,5 +87,8 @@ class Settings(object):
 
     @property
     def get(self):
+        '''
+        :returns: Current settings
+        '''
 
         return self._s

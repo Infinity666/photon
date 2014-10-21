@@ -14,5 +14,7 @@
 
 .. |appteardown| replace:: Tears down (using :func:`util.system.shell_notify` with `state` set to ``True``) whole application
 
+.. |filelocate| replace:: Will be located using :func:`util.locations.search_location`
+
 .. links
 

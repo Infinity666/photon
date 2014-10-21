@@ -66,7 +66,7 @@ class Photon(object):
         :param msg: Add a message. Shown depending on `verbose` (see below)
         :param state: Pass `state` down to :func:`util.system.shell_notify`
         :param more: Pass `more` down to :func:`util.system.shell_notify`
-        :param cmdd: A dictionary. :func:`util.system.shell_run` is launched with it's values
+        :param dict cmdd: If given, :func:`util.system.shell_run` is launched with it's values
         :param critical: If set to ``True``: |appteardown| on failure of `cmdd` contents.
 
             * Similar to :func:`util.system.shell_run` `critical`-flag
