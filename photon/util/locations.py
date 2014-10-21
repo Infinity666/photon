@@ -18,9 +18,9 @@ def get_locations():
     * 'backup_dir': The `data_dir` + ``backups``
 
     .. note::
-        Both :func:`search_location` and :func:`make_locations` have the argument `locations`.
 
-        |param_locations_none|
+        * Both :func:`search_location` and :func:`make_locations` have the argument `locations`.
+        * |param_locations_none|
     '''
 
     from os import environ as _environ
@@ -48,9 +48,8 @@ def make_locations(locations=None, verbose=True):
 
     .. note::
 
-        |params_locations_dict|
-
-        |param_locations_none|
+        * |params_locations_dict|
+        * |param_locations_none|
     '''
 
     from os import makedirs as _makedirs
@@ -70,19 +69,23 @@ def make_locations(locations=None, verbose=True):
 
 def search_location(loc, locations=None, critical=False, create_in=None, verbose=True):
     '''
-    Locates files
+    Locates files with a twist:
+
+        * Check the existence of a file using the full path in `loc`
+        * Search for the filename `loc` in `locations`
+        * Create it's enclosing folders it the file does not exist. use `create_in`
 
     :param loc: Filename to search
     :param locations: A list of possible locations to search within (can be a dictionary, see note below)
     :param critical: |appteardown| if file was not found
     :param create_in: If `loc` was not found, the folder `create_in` is created. If `locations` is a dictionary, `create_in` can also specify a key of `locations`. The value will be used then.
     :param verbose: Pass verbose flag to :func:`make_locations`
+    :returns: The full path of `loc` in matched location
 
     .. note::
 
-        |params_locations_dict|
-
-        |param_locations_none|
+        * |params_locations_dict|
+        * |param_locations_none|
     '''
 
     from .system import shell_notify

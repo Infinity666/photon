@@ -1,6 +1,20 @@
+'''
+.. |yaml_loaders| replace:: :func:`util.structures.yaml_str_join` and :func:`util.structures.yaml_loc_join`
+'''
 
 class Settings(object):
     '''
+    Settings is a class which provides access to compiled settings loaded from YAML-files.
+
+    The YAML-files will be read with specific loaders which enables certain logic within the configuration. It is possible to:
+
+        * Insert references to existing fields via anchors and ``!str_join`` or ``!loc_join``
+        * Insert keywords like **hostname** or **timestamp** using ``!str_join``
+        * Combine path-segments using ``!loc_join``
+        * Insert keywords like **home_dir** or **backup_dir** using ``!loc_join``
+
+    It is also possible to import or merge further content.
+
     :param config: The initial configuration to load. |filelocate|
 
         * The common way is to use a short-filename to locate it next to the script using Photon.
@@ -19,12 +33,14 @@ class Settings(object):
             * If a values differs from the values in `config`, the value in `summary` wins
             * Other values which not exist in `summary` will be set from `config`
 
-                * If the end-user wants to completely reset the config to the shipped one he should do::
-
-                    echo > the_summary.yaml
-
+                * If a value contains a loader call which expresses the same
+                * If the end-user wants to completely reset the config to the shipped one he simply delete all lines within
 
         * Can be skipped by explicitly setting it to ``None``
+
+    :param verbose: Sets the `verbose` flag for the underlying :ref:`util` functions
+
+    .. seealso:: |yaml_loaders| as well as the :ref:`settings_file_example`
     '''
 
     def __init__(self, config='config.yaml', summary='summary.yaml', verbose=True):
@@ -65,7 +81,7 @@ class Settings(object):
         :param writeback: Write back loaded (and merged/imported) result back to the original file. This is used to generate the summary files
         :returns: The loaded (or directly passed) content
 
-        .. seealso:: :func:`util.structures.yaml_str_join` and :func:`util.structures.yaml_loc_join`
+        .. seealso:: |yaml_loaders|
         '''
 
         from .util.files import read_yaml, write_yaml

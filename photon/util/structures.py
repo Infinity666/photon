@@ -1,6 +1,6 @@
 '''
 .. |yaml_loader_returns| replace:: with keywords extended. Used in :func:`settings.Settings.load`
-.. |yaml_loader_seealso| replace:: The yaml files mentioned in: |allexamples|
+.. |yaml_loader_seealso| replace:: The YAML files mentioned in |allexamples|
 '''
 
 def yaml_str_join(l, n):

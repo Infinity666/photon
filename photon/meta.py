@@ -1,5 +1,13 @@
 
 class Meta(object):
+    '''
+    Meta is a class which bounds to an actual json-file on disk. It provides a logger storing the entries in that json-file.
+
+    It is also possible to import contents. By staging out to a different directory meta-files are left behind for further debugging or to see what was going on.
+
+    :param meta: Initial, clean meta file to use. See :meth:`stage` for more
+    :param verbose: Sets the `verbose` flag for the underlying :ref:`util` functions
+    '''
     def __init__(self, meta='meta.json', verbose=True):
 
         super().__init__()
@@ -21,6 +29,19 @@ class Meta(object):
         self.stage(meta, clean=True)
 
     def stage(self, s, clean=False):
+        '''
+        Switch stage
+
+        :param s: Filename of new meta file. |filelocate|
+
+            * File must not already exist, will be created in 'data_dir' from :func:`util.locations.get_locations`
+            * Can also be a full path to place it anywhere desired
+
+        :param clean: What to do with preexisting meta files?
+
+            * ``False``: Merge current meta with preexisting one
+            * ``True``: Replace preexisting meta with current one
+        '''
 
         from .util.locations import search_location
         from .util.system import shell_notify
@@ -36,6 +57,15 @@ class Meta(object):
         )
 
     def load(self, mkey, mdesc, mdict=None, merge=False):
+        '''
+        Loads a dictionary into current meta
+
+        :param mkey: Type of data to load. Is be used to reference the data from the 'header' within meta
+        :param mdesc: Either filename of json-file to load or further description of imported data when `mdict` is used
+        :param dict mdict: Directly pass data as dictionary instead of loading it from a json-file. Make sure to set `mkey` and `mdesc` accordingly
+        :param merge: Merge received data into current meta or place it under 'import' within meta
+        :returns: The loaded (or directly passed) content
+        '''
 
         from .util.files import read_json
         from .util.structures import dict_merge
@@ -55,11 +85,22 @@ class Meta(object):
 
     @property
     def log(self):
+        '''
+        :param elem: Add a new log entry to the meta.
+
+            * Can be anything.
+            * The log is a dictionary with keys generated from the output of :func:`util.system.get_timestamp` and `elem` as value
+
+        :returns: Current meta
+        '''
 
         return self._m
 
     @log.setter
     def log(self, elem):
+        '''
+        .. seealso:: :attr:`log`
+        '''
 
         from .util.files import read_json, write_json
         from .util.system import get_timestamp
