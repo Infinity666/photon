@@ -52,7 +52,7 @@ def shell_run(cmd, cin=None, cwd=None, timeout=10, critical=True, verbose=True):
 
     :param cmd: The command to run
 
-        * A string one would type into a console like ``git push -u origin master``.
+        * A string one would type into a console like :command:`git push -u origin master`.
         * Will be split using :py:func:`shlex.split`.
         * It is possible to use a list here, but then no splitting is done.
 

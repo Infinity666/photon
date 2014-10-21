@@ -11,10 +11,10 @@ def get_locations():
 
     :returns: A dictionary with folders as values:
 
-    * 'home_dir': Your home-directory (``~``)
+    * 'home_dir': Your home-directory (:file:`~`)
     * 'call_dir': Where you called the first Python script from. (``argv[0]``)
-    * 'conf_dir': The `XDG_CONFIG_HOME`-directory + ``photon`` (``~/.config/photon``)
-    * 'data_dir': The `XDG_DATA_HOME`-directory + ``photon`` (``~/.local/share/photon``)
+    * 'conf_dir': The :envvar:`XDG_CONFIG_HOME`-directory + ``photon`` (:file:`~/.config/photon`)
+    * 'data_dir': The :envvar:`XDG_DATA_HOME`-directory + ``photon`` (:file:`~/.local/share/photon`)
     * 'backup_dir': The `data_dir` + ``backups``
 
     .. note::
