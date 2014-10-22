@@ -16,9 +16,11 @@ class Git(object):
 
         * |appteardown| if `remote_url` is set to ``None`` but a new clone is necessary
 
+    :param mbranch: The repository's main branch. Is set to `master` when left to ``None``
+
     '''
 
-    def __init__(self, m, local, remote_url=None):
+    def __init__(self, m, local, remote_url=None, mbranch=None):
         super().__init__()
 
         from ..util.locations import search_location
@@ -27,6 +29,8 @@ class Git(object):
         self.m = check_m(m)
         self.__local = search_location(local, create_in=local)
         self.__remote_url = remote_url
+        if not mbranch: mbranch = 'master'
+        self.__mbranch = mbranch
 
         if self.m(
             'checking for git repo',
@@ -133,10 +137,9 @@ class Git(object):
         .. seealso:: :attr:`branch`
         '''
 
-
-        if not branch: branch = 'master'
-        tracking = '' if branch in self._get_branch(remotes=True).get('out') else '-B '
-        self._checkout(treeish='%s%s' %(tracking, branch))
+        if not branch: branch = self.__mbranch
+        tracking = '' if branch in self._get_branch(remotes=True).get('out') else '-B'
+        self._checkout(treeish='%s %s' %(tracking, branch))
 
     @property
     def tag(self):
