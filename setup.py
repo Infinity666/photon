@@ -26,7 +26,7 @@ setup(
     platforms='posix',
     scripts=['photon_settings_shell.py'],
     provides=[pkg_name()],
-    requires=['PyYAML (>=3.11)'],
+    install_requires=['PyYAML>=3.11'],
     classifiers=[
         'Development Status :: 2 - Pre-Alpha',
         'Environment :: Console',
