@@ -24,7 +24,7 @@ setup(
     include_package_data=True,
     zip_safe=False,
     platforms='posix',
-    scripts=['photon_settings_shell.py'],
+    scripts=['photon-settings-tool.py'],
     provides=[pkg_name()],
     install_requires=['PyYAML>=3.11'],
     classifiers=[

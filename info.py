@@ -17,14 +17,14 @@ def version():
     :returns: Current version string
     :current: |version| (Release: |release|)
     '''
-    return '0.2'
+    return '0.3'
 
 def release():
     '''
     :returns: Current release string
     :current: |release|
     '''
-    return version() + '-a0'
+    return version() + 'a0'
 
 def url():
     '''
