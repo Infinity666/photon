@@ -14,11 +14,13 @@ class Ping(object):
         from ..photon import check_m
 
         self.m = check_m(m)
+        self.__six = six
         self.__net_if = net_if
         if num < 1: num = 1
         self.__num = num
-        self.__six = six
         self.__p = dict()
+
+        self.m('ping tool startup done', more=dict(six=self.__six, net_if=self.__net_if, num=self.__num), verbose=False)
 
     @property
     def probe(self):

@@ -8,7 +8,7 @@
 
 .. |allutil| replace:: :ref:`util_files`, :ref:`util_locations`, :ref:`util_structures`, :ref:`util_system`
 
-.. |alltools| replace:: :ref:`tools_git`, :ref:`tools_mail`, :ref:`tools_ping`
+.. |alltools| replace:: :ref:`tools_git`, :ref:`tools_mail`, :ref:`tools_ping`, :ref:`tools_signal`
 
 .. |allexamples| replace:: :ref:`settings_file_example`, :ref:`tools_mail_example`, :ref:`tools_ping_example`
 

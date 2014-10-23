@@ -85,3 +85,14 @@ Ping Tool Example
     :language: python3
 
 .. seealso:: |allexamples|
+
+.. _tools_signal:
+
+Signal Tool
+-----------
+
+.. automodule:: tools.signal
+    :members:
+    :undoc-members:
+    :private-members:
+

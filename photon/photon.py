@@ -152,6 +152,16 @@ class Photon(object):
 
         return Ping(self.m, *args, **kwargs)
 
+    def signal_handler(self, *args, **kwargs):
+        '''
+        :returns: A new signal handler
+
+        .. seealso:: :ref:`tools_signal`
+        '''
+
+        from .tools.signal import Signal
+
+        return Signal(self.m, *args, **kwargs)
 
 def check_m(pm):
     '''
