@@ -49,10 +49,9 @@ def main(config, setting, summary=None, verbose=True):
     return res
 
 if __name__ == '__main__':
+    from os import sep, path
     a = args()
 
-    if a.summary:
-        from os import path
-        a.summary = path.abspath(path.expanduser(a.summary))
+    if a.summary and sep in a.summary: a.summary = path.abspath(path.expanduser(a.summary))
 
     fmt(main(config=a.config, setting=a.setting, summary=a.summary, verbose=a.verbose), a.formatter)
