@@ -1,7 +1,7 @@
 
 from photon import Photon
 
-p = Photon(config='mail.sample.yaml')
+p = Photon(defaults='mail.sample.yaml')
 
 s = p.settings.get['mail']
 

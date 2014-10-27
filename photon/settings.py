@@ -15,26 +15,27 @@ class Settings(object):
 
     It is also possible to import or merge further content.
 
-    :param config: The initial configuration to load. |filelocate|
+    :param defaults: The initial configuration to load. |filelocate|
 
         * The common way is to use a short-filename to locate it next to the script using Photon.
         * Can also be a full path.
-        * Bring your own initial config!  |appteardown| if not found.
         * Can also passed directly as a dict
-    :param summary: Where to store the loaded output from the config. |filelocate|
+        * Bring your own defaults!  |appteardown| if not found or none passed
+
+    :param config: Where to store the loaded output from the `defaults`. |filelocate|
 
         * File must already exist, will be created in 'conf_dir' from :func:`util.locations.get_locations` otherwise
 
-            * so only use a short name if it is intended to be created
+            * Therefore use a short name (or full path) if one should be created
 
         .. note:: The last loaded file wins
 
-            * The summary is intended to provide a editable config-file for the end-user
-            * If a values differs from the values in `config`, the value in `summary` wins
-            * Other values which not exist in `summary` will be set from `config`
+            * The config is intended to provide a editable file for the end-user
+            * If a value differs from the original values in `defaults`, the value in `config` wins
+            * Other values which not exist in `config` will be set from `defaults`
 
                 * If a value contains a loader call which expresses the same
-                * If the end-user wants to completely reset the config to the shipped one he simply delete all lines within
+                * Simply delete all lines within the config to completely reset it to the defaults
 
         * Can be skipped by explicitly setting it to ``None``
 
@@ -43,7 +44,7 @@ class Settings(object):
     .. seealso:: |yaml_loaders| as well as the :ref:`settings_file_example`
     '''
 
-    def __init__(self, config='config.yaml', summary='summary.yaml', verbose=True):
+    def __init__(self, defaults='defaults.yaml', config='config.yaml', verbose=True):
 
         super().__init__()
 
@@ -59,15 +60,15 @@ class Settings(object):
 
         loaders = [('!str_join', yaml_str_join,), ('!loc_join', yaml_loc_join,)]
 
-        config, sdict = ('startup import', config) if isinstance(config, dict) else (search_location(config), None)
+        defaults, sdict = ('startup import', defaults) if isinstance(defaults, dict) else (search_location(defaults), None)
 
-        if not self.load('config', config, sdict=sdict, loaders=loaders, merge=True):
-            shell_notify('could not load config', state=True, more=dict(config=config, sdict=sdict))
+        if not self.load('defaults', defaults, sdict=sdict, loaders=loaders, merge=True):
+            shell_notify('could not load defaults', state=True, more=dict(defaults=defaults, sdict=sdict))
 
-        if summary:
-            summary = search_location(summary, create_in='conf_dir')
-            if self._s != self.load('summary', summary, loaders=loaders, merge=True, writeback=True):
-                shell_notify('settings summary written', more=summary, verbose=verbose)
+        if config:
+            config = search_location(config, create_in='conf_dir')
+            if self._s != self.load('config', config, loaders=loaders, merge=True, writeback=True):
+                shell_notify('settings config written', more=config, verbose=verbose)
 
     def load(self, skey, sdesc, sdict=None, loaders=None, merge=False, writeback=False):
         '''

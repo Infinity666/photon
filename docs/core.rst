@@ -32,9 +32,9 @@ Settings
 Example Settings File
 ^^^^^^^^^^^^^^^^^^^^^
 
-.. rubric:: config.sample.yaml
+.. rubric:: defaults.sample.yaml
 
-.. literalinclude:: ../examples/config.sample.yaml
+.. literalinclude:: ../examples/defaults.sample.yaml
     :linenos:
     :language: yaml
 

@@ -2,7 +2,7 @@
 from pprint import pprint
 from photon import Photon
 
-p = Photon(config='ping.sample.yaml')
+p = Photon(defaults='ping.sample.yaml')
 
 s = p.settings.get['hosts']
 

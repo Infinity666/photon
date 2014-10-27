@@ -12,11 +12,11 @@ class Photon(object):
     Further, Photon provides direct handlers for :class:`settings.Settings` and :class:`meta.Meta`
     and a handler for each tool from :ref:`tools` by it's methods.
 
+    :param defaults: Pass `defaults` down to :class:`settings.Settings`
     :param config: Pass `config` down to :class:`settings.Settings`
-    :param summary: Pass `summary` down to :class:`settings.Settings`
     :param meta: Pass `meta` down to :class:`meta.Meta`
     :param verbose: Sets the global `verbose` flag. Passes it down to the underlying :ref:`util` functions and :ref:`core`
-    :var settings: The settings handler initialized with `config` and `summary`
+    :var settings: The settings handler initialized with `defaults` and `config`
     :var meta: The meta handler initialized with `meta`
 
     Photon registers two exit functions:
@@ -25,14 +25,14 @@ class Photon(object):
         * Another one to add a final log entry (to save the meta-file).
     '''
 
-    def __init__(self, config='config.yaml', summary='summary.yaml', meta='meta.json', verbose=True):
+    def __init__(self, defaults='defaults.yaml', config='config.yaml', meta='meta.json', verbose=True):
         super().__init__()
 
         from atexit import register as _register
         from photon import Settings, Meta, IDENT
         from .util.system import shell_notify
 
-        self.settings = Settings(config=config, summary=summary, verbose=verbose)
+        self.settings = Settings(defaults=defaults, config=config, verbose=verbose)
         self.meta = Meta(meta=meta, verbose=verbose)
         self.__verbose = verbose
 
@@ -50,7 +50,7 @@ class Photon(object):
 
         self.meta.log = shell_notify(
             '%s startup done' %(IDENT),
-            more=dict(config=config, summary=summary, meta=meta, verbose=verbose),
+            more=dict(defaults=defaults, config=config, meta=meta, verbose=verbose),
             verbose=False
         )
 
