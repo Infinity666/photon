@@ -122,11 +122,11 @@ def change_location(src, tgt, move=False, verbose=True):
     from .system import shell_notify
 
     if _path.exists(src):
-        if _path.isfile(src):
-            _copy2(src, search_location(tgt, create_in=_path.dirname(tgt), verbose=verbose))
-        else:
-            for l in _listdir(src): change_location(_path.abspath(_path.join(src, l)), _path.abspath(_path.join(tgt, l)))
-
+        if tgt:
+            if _path.isfile(src):
+                _copy2(src, search_location(tgt, create_in=_path.dirname(tgt), verbose=verbose))
+            else:
+                for l in _listdir(src): change_location(_path.abspath(_path.join(src, l)), _path.abspath(_path.join(tgt, l)))
         if move: _rmtree(src) if _path.isdir(src) else _remove(src)
         if verbose: shell_notify(
             '%s location' %('deleted' if not tgt and move else 'moved' if move else 'copied'),
