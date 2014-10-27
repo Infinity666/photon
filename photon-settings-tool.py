@@ -42,7 +42,7 @@ def args():
 
 def main(defaults, setting, config=None, verbose=True):
     from photon import Settings
-    res = Settings(defaults=defaults, config=config, verbose=verbose).get
+    res = Settings(defaults, config=config, verbose=verbose).settings
     for s in setting:
         if s in res: res = res[s]
         else: return False
@@ -54,4 +54,4 @@ if __name__ == '__main__':
 
     if a.config and sep in a.config: a.config = path.abspath(path.expanduser(a.config))
 
-    fmt(main(defaults=a.defaults, setting=a.setting, config=a.config, verbose=a.verbose), a.formatter)
+    fmt(main(a.defaults, a.setting, config=a.config, verbose=a.verbose), a.formatter)

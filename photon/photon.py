@@ -1,5 +1,7 @@
 
-class Photon(object):
+from photon import Settings
+
+class Photon(Settings):
     '''
     Photon uses :ref:`core` and some functions from :ref:`util` in its :meth:`m`-method.
     The :meth:`m`-method itself is used in each tool to interact with photon to:
@@ -25,14 +27,13 @@ class Photon(object):
         * Another one to add a final log entry (to save the meta-file).
     '''
 
-    def __init__(self, defaults='defaults.yaml', config='config.yaml', meta='meta.json', verbose=True):
-        super().__init__()
+    def __init__(self, defaults, config='config.yaml', meta='meta.json', verbose=True):
+        super().__init__(defaults, config=config, verbose=verbose)
 
         from atexit import register as _register
-        from photon import Settings, Meta, IDENT
+        from photon import Meta, IDENT
         from .util.system import shell_notify
 
-        self.settings = Settings(defaults=defaults, config=config, verbose=verbose)
         self.meta = Meta(meta=meta, verbose=verbose)
         self.__verbose = verbose
 
@@ -46,7 +47,7 @@ class Photon(object):
         def __copy_settings_to_meta():
 
             if self.meta and self.settings:
-                self.meta.load('%s settings' %(IDENT), 'copy %s settings at exit' %(IDENT), mdict=self.settings.get)
+                self.meta.load('%s settings' %(IDENT), 'copy %s settings at exit' %(IDENT), mdict=self.settings)
 
         self.meta.log = shell_notify(
             '%s startup done' %(IDENT),
@@ -138,7 +139,7 @@ class Photon(object):
         m = Mail(self.m, *args, **kwargs)
         if punchline: m.text = '-> %s <-' %(punchline)
         if add_meta: m.text = self.meta.log
-        if add_settings: m.text = self.settings.get
+        if add_settings: m.text = self.settings
         return m
 
     def ping_handler(self, *args, **kwargs):

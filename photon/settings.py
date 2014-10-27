@@ -44,7 +44,7 @@ class Settings(object):
     .. seealso:: |yaml_loaders| as well as the :ref:`settings_file_example`
     '''
 
-    def __init__(self, defaults='defaults.yaml', config='config.yaml', verbose=True):
+    def __init__(self, defaults, config='config.yaml', verbose=True):
 
         super().__init__()
 
@@ -103,7 +103,7 @@ class Settings(object):
         return y
 
     @property
-    def get(self):
+    def settings(self):
         '''
         :returns: Current settings
         '''
