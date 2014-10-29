@@ -164,6 +164,17 @@ class Photon(Settings):
 
         return Signal(self.m, *args, **kwargs)
 
+    def template_handler(self, *args, **kwargs):
+        '''
+        :returns: A new template handler
+
+        .. seealso:: :ref:`tools_template`
+        '''
+
+        from .tools.template import Template
+
+        return Template(self.m, *args, **kwargs)
+
 def check_m(pm):
     '''
     Shared helper function for all :ref:`tools` to check if the passed m-function is indeed :func:`photon.Photon.m`

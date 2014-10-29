@@ -86,12 +86,24 @@ Ping Tool Example
 
 .. seealso:: |allexamples|
 
+
 .. _tools_signal:
 
 Signal Tool
 -----------
 
 .. automodule:: tools.signal
+    :members:
+    :undoc-members:
+    :private-members:
+
+
+.. _tools_template:
+
+Template Tool
+-------------
+
+.. automodule:: tools.template
     :members:
     :undoc-members:
     :private-members:
