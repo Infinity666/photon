@@ -29,15 +29,23 @@ class Template(object):
         self.m('template tool startup done', more=dict(fields=self.__f, file=tfile), verbose=False)
 
     @property
+    def raw(self):
+        '''
+        :returns: The raw template
+        '''
+
+        return self.__t
+
+    @property
     def sub(self):
         '''
         :param fields: Set fields to substitute
-        :returns: Substituted Template with given fields
+        :returns: Substituted Template with given fields. If no fields were set up beforehand, :func:`raw` is used
         '''
 
         from string import Template
 
-        if self.__f: return Template(self.__t).substitute(self.__f)
+        return Template(self.raw).substitute(self.__f) if self.__f else self.raw
 
     @sub.setter
     def sub(self, fields):
@@ -45,4 +53,22 @@ class Template(object):
         .. seealso:: :attr:`sub`
         '''
 
-        if isinstance(fields, dict): self.__f = fields
+        self.__f = fields
+
+    def write(self, filename, append=True):
+        '''
+        :param filename: File to write into
+        :param append: Either append to existing content (if not already included) or completely replace `filename`
+        '''
+
+        from ..util.files import read_file, write_file
+
+        res = self.sub
+        if append:
+            org = read_file(filename)
+            if org:
+                if res in org: res = org
+                else: res = org + res
+
+        write_file(filename, res)
+        return self.m('template %s' %('appended' if append else 'written'), more=dict(fields=self.__f, file=filename))
