@@ -111,18 +111,23 @@ def change_location(src, tgt, move=False, verbose=True):
 
     :param src: source location where to copy from
     :param tgt: target location where to copy to
-    :param move: deletes original after copy (a.k.a. move)
-    :param verbose: show warnings
 
-    .. note:: set `tgt` explicit to ``None`` and `move` to ``True`` to delete locations. (be careful!!1!)
+        * To backup `src`, set `tgt` explicitly to ``True``. `tgt` will be set to `src` + '_backup_' + :ref:`util.system.get_timestamp` then
+
+    :param move: deletes original after copy (a.k.a. move)
+
+        * To delete `src` , set `tgt` explicitly to ``False`` and `move` to ``True`` (be careful!!1!)
+
+    :param verbose: show warnings
     '''
 
     from os import path as _path, listdir as _listdir, remove as _remove
     from shutil import copy2 as _copy2, rmtree as _rmtree
-    from .system import shell_notify
+    from .system import shell_notify, get_timestamp
 
     if _path.exists(src):
         if tgt:
+            if tgt == True: tgt = '%s_backup_%s' %(src, get_timestamp())
             if _path.isfile(src):
                 _copy2(src, search_location(tgt, create_in=_path.dirname(tgt), verbose=verbose))
             else:
