@@ -55,20 +55,24 @@ class Template(object):
 
         self.__f = fields
 
-    def write(self, filename, append=True):
+    def write(self, filename, append=True, backup=True):
         '''
         :param filename: File to write into
         :param append: Either append to existing content (if not already included) or completely replace `filename`
+        :param backup: If `append`ing, backup `filename` beforehand using :func:`util.locations.change_location`
         '''
 
         from ..util.files import read_file, write_file
+        from ..util.locations import change_location
 
         res = self.sub
         if append:
             org = read_file(filename)
             if org:
                 if res in org: res = org
-                else: res = org + res
+                else:
+                    change_location(filename, True)
+                    res = org + res
 
         write_file(filename, res)
         return self.m('template %s' %('appended' if append else 'written'), more=dict(fields=self.__f, file=filename))
