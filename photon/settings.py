@@ -103,7 +103,7 @@ class Settings(object):
         return y
 
     @property
-    def settings(self):
+    def get(self):
         '''
         :returns: Current settings
         '''
