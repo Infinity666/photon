@@ -42,7 +42,7 @@ def args():
 
 def main(defaults, setting, config=None, verbose=True):
     from photon import Settings
-    res = Settings(defaults, config=config, verbose=verbose).settings
+    res = Settings(defaults, config=config, verbose=verbose).get
     for s in setting:
         if s in res: res = res[s]
         else: return False

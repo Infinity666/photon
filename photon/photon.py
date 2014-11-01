@@ -19,16 +19,12 @@ class Photon(object):
     :var settings: The settings handler initialized with `defaults` and `config`
     :var meta: The meta handler initialized with `meta`
 
-    Photon registers two exit functions:
-
-        * One to copy all content from settings into the meta-header,
-        * Another one to add a final log entry (to save the meta-file).
+    At startup the loaded `settings` are imported into `meta`
     '''
 
     def __init__(self, defaults, config='config.yaml', meta='meta.json', verbose=True):
         super().__init__()
 
-        from atexit import register as _register
         from photon import Settings, Meta, IDENT
         from .util.system import shell_notify
 
@@ -36,18 +32,7 @@ class Photon(object):
         self.meta = Meta(meta=meta, verbose=verbose)
         self.__verbose = verbose
 
-        @_register
-        def __say_goodbye():
-
-            if self.meta:
-                self.meta.log = shell_notify('end of %s' %(IDENT), verbose=False)
-
-        @_register
-        def __copy_settings_to_meta():
-
-            if self.meta and self.settings:
-                self.meta.load('%s settings' %(IDENT), 'copy %s settings at exit' %(IDENT), mdict=self.settings.get)
-
+        self.s2m()
         self.meta.log = shell_notify(
             '%s startup done' %(IDENT),
             more=dict(defaults=defaults, config=config, meta=meta, verbose=verbose),
@@ -111,6 +96,16 @@ class Photon(object):
             shell_notify(msg, more=res, state=True)
         self.meta.log = shell_notify(msg, more=res, state=state, verbose=verbose)
         return res
+
+    def s2m(self):
+        '''
+        Imports settings to meta
+        '''
+
+        from photon import IDENT
+
+        m = '%s settings' %(IDENT)
+        self.meta.load(m, 'import %s' %(m), mdict=self.settings.get)
 
     def git_handler(self, *args, **kwargs):
         '''

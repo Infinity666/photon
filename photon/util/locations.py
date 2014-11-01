@@ -112,7 +112,7 @@ def change_location(src, tgt, move=False, verbose=True):
     :param src: source location where to copy from
     :param tgt: target location where to copy to
 
-        * To backup `src`, set `tgt` explicitly to ``True``. `tgt` will be set to `src` + '_backup_' + :ref:`util.system.get_timestamp` then
+        * To backup `src`, set `tgt` explicitly to ``True``. `tgt` will be set to `src` + '_backup_' + :func:`util.system.get_timestamp` then
 
     :param move: deletes original after copy (a.k.a. move)
 
