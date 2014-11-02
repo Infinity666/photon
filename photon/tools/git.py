@@ -79,6 +79,13 @@ class Git(object):
 
         return self._log(num=1, format='%H').get('out')
 
+    @property
+    def short_commit(self):
+        '''
+        :returns: The current commit (short version)
+        '''
+
+        return self._log(num=1, format='%h').get('out')
 
     @property
     def log(self):

@@ -32,7 +32,7 @@ class Photon(object):
         self.meta = Meta(meta=meta, verbose=verbose)
         self.__verbose = verbose
 
-        self.s2m()
+        self.s2m
         self.meta.log = shell_notify(
             '%s startup done' %(IDENT),
             more=dict(defaults=defaults, config=config, meta=meta, verbose=verbose),
@@ -97,6 +97,7 @@ class Photon(object):
         self.meta.log = shell_notify(msg, more=res, state=state, verbose=verbose)
         return res
 
+    @property
     def s2m(self):
         '''
         Imports settings to meta

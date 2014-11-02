@@ -24,7 +24,7 @@ def release():
     :returns: Current release string
     :current: |release|
     '''
-    return version() + 'b1'
+    return version() + 'b2'
 
 def url():
     '''

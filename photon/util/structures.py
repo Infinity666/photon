@@ -14,6 +14,8 @@ def yaml_str_join(l, n):
 
     :returns: A `non character` joined string |yaml_loader_returns|
 
+    .. note:: Be careful with timestamps when using a `config` in :ref:`settings`.
+
     .. seealso:: |yaml_loader_seealso|
     '''
 

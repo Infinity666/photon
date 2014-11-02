@@ -32,10 +32,12 @@ class Settings(object):
 
             * The config is intended to provide a editable file for the end-user
             * If a value differs from the original values in `defaults`, the value in `config` wins
-            * Other values which not exist in `config` will be set from `defaults`
 
-                * If a value contains a loader call which expresses the same
-                * Simply delete all lines within the config to completely reset it to the defaults
+                * Other values which not exist in `config` will be set from `defaults`
+                * If a value in `config` contains a loader call which expresses the same as the value in `defaults` it will be skipped.
+
+            * Be careful using **timestamp**s in a config. The timestamp of the first launch will always be used.
+            * Simply delete all lines within the config to completely reset it to the defaults
 
         * Can be skipped by explicitly setting it to ``None``
 
