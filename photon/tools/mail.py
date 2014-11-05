@@ -69,6 +69,7 @@ class Mail(object):
 
         if text:
             if not isinstance(text, str): text = _pformat(text)
+            text += '\n\n'
             self.m(
                 'add text to mail',
                 more=dict(len=len(text))

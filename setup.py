@@ -24,7 +24,7 @@ setup(
     include_package_data=True,
     zip_safe=False,
     platforms='posix',
-    scripts=['photon-settings-tool.py'],
+    scripts=['photon-settings-tool.py', 'photon-dangerous-selfupgrade.py'],
     provides=[pkg_name()],
     install_requires=['PyYAML>=3.11'],
     classifiers=[

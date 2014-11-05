@@ -29,15 +29,15 @@ def args():
     from argparse import ArgumentParser
     p = ArgumentParser(
         prog='photon settings tool',
-        description='reads photon settings files to display and/or save the output',
+        description='Reads photon settings files to display and/or save the output',
         epilog='-.-',
         add_help=True
     )
-    p.add_argument('--defaults', '-d', action='store', default='defaults.yaml', help='specify defaults file to load')
-    p.add_argument('--config', '-c', action='store', default=None, help='specify config file to load and writeback')
+    p.add_argument('--defaults', '-d', action='store', default='defaults.yaml', help='Specify defaults file to load')
+    p.add_argument('--config', '-c', action='store', default=None, help='Specify config file to load and writeback')
     p.add_argument('--formatter', '-f', action='store', default='pp', choices=sorted(FTYPES.keys()), help='Use a formatter to print. Choose between p_rint p_retty_p_rint (default), j_son, y_aml or nested t_abs')
-    p.add_argument('--verbose', '-v', action='store_true', default=False, help='show info and warn messages')
-    p.add_argument('setting', nargs='*', help='space separated list into settings')
+    p.add_argument('--verbose', '-v', action='store_true', default=False, help='Show info and warn messages')
+    p.add_argument('setting', nargs='*', help='Space separated list into settings')
     return p.parse_args()
 
 def main(defaults, setting, config=None, verbose=True):
