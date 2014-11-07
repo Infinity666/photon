@@ -74,18 +74,33 @@ class Git(object):
     @property
     def commit(self):
         '''
-        :returns: The current commit
+        :param tag: Checks out specified commit. If set to ``None`` the latest commit will be checked out
+        :returns: A list of all commits, descending
         '''
 
-        return self._log(num=1, format='%H').get('out')
+        commit = self._log(num=-1, format='%H')
+        if commit.get('returncode') == 0: return commit.get('stdout')
+
+    @commit.setter
+    def commit(self, commit):
+        '''
+        .. seealso:: :attr:`commit`
+        '''
+
+        c = self.commit
+        if c:
+            if not commit: commit = c[0]
+            if commit in c: self._checkout(treeish=commit)
 
     @property
     def short_commit(self):
         '''
-        :returns: The current commit (short version)
+            :returns: A list of all commits, descending
+            .. seealso:: :attr:`commit`
         '''
 
-        return self._log(num=1, format='%h').get('out')
+        commit = self._log(num=-1, format='%h')
+        if commit.get('returncode') == 0: return commit.get('stdout')
 
     @property
     def log(self):
@@ -159,8 +174,8 @@ class Git(object):
             'getting git tags',
             cmdd=dict(cmd='git tag -l --sort="version:refname"', cwd=self.local),
             verbose=False,
-        ).get('stdout')
-        if tag: return tag
+        )
+        if tag.get('returncode') == 0: return tag.get('stdout')
 
     @tag.setter
     def tag(self, tag):
@@ -168,10 +183,10 @@ class Git(object):
         .. seealso:: :attr:`tag`
         '''
 
-        if not tag:
-            t = self.tag
-            tag = t[-1] if t else None
-        if tag: self._checkout(treeish=tag)
+        t = self.tag
+        if t:
+            if not tag: tag = t[-1]
+            if tag in t: self._checkout(treeish=tag)
 
     @property
     def cleanup(self):
