@@ -15,7 +15,6 @@ def get_locations():
     * 'call_dir': Where you called the first Python script from. (``argv[0]``)
     * 'conf_dir': The :envvar:`XDG_CONFIG_HOME`-directory + ``photon`` (:file:`~/.config/photon`)
     * 'data_dir': The :envvar:`XDG_DATA_HOME`-directory + ``photon`` (:file:`~/.local/share/photon`)
-    * 'backup_dir': The `data_dir` + ``backups``
 
     .. note::
 
@@ -35,8 +34,7 @@ def get_locations():
         'home_dir': home_dir,
         'call_dir': _path.dirname(_path.abspath(_argv[0])),
         'conf_dir': conf_dir,
-        'data_dir': data_dir,
-        'backup_dir': _path.join(data_dir, 'backups')
+        'data_dir': data_dir
     }
 
 def make_locations(locations=None, verbose=True):
@@ -109,16 +107,16 @@ def change_location(src, tgt, move=False, verbose=True):
     '''
     Copies/moves/deletes locations
 
-    :param src: source location where to copy from
-    :param tgt: target location where to copy to
+    :param src: Source location where to copy from
+    :param tgt: Target location where to copy to
 
         * To backup `src`, set `tgt` explicitly to ``True``. `tgt` will be set to `src` + '_backup_' + :func:`util.system.get_timestamp` then
 
-    :param move: deletes original after copy (a.k.a. move)
+    :param move: Deletes original location after copy (a.k.a. move)
 
         * To delete `src` , set `tgt` explicitly to ``False`` and `move` to ``True`` (be careful!!1!)
 
-    :param verbose: show warnings
+    :param verbose: Show warnings
     '''
 
     from os import path as _path, listdir as _listdir, remove as _remove
@@ -132,7 +130,7 @@ def change_location(src, tgt, move=False, verbose=True):
                 _copy2(src, search_location(tgt, create_in=_path.dirname(tgt), verbose=verbose))
             else:
                 for l in _listdir(src): change_location(_path.abspath(_path.join(src, l)), _path.abspath(_path.join(tgt, l)))
-        if move: _rmtree(src) if _path.isdir(src) else _remove(src)
+        if move: _rmtree(src) if _path.isdir(src) and not _path.islink(src) else _remove(src)
         if verbose: shell_notify(
             '%s location' %('deleted' if not tgt and move else 'moved' if move else 'copied'),
             more=dict(src=src, tgt=tgt)

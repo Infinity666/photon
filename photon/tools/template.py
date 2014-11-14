@@ -59,7 +59,7 @@ class Template(object):
         '''
         :param filename: File to write into
         :param append: Either append to existing content (if not already included) or completely replace `filename`
-        :param backup: If `append`ing, backup `filename` beforehand using :func:`util.locations.change_location`
+        :param backup: If `append`ing, backup `filename` beforehand! Use :func:`util.locations.change_location`.
         '''
 
         from ..util.files import read_file, write_file

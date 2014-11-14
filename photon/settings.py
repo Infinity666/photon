@@ -11,7 +11,7 @@ class Settings(object):
         * Insert references to existing fields via anchors and ``!str_join`` or ``!loc_join``
         * Insert keywords like **hostname** or **timestamp** using ``!str_join``
         * Combine path-segments using ``!loc_join``
-        * Insert keywords like **home_dir** or **backup_dir** using ``!loc_join``
+        * Insert keywords like **home_dir** or **conf_dir** using ``!loc_join``
 
     It is also possible to import or merge further content.
 
