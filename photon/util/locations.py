@@ -121,11 +121,10 @@ def change_location(src, tgt, move=False, verbose=True):
 
     from os import path as _path, listdir as _listdir, remove as _remove
     from shutil import copy2 as _copy2, rmtree as _rmtree
-    from .system import shell_notify, get_timestamp
+    from .system import shell_notify
 
     if _path.exists(src):
         if tgt:
-            if tgt == True: tgt = '%s_backup_%s' %(src, get_timestamp())
             if _path.isfile(src):
                 _copy2(src, search_location(tgt, create_in=_path.dirname(tgt), verbose=verbose))
             else:
@@ -135,3 +134,26 @@ def change_location(src, tgt, move=False, verbose=True):
             '%s location' %('deleted' if not tgt and move else 'moved' if move else 'copied'),
             more=dict(src=src, tgt=tgt)
         )
+
+def backup_location(src, loc=None):
+    '''
+    Writes Backups of locations
+
+    :param src: The source file/folder to backup
+    :param loc: The target folder to backup into
+
+        The backup will be called `src` + :func:`util.system.get_timestamp`.
+        * If `loc` left to none, the backup gets written in the same folder like `src` resides in
+        * Otherwise the specified path will be used.
+    '''
+
+    from os import path as _path, sep as _sep
+    from .system import get_timestamp
+
+    src = _path.realpath(src)
+    if not loc or not loc.startswith(_sep): loc = _path.dirname(src)
+
+    pth = _path.join(_path.basename(src), _path.realpath(loc))
+    out = '%s_backup_%s' %(_path.basename(src), get_timestamp())
+
+    change_location(src, search_location(out, create_in=pth))
