@@ -15,7 +15,10 @@ Examples
 
 The **/examples** directory contains some basic receipts on how to use Photon in your scripts.
 
-Photon helps at `Freifunk MWU <http://freifunk-mwu.de/>`_ to solve common tasks. See `github.com/freifunk-mwu/backend-scripts <https://github.com/freifunk-mwu/backend-scripts>`_ for some examples used in production.
+Photon helps at `Freifunk MWU <http://freifunk-mwu.de/>`_ to solve some tasks:
+
+    * See our `collection of backend-scripts <https://github.com/freifunk-mwu/backend-scripts>`_ for some scripts using photon, running in production.
+    * To automatically compile gluon firmware for routers, we wrote the `gluon builder <https://github.com/freifunk-mwu/gluon-builder-ffmwu>`_.
 
 Installation
 ------------

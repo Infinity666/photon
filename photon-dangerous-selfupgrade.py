@@ -16,13 +16,13 @@ def main(sudo, repos=None):
     from os import path
     from photon import Photon
 
-    p = Photon(dict(sudo=sudo, repos=repos), config=None, meta='photon_selfupgrade')
+    p = Photon(dict(sudo=sudo, repos=repos), config=None, meta='photon_selfupgrade.json')
     s = p.settings.get
     if s['repos']:
         for repo in s['repos']:
             if path.exists(repo) and path.exists(path.join(repo, '.git')):
                 p.git_handler(repo).cleanup
-            else: p.m('skipping repo', more=dict(repo=repo))
+            else: p.m('skipping non repo', more=dict(repo=repo))
 
     p.m('attempting selfupgrade',
         cmdd=dict(cmd='%s pip3 install -U --pre photon_core' %('sudo' if sudo else '')),
