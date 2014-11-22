@@ -59,7 +59,7 @@ class Template(object):
         '''
         :param filename: File to write into
         :param append: Either append to existing content (if not already included) or completely replace `filename`
-        :param backup: Create a backup of `filename` before writing. Only applies when `append`ing.
+        :param backup: Create a backup of `filename` before writing. Only applies when `append` is set
         '''
 
         from ..util.files import read_file, write_file

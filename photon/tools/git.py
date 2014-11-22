@@ -95,8 +95,9 @@ class Git(object):
     @property
     def short_commit(self):
         '''
-            :returns: A list of all commits, descending
-            .. seealso:: :attr:`commit`
+        :returns: A list of all commits, descending
+
+        .. seealso:: :attr:`commit`
         '''
 
         commit = self._log(num=-1, format='%h')
@@ -240,11 +241,7 @@ class Git(object):
             )
 
             self.branch = old_branch
-
-        pull = self.m('pulling remote changes', cmdd=dict(cmd='git pull --tags', cwd=self.local), critical=False)
-
-        if 'CONFLICT' in pull.get('out'): self.m('you have a merge conflict with your remote repository!', state=True, more=pull)
-
+            pull = self._pull
         return dict(changes=changes, pull=pull)
 
     @property
@@ -317,3 +314,16 @@ class Git(object):
             cmdd=dict(cmd='git checkout %s' %(treeish), cwd=self.local),
             verbose=False
         )
+
+    def _pull(self):
+        '''
+        Helper function to pull from remote
+        '''
+
+        pull = self.m(
+            'pulling remote changes',
+            cmdd=dict(cmd='git pull --tags', cwd=self.local),
+            critical=False
+        )
+        if 'CONFLICT' in pull.get('out'): self.m('you have a merge conflict with your remote repository!', state=True, more=pull)
+        return pull
