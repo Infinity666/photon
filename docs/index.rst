@@ -2,8 +2,7 @@ Photon
 ======
 
 .. image:: _static/photon_logo.png
-    :width: 125px
-    :height: 125px
+    :scale: 25%
     :align: right
     :alt: Photon logo, not a moustache
 
