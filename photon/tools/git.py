@@ -241,8 +241,7 @@ class Git(object):
             )
 
             self.branch = old_branch
-            pull = self._pull
-        return dict(changes=changes, pull=pull)
+        return dict(changes=changes, pull=self._pull)
 
     @property
     def publish(self):
