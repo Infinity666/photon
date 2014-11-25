@@ -114,20 +114,23 @@ def shell_run(cmd, cin=None, cwd=None, timeout=10, critical=True, verbose=True):
 
     return res
 
-def get_timestamp(precice=False):
+def get_timestamp(time=True, precice=False):
     '''
     What time is it?
 
-    :param precice: Append ``-%f`` to the final string
-    :returns: A timestamp string of now in the format ``%Y.%m.%d-%H.%M.%S``
+    :param time: Append ``-%H.%M.%S`` to the final string.
+    :param precice: Append ``-%f`` to the final string. Is only recognized when `time` is set to ``True``
+    :returns: A timestamp string of now in the format ``%Y.%m.%d-%H.%M.%S-%f``
 
     .. seealso:: `strftime.org <http://strftime.org/>`_ is awesome!
     '''
 
     from datetime import datetime as _datetime
 
-    f = '%Y.%m.%d-%H.%M.%S'
-    if precice: f += '-%f'
+    f = '%Y.%m.%d'
+    if time:
+        f += '-%H.%M.%S'
+        if precice: f += '-%f'
     return _datetime.now().strftime(f)
 
 def get_hostname():
