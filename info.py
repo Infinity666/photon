@@ -17,7 +17,7 @@ def version():
     :returns: Current version string
     :current: |version| (Release: |release|)
     '''
-    return '0.4'
+    return '0.3'
 
 def release():
     '''
