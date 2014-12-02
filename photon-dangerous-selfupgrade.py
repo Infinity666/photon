@@ -21,7 +21,7 @@ def main(sudo, repos=None):
     if s['repos']:
         for repo in s['repos']:
             if path.exists(repo) and path.exists(path.join(repo, '.git')):
-                p.git_handler(repo)._pull
+                p.git_handler(repo)._pull()
             else: p.m('skipping non repo', more=dict(repo=repo))
 
     p.m('attempting selfupgrade',
