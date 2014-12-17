@@ -14,13 +14,13 @@ class Ping(object):
         from ..photon import check_m
 
         self.m = check_m(m)
-        self.__six = six
-        self.__net_if = net_if
+        self.__pingc = 'ping6' if six else 'ping'
+        self.__net_if  = '-I %s' %(net_if) if net_if else ''
         if num < 1: num = 1
         self.__num = num
         self.__p = dict()
 
-        self.m('ping tool startup done', more=dict(six=self.__six, net_if=self.__net_if, num=self.__num), verbose=False)
+        self.m('ping tool startup done', more=dict(pingc=self.__pingc, net_if=self.__net_if, num=self.__num), verbose=False)
 
     @property
     def probe(self):
@@ -42,15 +42,15 @@ class Ping(object):
         .. seealso:: :attr:`probe`
         '''
 
+        from multiprocessing.dummy import Pool as _Pool
         from re import findall as _findall, search as _search
         from ..util.structures import to_list
 
-        pingc = 'ping6' if self.__six else 'ping'
-        nif = '-I %s' %(self.__net_if) if self.__net_if else ''
-        for host in to_list(hosts):
+        def __prober(host):
+            self.m('probing: %s' %(host))
             ping = self.m(
-                'trying to reach %s' %(host),
-                cmdd=dict(cmd='%s -c %d %s %s' %(pingc, self.__num, nif, host)),
+                '',
+                cmdd=dict(cmd='%s -c %d %s %s' %(self.__pingc, self.__num, self.__net_if, host)),
                 critical=False,
                 verbose=False
             )
@@ -67,6 +67,14 @@ class Ping(object):
 
                 if loss: loss = loss.group('loss')
                 self.__p[host].update(dict(ms=ms, loss=loss, rtt=rtt.groupdict()))
+
+        hosts = to_list(hosts)
+        psize = len(hosts) if len(hosts) <= 4 else 4
+
+        pool = _Pool(psize)
+        pool.map(__prober, hosts)
+        pool.close()
+        pool.join()
 
     @property
     def status(self):

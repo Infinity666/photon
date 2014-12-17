@@ -11,7 +11,7 @@ def _y(s):
     from yaml import dump
     return _p(dump(s, indent=4, default_flow_style=False))
 def _t(s, p=0):
-    if isinstance(s, str): return _p('%s%s' %('\t'*p, s))
+    if isinstance(s, (str, int, float)): return _p('%s%s' %('\t'*p, s))
     if isinstance(s, list): return [_t(t, p) for t in s]
     if isinstance(s, dict):
         for t, u in sorted(s.items()):
