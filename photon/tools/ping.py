@@ -6,9 +6,10 @@ class Ping(object):
     :param six: Either use ``ping`` or ``ping6``
     :param net_if: Specify network interface to send pings from
     :param num: How many pings to send each probe
+    :param max_pool_size: Hosts passed to :func:`probe` in form of a list, will be processed in parallel. Specify the maximum size of the thread pool workers here.
     '''
 
-    def __init__(self, m, six=False, net_if=None, num=5):
+    def __init__(self, m, six=False, net_if=None, num=5, max_pool_size=4):
         super().__init__()
 
         from ..photon import check_m
@@ -18,6 +19,8 @@ class Ping(object):
         self.__net_if  = '-I %s' %(net_if) if net_if else ''
         if num < 1: num = 1
         self.__num = num
+        if max_pool_size < 1: max_pool_size = 1
+        self.__max_pool_size = max_pool_size
         self.__p = dict()
 
         self.m('ping tool startup done', more=dict(pingc=self.__pingc, net_if=self.__net_if, num=self.__num), verbose=False)
@@ -25,7 +28,11 @@ class Ping(object):
     @property
     def probe(self):
         '''
-        :param hosts: One or a list of hosts (URLs, IP-addresses)
+        :param hosts: One or a list of hosts (URLs, IP-addresses) to send pings to
+
+            * If you need to check multiple hosts, it is best practice to pass them together as a list.
+            * This will probe all hosts in parallel, with ``max_pool_size`` workers.
+
         :returns: A dictionary with all hosts probed as keys specified as following:
 
         * 'up': ``True`` or ``False`` depending if ping was successful
@@ -46,7 +53,7 @@ class Ping(object):
         from re import findall as _findall, search as _search
         from ..util.structures import to_list
 
-        def __prober(host):
+        def __single_probe(host):
             self.m('probing: %s' %(host))
             ping = self.m(
                 '',
@@ -69,10 +76,10 @@ class Ping(object):
                 self.__p[host].update(dict(ms=ms, loss=loss, rtt=rtt.groupdict()))
 
         hosts = to_list(hosts)
-        psize = len(hosts) if len(hosts) <= 4 else 4
+        pool_size = len(hosts) if len(hosts) <= self.__max_pool_size else self.__max_pool_size
 
-        pool = _Pool(psize)
-        pool.map(__prober, hosts)
+        pool = _Pool(pool_size)
+        pool.map(__single_probe, hosts)
         pool.close()
         pool.join()
 
