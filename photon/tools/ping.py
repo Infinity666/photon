@@ -9,7 +9,7 @@ class Ping(object):
     :param max_pool_size: Hosts passed to :func:`probe` in form of a list, will be processed in parallel. Specify the maximum size of the thread pool workers here.
     '''
 
-    def __init__(self, m, six=False, net_if=None, num=5, max_pool_size=4):
+    def __init__(self, m, six=False, net_if=None, num=5, max_pool_size=8):
         super().__init__()
 
         from ..photon import check_m
@@ -54,7 +54,6 @@ class Ping(object):
         from ..util.structures import to_list
 
         def __single_probe(host):
-            self.m('probing: %s' %(host))
             ping = self.m(
                 '',
                 cmdd=dict(cmd='%s -c %d %s %s' %(self.__pingc, self.__num, self.__net_if, host)),

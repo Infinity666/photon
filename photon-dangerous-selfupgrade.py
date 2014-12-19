@@ -24,11 +24,13 @@ def main(sudo, repos=None):
                 p.git_handler(repo)._pull()
             else: p.m('skipping non repo', more=dict(repo=repo))
 
-    p.m('attempting selfupgrade',
+    upres = p.m('attempting selfupgrade',
         cmdd=dict(cmd='%s pip3 install -U --pre photon_core' %('sudo' if sudo else '')),
-        more=dict(sudo=sudo, cry='I could die now..'),
+        more=dict(sudo=sudo),
         critical=False
     )
+    if upres.get('returncode') == 0: p.m('all went well')
+    else: p.m('I am dead! ' * 23, state=True)
 
 if __name__ == '__main__':
     a = args()
