@@ -102,10 +102,14 @@ class Meta(object):
         .. seealso:: :attr:`log`
         '''
 
+        from threading import Lock
         from .util.files import read_json, write_json
         from .util.system import get_timestamp
 
         if elem: self._m['log'].update({get_timestamp(precice=True): elem})
         mfile = self._m['header']['stage']
-        j = read_json(mfile)
-        if j != self._m: write_json(mfile, self._m)
+
+        lock = Lock()
+        with lock:
+            j = read_json(mfile)
+            if j != self._m: write_json(mfile, self._m)
