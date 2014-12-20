@@ -12,8 +12,9 @@ class Meta(object):
 
         super().__init__()
 
-        from random import randint as _randint
         from photon import IDENT
+        from random import randint as _randint
+        from threading import Lock
         from .util.system import get_timestamp
 
         self.__verbose = verbose
@@ -26,6 +27,7 @@ class Meta(object):
             'import': dict(),
             'log': dict()
         }
+        self.__lock = Lock()
         self.stage(meta, clean=True)
 
     def stage(self, s, clean=False):
@@ -102,14 +104,15 @@ class Meta(object):
         .. seealso:: :attr:`log`
         '''
 
-        from threading import Lock
         from .util.files import read_json, write_json
         from .util.system import get_timestamp
 
         if elem: self._m['log'].update({get_timestamp(precice=True): elem})
         mfile = self._m['header']['stage']
 
-        lock = Lock()
-        with lock:
+        self.__lock.acquire()
+        try:
             j = read_json(mfile)
             if j != self._m: write_json(mfile, self._m)
+        finally:
+            self.__lock.release()
