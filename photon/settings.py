@@ -55,7 +55,7 @@ class Settings(object):
         from .util.structures import yaml_str_join, yaml_loc_join
 
         self.__verbose = verbose
-        self._s = {
+        self.__settings = {
             'locations': get_locations(),
             'files': dict()
         }
@@ -69,7 +69,7 @@ class Settings(object):
 
         if config:
             config = search_location(config, create_in='conf_dir')
-            if self._s != self.load('config', config, loaders=loaders, merge=True, writeback=True):
+            if self.__settings != self.load('config', config, loaders=loaders, merge=True, writeback=True):
                 shell_notify('settings config written', more=config, verbose=verbose)
 
     def load(self, skey, sdesc, sdict=None, loaders=None, merge=False, writeback=False):
@@ -93,15 +93,15 @@ class Settings(object):
 
         y = sdict if sdict else read_yaml(sdesc, add_constructor=loaders)
         if y and isinstance(y, dict):
-            if not sdict: self._s['files'].update({skey: sdesc})
-            if merge: self._s = dict_merge(self._s, y)
-            else: self._s[skey] = y
+            if not sdict: self.__settings['files'].update({skey: sdesc})
+            if merge: self.__settings = dict_merge(self.__settings, y)
+            else: self.__settings[skey] = y
             shell_notify(
                 'load %s data and %s it into settings' %('got' if sdict else 'read', 'merged' if merge else 'imported'),
                 more=dict(skey=skey, sdesc=sdesc, merge=merge, writeback=writeback),
                 verbose=self.__verbose
             )
-        if writeback and y != self._s: write_yaml(sdesc, self._s)
+        if writeback and y != self.__settings: write_yaml(sdesc, self.__settings)
         return y
 
     @property
@@ -110,4 +110,4 @@ class Settings(object):
         :returns: Current settings
         '''
 
-        return self._s
+        return self.__settings

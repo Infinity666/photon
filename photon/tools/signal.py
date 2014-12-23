@@ -27,7 +27,7 @@ class Signal(object):
 
         self.m('signal tool startup done', more=dict(pid=self.__pid, pidfile=pidfile if pidfile else 'directly passed'), verbose=False)
 
-    def __kill(self, sig, verbose=None):
+    def __signal(self, sig, verbose=None):
         '''
         Helper class preventing code duplication..
 
@@ -50,7 +50,7 @@ class Signal(object):
         :returns: |kill_return| using SIGALRM
         '''
 
-        return self.__kill('ALRM')
+        return self.__signal('ALRM')
 
     @property
     def hup(self):
@@ -58,7 +58,7 @@ class Signal(object):
         :returns: |kill_return| using SIGHUP
         '''
 
-        return self.__kill('HUP')
+        return self.__signal('HUP')
 
     @property
     def int(self):
@@ -66,7 +66,7 @@ class Signal(object):
         :returns: |kill_return| using SIGINT |kill_verbose|
         '''
 
-        return self.__kill('INT', verbose=True)
+        return self.__signal('INT', verbose=True)
 
     @property
     def kill(self):
@@ -74,7 +74,7 @@ class Signal(object):
         :returns: |kill_return| using SIGKILL |kill_verbose|
         '''
 
-        return self.__kill('KILL', verbose=True)
+        return self.__signal('KILL', verbose=True)
 
     @property
     def quit(self):
@@ -82,7 +82,7 @@ class Signal(object):
         :returns: |kill_return| using SIGQUIT |kill_verbose|
         '''
 
-        return self.__kill('QUIT', verbose=True)
+        return self.__signal('QUIT', verbose=True)
 
     @property
     def stop(self):
@@ -90,7 +90,7 @@ class Signal(object):
         :returns: |kill_return| using SIGSTOP |kill_verbose|
         '''
 
-        return self.__kill('STOP', verbose=True)
+        return self.__signal('STOP', verbose=True)
 
     @property
     def usr1(self):
@@ -98,7 +98,7 @@ class Signal(object):
         :returns: |kill_return| using SIGUSR1
         '''
 
-        return self.__kill('USR1')
+        return self.__signal('USR1')
 
     @property
     def usr2(self):
@@ -106,4 +106,4 @@ class Signal(object):
         :returns: |kill_return| using SIGUSR2
         '''
 
-        return self.__kill('USR2')
+        return self.__signal('USR2')

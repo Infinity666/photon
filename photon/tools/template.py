@@ -23,10 +23,10 @@ class Template(object):
 
         tfile = search_location(template)
 
-        self.__t = read_file(tfile) if tfile else template
-        self.__f = fields
+        self.__template = read_file(tfile) if tfile else template
+        self.__fields = fields
 
-        self.m('template tool startup done', more=dict(fields=self.__f, file=tfile), verbose=False)
+        self.m('template tool startup done', more=dict(fields=self.__fields, file=tfile), verbose=False)
 
     @property
     def raw(self):
@@ -34,7 +34,7 @@ class Template(object):
         :returns: The raw template
         '''
 
-        return self.__t
+        return self.__template
 
     @property
     def sub(self):
@@ -45,7 +45,7 @@ class Template(object):
 
         from string import Template
 
-        return Template(self.raw).substitute(self.__f) if self.__f else self.raw
+        return Template(self.raw).substitute(self.__fields) if self.__fields else self.raw
 
     @sub.setter
     def sub(self, fields):
@@ -53,7 +53,7 @@ class Template(object):
         .. seealso:: :attr:`sub`
         '''
 
-        self.__f = fields
+        self.__fields = fields
 
     def write(self, filename, append=True, backup=True):
         '''
@@ -75,4 +75,4 @@ class Template(object):
                     res = org + res
 
         write_file(filename, res)
-        return self.m('template %s' %('appended' if append else 'written'), more=dict(fields=self.__f, file=filename))
+        return self.m('template %s' %('appended' if append else 'written'), more=dict(fields=self.__fields, file=filename))

@@ -15,15 +15,15 @@ class Ping(object):
         from ..photon import check_m
 
         self.m = check_m(m)
-        self.__pingc = 'ping6' if six else 'ping'
+        self.__ping_cmd = 'ping6' if six else 'ping'
         self.__net_if  = '-I %s' %(net_if) if net_if else ''
         if num < 1: num = 1
         self.__num = num
         if max_pool_size < 1: max_pool_size = 1
         self.__max_pool_size = max_pool_size
-        self.__p = dict()
+        self.__probe_results = dict()
 
-        self.m('ping tool startup done', more=dict(pingc=self.__pingc, net_if=self.__net_if, num=self.__num), verbose=False)
+        self.m('ping tool startup done', more=dict(pingc=self.__ping_cmd, net_if=self.__net_if, num=self.__num), verbose=False)
 
     @property
     def probe(self):
@@ -41,7 +41,7 @@ class Ping(object):
         * 'rtt': A dictionary with the fields *avg*, *min*, *max* & *stddev* (if 'up')
         '''
 
-        return self.__p
+        return self.__probe_results
 
     @probe.setter
     def probe(self, hosts):
@@ -56,13 +56,13 @@ class Ping(object):
         def __single_probe(host):
             ping = self.m(
                 '',
-                cmdd=dict(cmd='%s -c %d %s %s' %(self.__pingc, self.__num, self.__net_if, host)),
+                cmdd=dict(cmd='%s -c %d %s %s' %(self.__ping_cmd, self.__num, self.__net_if, host)),
                 critical=False,
                 verbose=False
             )
 
             up = True if ping.get('returncode') == 0 else False
-            self.__p[host] = {'up': up}
+            self.__probe_results[host] = {'up': up}
 
             if up:
                 p = ping.get('out')
@@ -72,7 +72,7 @@ class Ping(object):
                 rtt = _search('(?P<min>[\d.]+)/(?P<avg>[\d.]+)/(?P<max>[\d.]+)/(?P<stddev>[\d.]+) ms', p)
 
                 if loss: loss = loss.group('loss')
-                self.__p[host].update(dict(ms=ms, loss=loss, rtt=rtt.groupdict()))
+                self.__probe_results[host].update(dict(ms=ms, loss=loss, rtt=rtt.groupdict()))
 
         hosts = to_list(hosts)
         pool_size = len(hosts) if len(hosts) <= self.__max_pool_size else self.__max_pool_size

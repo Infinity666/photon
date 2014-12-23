@@ -18,7 +18,7 @@ class Meta(object):
         from .util.system import get_timestamp
 
         self.__verbose = verbose
-        self._m = {
+        self.__meta = {
             'header': {
                 'ident': '%s-%4X' %(IDENT, _randint(0x1000, 0xffff)),
                 'initialized': get_timestamp(),
@@ -51,7 +51,7 @@ class Meta(object):
         s = search_location(s, create_in='data_dir')
         if not clean: self.load('stage', s, merge=True)
 
-        self._m['header'].update({'stage': s})
+        self.__meta['header'].update({'stage': s})
         self.log = shell_notify(
             '%s stage' %('new clean' if clean else 'loaded'),
             more=dict(meta=s, clean=clean),
@@ -75,9 +75,9 @@ class Meta(object):
 
         j = mdict if mdict else read_json(mdesc)
         if j and isinstance(j, dict):
-            self._m['header'].update({mkey: mdesc})
-            if merge: self._m = dict_merge(self._m, j)
-            else: self._m['import'][mkey] = j
+            self.__meta['header'].update({mkey: mdesc})
+            if merge: self.__meta = dict_merge(self.__meta, j)
+            else: self.__meta['import'][mkey] = j
             self.log = shell_notify(
                 'load %s data and %s it into meta' %('got' if mdict else 'read', 'merged' if merge else 'imported'),
                 more=dict(mkey=mkey, mdesc=mdesc, merge=merge),
@@ -96,7 +96,7 @@ class Meta(object):
         :returns: Current meta
         '''
 
-        return self._m
+        return self.__meta
 
     @log.setter
     def log(self, elem):
@@ -107,12 +107,12 @@ class Meta(object):
         from .util.files import read_json, write_json
         from .util.system import get_timestamp
 
-        if elem: self._m['log'].update({get_timestamp(precice=True): elem})
-        mfile = self._m['header']['stage']
+        if elem: self.__meta['log'].update({get_timestamp(precice=True): elem})
+        mfile = self.__meta['header']['stage']
 
         self.__lock.acquire()
         try:
             j = read_json(mfile)
-            if j != self._m: write_json(mfile, self._m)
+            if j != self.__meta: write_json(mfile, self.__meta)
         finally:
             self.__lock.release()
