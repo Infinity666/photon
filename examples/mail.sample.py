@@ -1,15 +1,15 @@
 
 from photon import Photon
 
-p = Photon('mail.sample.yaml')
+photon = Photon('mail.sample.yaml')
 
-s = p.settings.get['mail']
+settings = photon.settings.get['mail']
 
-mail = p.mail_handler(
-    s['recipient'],
-    sender=s['sender'],
-    subject=s['subject'],
-    punchline=s['punchline'],
+mail = photon.mail_handler(
+    to=settings['recipient'],
+    sender=settings['sender'],
+    subject=settings['subject'],
+    punchline=settings['punchline'],
     add_meta=True
 )
 
