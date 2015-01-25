@@ -26,7 +26,7 @@ setup(
     platforms='posix',
     scripts=['photon-settings-tool.py', 'photon-dangerous-selfupgrade.py'],
     provides=[pkg_name()],
-    install_requires=['PyYAML>=3.11'],
+    install_requires=['PyYAML'],
     classifiers=[
         'Development Status :: 2 - Pre-Alpha',
         'Environment :: Console',

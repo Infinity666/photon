@@ -7,6 +7,9 @@ class Template(object):
 
         * If it's value is recognized by :func:`util.locations.search_location` (a.k.a is a filename) the file contents will be loaded as template.
 
+        .. Note::
+            If the file is not found, you will be doing string processing on the filename instead of the contents!
+
     :param fields: Initially set up fields. Can be done later, using :func:`sub`
 
     The templating-language itself are normal :py:ref:`template-strings`, see there for syntax.
@@ -26,7 +29,11 @@ class Template(object):
         self.__template = read_file(tfile) if tfile else template
         self.__fields = fields
 
-        self.m('template tool startup done', more=dict(fields=self.__fields, file=tfile), verbose=False)
+        self.m(
+            'template tool startup done',
+            more=dict(fields=self.__fields, file=tfile),
+            verbose=False
+        )
 
     @property
     def raw(self):
@@ -40,7 +47,7 @@ class Template(object):
     def sub(self):
         '''
         :param fields: Set fields to substitute
-        :returns: Substituted Template with given fields. If no fields were set up beforehand, :func:`raw` is used
+        :returns: Substituted Template with given fields. If no fields were set up beforehand, :func:`raw` is used.
         '''
 
         from string import Template
@@ -69,10 +76,15 @@ class Template(object):
         if append:
             org = read_file(filename)
             if org:
-                if res in org: res = org
+                if res in org:
+                    res = org
                 else:
-                    if backup: backup_location(filename)
+                    if backup:
+                        backup_location(filename)
                     res = org + res
 
         write_file(filename, res)
-        return self.m('template %s' %('appended' if append else 'written'), more=dict(fields=self.__fields, file=filename))
+        return self.m(
+            'template %s' %('appended' if append else 'written'),
+            more=dict(fields=self.__fields, file=filename)
+        )

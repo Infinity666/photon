@@ -49,7 +49,8 @@ class Meta(object):
         from .util.system import shell_notify
 
         s = search_location(s, create_in='data_dir')
-        if not clean: self.load('stage', s, merge=True)
+        if not clean:
+            self.load('stage', s, merge=True)
 
         self.__meta['header'].update({'stage': s})
         self.log = shell_notify(
@@ -107,12 +108,14 @@ class Meta(object):
         from .util.files import read_json, write_json
         from .util.system import get_timestamp
 
-        if elem: self.__meta['log'].update({get_timestamp(precice=True): elem})
+        if elem:
+            self.__meta['log'].update({get_timestamp(precice=True): elem})
         mfile = self.__meta['header']['stage']
 
         self.__lock.acquire()
         try:
             j = read_json(mfile)
-            if j != self.__meta: write_json(mfile, self.__meta)
+            if j != self.__meta:
+                write_json(mfile, self.__meta)
         finally:
             self.__lock.release()

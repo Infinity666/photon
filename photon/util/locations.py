@@ -54,7 +54,8 @@ def make_locations(locations=None, verbose=True):
     from .system import shell_notify
     from .structures import to_list
 
-    if not locations: locations = get_locations().values()
+    if not locations:
+        locations = get_locations().values()
     locations = to_list(locations)
 
     r = list()
@@ -62,7 +63,8 @@ def make_locations(locations=None, verbose=True):
         if not _path.exists(p):
             _makedirs(p)
             r.append(p)
-    if verbose and len(r) > 0: shell_notify('path created', state=None, more=r)
+    if verbose and r:
+        shell_notify('path created', state=None, more=r)
     return r
 
 def search_location(loc, locations=None, critical=False, create_in=None, verbose=True):
@@ -89,19 +91,25 @@ def search_location(loc, locations=None, critical=False, create_in=None, verbose
     from .system import shell_notify
     from .structures import to_list
 
-    if not locations: locations = get_locations()
+    if not locations:
+        locations = get_locations()
 
     for p in reversed(sorted(to_list(locations))):
         f = _path.join(p, loc)
-        if _path.exists(f): return f
+        if _path.exists(f):
+            return f
 
-    if _path.exists(_path.abspath(_path.expanduser(loc))): return _path.abspath(_path.expanduser(loc))
+    if _path.exists(_path.abspath(_path.expanduser(loc))):
+        return _path.abspath(_path.expanduser(loc))
 
-    if critical: shell_notify('could not locate' %(loc), state=True, more=dict(file=loc, locations=locations))
+    if critical:
+        shell_notify('could not locate' %(loc), state=True, more=dict(file=loc, locations=locations))
+
     if create_in:
-        c = locations[create_in] if isinstance(locations, dict) and locations.get(create_in) else create_in
-        make_locations(locations=[c], verbose=verbose)
-        return _path.join(c, loc)
+        if isinstance(locations, dict):
+            create_in = locations.get(create_in, create_in)
+        make_locations(locations=[create_in], verbose=verbose)
+        return _path.join(create_in, loc)
 
 def change_location(src, tgt, move=False, verbose=True):
     '''
@@ -128,12 +136,18 @@ def change_location(src, tgt, move=False, verbose=True):
             if _path.isfile(src):
                 _copy2(src, search_location(tgt, create_in=_path.dirname(tgt), verbose=verbose))
             else:
-                for l in _listdir(src): change_location(_path.abspath(_path.join(src, l)), _path.abspath(_path.join(tgt, l)))
-        if move: _rmtree(src) if _path.isdir(src) and not _path.islink(src) else _remove(src)
-        if verbose: shell_notify(
-            '%s location' %('deleted' if not tgt and move else 'moved' if move else 'copied'),
-            more=dict(src=src, tgt=tgt)
-        )
+                for l in _listdir(src):
+                    change_location(_path.abspath(_path.join(src, l)), _path.abspath(_path.join(tgt, l)))
+        if move:
+            if _path.isdir(src) and not _path.islink(src):
+                _rmtree(src)
+            else:
+                _remove(src)
+        if verbose:
+            shell_notify(
+                '%s location' %('deleted' if not tgt and move else 'moved' if move else 'copied'),
+                more=dict(src=src, tgt=tgt)
+            )
 
 def backup_location(src, loc=None):
     '''
@@ -151,7 +165,8 @@ def backup_location(src, loc=None):
     from .system import get_timestamp
 
     src = _path.realpath(src)
-    if not loc or not loc.startswith(_sep): loc = _path.dirname(src)
+    if not loc or not loc.startswith(_sep):
+        loc = _path.dirname(src)
 
     pth = _path.join(_path.basename(src), _path.realpath(loc))
     out = '%s_backup_%s' %(_path.basename(src), get_timestamp())

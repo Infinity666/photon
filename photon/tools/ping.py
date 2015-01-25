@@ -6,24 +6,32 @@ class Ping(object):
     :param six: Either use ``ping`` or ``ping6``
     :param net_if: Specify network interface to send pings from
     :param num: How many pings to send each probe
-    :param max_pool_size: Hosts passed to :func:`probe` in form of a list, will be processed in parallel. Specify the maximum size of the thread pool workers here.
+    :param max_pool_size: Hosts passed to :func:`probe` in form of a list, will be processed in parallel. Specify the maximum size of the thread pool workers here. If skipped, the number of current CPUs is used
     '''
 
-    def __init__(self, m, six=False, net_if=None, num=5, max_pool_size=8):
+    def __init__(self, m, six=False, net_if=None, num=5, max_pool_size=None):
         super().__init__()
 
         from ..photon import check_m
+        from multiprocessing import cpu_count
 
         self.m = check_m(m)
         self.__ping_cmd = 'ping6' if six else 'ping'
         self.__net_if  = '-I %s' %(net_if) if net_if else ''
         if num < 1: num = 1
         self.__num = num
-        if max_pool_size < 1: max_pool_size = 1
+        if not max_pool_size:
+            max_pool_size = cpu_count()
+        if max_pool_size < 1:
+            max_pool_size = 1
         self.__max_pool_size = max_pool_size
         self.__probe_results = dict()
 
-        self.m('ping tool startup done', more=dict(pingc=self.__ping_cmd, net_if=self.__net_if, num=self.__num), verbose=False)
+        self.m(
+            'ping tool startup done',
+            more=dict(pingc=self.__ping_cmd, net_if=self.__net_if, num=self.__num),
+            verbose=False
+        )
 
     @property
     def probe(self):
@@ -53,7 +61,7 @@ class Ping(object):
         from re import findall as _findall, search as _search
         from ..util.structures import to_list
 
-        def __single_probe(host):
+        def __send_probe(host):
             ping = self.m(
                 '',
                 cmdd=dict(cmd='%s -c %d %s %s' %(self.__ping_cmd, self.__num, self.__net_if, host)),
@@ -78,7 +86,7 @@ class Ping(object):
         pool_size = len(hosts) if len(hosts) <= self.__max_pool_size else self.__max_pool_size
 
         pool = _Pool(pool_size)
-        pool.map(__single_probe, hosts)
+        pool.map(__send_probe, hosts)
         pool.close()
         pool.join()
 
@@ -99,9 +107,8 @@ class Ping(object):
         * ``0%`` up == `0.0`
         '''
 
-
         num=len(self.probe)
         up=len([h for h in self.probe if self.probe[h]['up']])
-        ratio=up/num
+        ratio=up/num if num != 0 else 0 #over 9000!
 
         return dict(num=num, up=up, down=num-up, ratio=ratio)

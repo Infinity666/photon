@@ -17,15 +17,23 @@ class Signal(object):
         self.m = check_m(m)
 
         pidfile = read_file(search_location(str(pid)))
-        if pidfile and pidfile.strip().isdigit(): pid = int(pidfile)
+        if pidfile and pidfile.strip().isdigit():
+            pid = int(pidfile)
 
         if not isinstance(pid, int):
-            self.m('could not determine pid', state=True, more=dict(pid=pid, pidfile=pidfile))
+            self.m('could not determine pid%s' %(' from file' if pidfile else '!'),
+                more=dict(pid=pid, pidfile=pidfile),
+                state=True
+            )
 
         self.__pid = pid
         self.__sudo = 'sudo' if sudo else ''
 
-        self.m('signal tool startup done', more=dict(pid=self.__pid, pidfile=pidfile if pidfile else 'directly passed'), verbose=False)
+        self.m(
+            'signal tool startup done',
+            more=dict(pid=self.__pid, pidfile=pidfile if pidfile else 'passed directly'),
+            verbose=False
+        )
 
     def __signal(self, sig, verbose=None):
         '''

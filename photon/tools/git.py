@@ -5,7 +5,7 @@
 
 class Git(object):
     '''
-    The git tools help to deal with git repositories.
+    The git tool helps to deal with git repositories.
 
     :param local: |param_local|
 
@@ -38,13 +38,22 @@ class Git(object):
             critical=False,
             verbose=False
         ).get('out') != self.local:
-            if not self.remote_url: self.m('a new git clone without remote url is not possible. sorry', state=True, more=dict(local=self.local))
+            if not self.remote_url:
+                self.m(
+                    'a new git clone without remote url is not possible. Sorry',
+                    state=True,
+                    more=dict(local=self.local)
+                )
             self.m(
                 'cloning into repo',
                 cmdd=dict(cmd='git clone %s %s' %(self.remote_url, self.local))
             )
 
-        self.m('git tool startup done', more=dict(remote_url=self.remote_url, local=self.local), verbose=False)
+        self.m(
+            'git tool startup done',
+            more=dict(remote_url=self.remote_url, local=self.local),
+            verbose=False
+        )
 
     @property
     def local(self):
@@ -79,7 +88,8 @@ class Git(object):
         '''
 
         commit = self._log(num=-1, format='%H')
-        if commit.get('returncode') == 0: return commit.get('stdout')
+        if commit.get('returncode') == 0:
+            return commit.get('stdout')
 
     @commit.setter
     def commit(self, commit):
@@ -89,8 +99,10 @@ class Git(object):
 
         c = self.commit
         if c:
-            if not commit: commit = c[0]
-            if commit in c: self._checkout(treeish=commit)
+            if not commit:
+                commit = c[0]
+            if commit in c:
+                self._checkout(treeish=commit)
 
     @property
     def short_commit(self):
@@ -101,7 +113,8 @@ class Git(object):
         '''
 
         commit = self._log(num=-1, format='%h')
-        if commit.get('returncode') == 0: return commit.get('stdout')
+        if commit.get('returncode') == 0:
+            return commit.get('stdout')
 
     @property
     def log(self):
@@ -114,7 +127,8 @@ class Git(object):
         '''
 
         log = self._log(num=10, format='%h::%b').get('stdout')
-        if log: return [dict(commit=c, message=m) for c, m in [l.split('::') for l in log]]
+        if log:
+            return [dict(commit=c, message=m) for c, m in [l.split('::') for l in log]]
 
     @property
     def status(self):
@@ -133,6 +147,7 @@ class Git(object):
             cmdd=dict(cmd='git status --porcelain', cwd=self.local),
             verbose=False
         ).get('stdout')
+
         o, m, f, g = list(), list(), list(), list()
         if status:
             for w in status:
@@ -176,7 +191,8 @@ class Git(object):
             cmdd=dict(cmd='git tag -l --sort="version:refname"', cwd=self.local),
             verbose=False,
         )
-        if tag.get('returncode') == 0: return tag.get('stdout')
+        if tag.get('returncode') == 0:
+            return tag.get('stdout')
 
     @tag.setter
     def tag(self, tag):
@@ -186,8 +202,10 @@ class Git(object):
 
         t = self.tag
         if t:
-            if not tag: tag = t[-1]
-            if tag in t: self._checkout(treeish=tag)
+            if not tag:
+                tag = t[-1]
+            if tag in t:
+                self._checkout(treeish=tag)
 
     @property
     def cleanup(self):
@@ -224,7 +242,8 @@ class Git(object):
                     more=f,
                     critical=False
                 )
-            if changes.get('conflicting'): self.m('you have conflicting files in your repository!', state=True, more=changes)
+            if changes.get('conflicting'):
+                self.m('Well done! You have conflicting files in your repository!', state=True, more=changes)
 
             self.m(
                 'auto commiting changes',
@@ -246,7 +265,7 @@ class Git(object):
     @property
     def publish(self):
         '''
-        Runs :func:`cleanup` first to push the changes to the :attr:`remote`.
+        Runs :func:`cleanup` first, then pushes the changes to the :attr:`remote`.
         '''
 
         self.cleanup
@@ -324,5 +343,10 @@ class Git(object):
             cmdd=dict(cmd='git pull --tags', cwd=self.local),
             critical=False
         )
-        if 'CONFLICT' in pull.get('out'): self.m('you have a merge conflict with your remote repository!', state=True, more=pull)
+        if 'CONFLICT' in pull.get('out'):
+            self.m(
+                'Congratulations! You have a merge conflict in your repository!',
+                state=True,
+                more=pull
+            )
         return pull

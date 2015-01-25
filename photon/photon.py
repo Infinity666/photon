@@ -72,7 +72,8 @@ class Photon(object):
 
         from .util.system import shell_notify, shell_run
 
-        if verbose == None: verbose = self.__verbose
+        if verbose == None:
+            verbose = self.__verbose
 
         res = dict()
         if more:

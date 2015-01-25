@@ -60,7 +60,10 @@ class Settings(object):
             'files': dict()
         }
 
-        loaders = [('!str_join', yaml_str_join,), ('!loc_join', yaml_loc_join,)]
+        loaders = [
+            ('!str_join', yaml_str_join,),
+            ('!loc_join', yaml_loc_join,)
+        ]
 
         defaults, sdict = ('startup import', defaults) if isinstance(defaults, dict) else (search_location(defaults), None)
 
@@ -93,9 +96,12 @@ class Settings(object):
 
         y = sdict if sdict else read_yaml(sdesc, add_constructor=loaders)
         if y and isinstance(y, dict):
-            if not sdict: self.__settings['files'].update({skey: sdesc})
-            if merge: self.__settings = dict_merge(self.__settings, y)
-            else: self.__settings[skey] = y
+            if not sdict:
+                self.__settings['files'].update({skey: sdesc})
+            if merge:
+                self.__settings = dict_merge(self.__settings, y)
+            else:
+                self.__settings[skey] = y
             shell_notify(
                 'load %s data and %s it into settings' %('got' if sdict else 'read', 'merged' if merge else 'imported'),
                 more=dict(skey=skey, sdesc=sdesc, merge=merge, writeback=writeback),
