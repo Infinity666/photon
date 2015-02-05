@@ -7,7 +7,7 @@ class Signal(object):
     :param sudo: Prepend sudo before command. (Make sure to be root yourself if set to ``False`` or expect errors. Further for unattended operation add the user to :file:`sudoers` file.)
     '''
 
-    def __init__(self, m, pid, sudo=True):
+    def __init__(self, m, pid, sudo=True, cmdd_if_no_pid=None):
         super().__init__()
 
         from ..photon import check_m
@@ -21,6 +21,11 @@ class Signal(object):
             pid = int(pidfile)
 
         if not isinstance(pid, int):
+            if cmdd_if_no_pid:
+                self.m('running post command',
+                    cmdd=cmdd_if_no_pid,
+                    critical=True
+                )
             self.m('could not determine pid%s' %(' from file' if pidfile else '!'),
                 more=dict(pid=pid, pidfile=pidfile),
                 state=True
