@@ -17,8 +17,9 @@ class Ping(object):
 
         self.m = check_m(m)
         self.__ping_cmd = 'ping6' if six else 'ping'
-        self.__net_if  = '-I %s' %(net_if) if net_if else ''
-        if num < 1: num = 1
+        self.__net_if = '-I %s' % (net_if) if net_if else ''
+        if num < 1:
+            num = 1
         self.__num = num
         if not max_pool_size:
             max_pool_size = cpu_count()
@@ -64,7 +65,9 @@ class Ping(object):
         def __send_probe(host):
             ping = self.m(
                 '',
-                cmdd=dict(cmd='%s -c %d %s %s' %(self.__ping_cmd, self.__num, self.__net_if, host)),
+                cmdd=dict(
+                    cmd='%s -c %d %s %s' % (self.__ping_cmd, self.__num, self.__net_if, host)
+                ),
                 critical=False,
                 verbose=False
             )
@@ -79,7 +82,8 @@ class Ping(object):
                 ms = _findall('time=([\d.]*) ms\n', p)
                 rtt = _search('(?P<min>[\d.]+)/(?P<avg>[\d.]+)/(?P<max>[\d.]+)/(?P<stddev>[\d.]+) ms', p)
 
-                if loss: loss = loss.group('loss')
+                if loss:
+                    loss = loss.group('loss')
                 self.__probe_results[host].update(dict(ms=ms, loss=loss, rtt=rtt.groupdict()))
 
         hosts = to_list(hosts)
@@ -107,8 +111,8 @@ class Ping(object):
         * ``0%`` up == `0.0`
         '''
 
-        num=len(self.probe)
-        up=len([h for h in self.probe if self.probe[h]['up']])
-        ratio=up/num if num != 0 else 0 #over 9000!
+        num = len(self.probe)
+        up = len([h for h in self.probe if self.probe[h]['up']])
+        ratio = up/num if num != 0 else 0  # over 9000!
 
         return dict(num=num, up=up, down=num-up, ratio=ratio)

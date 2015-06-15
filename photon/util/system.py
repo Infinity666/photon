@@ -2,6 +2,7 @@
 .. |use_photon_m| replace:: This method is just a helper method within photon. If you need this functionality use :func:`photon.Photon.m` instead
 '''
 
+
 def shell_notify(msg, state=False, more=None, exitcode=None, verbose=True):
     '''
     A pretty long wrapper for a :py:func:`print` function. But this :py:func:`print` is the only one in Photon.
@@ -32,16 +33,16 @@ def shell_notify(msg, state=False, more=None, exitcode=None, verbose=True):
     from sys import exit as _exit
     from pprint import pformat as _pformat
 
-    if state == True:
+    if state is True:
         state = '[FATAL]'
         exitcode = 23
-    elif state == None:
+    elif state is None:
         state = '[WARNING]'
-    elif state == False:
+    elif state is False:
         state = '~'
     else:
-        state = '[%s]' %(str(state))
-    m = ' %s %s' %(state, str(msg))
+        state = '[%s]' % (str(state))
+    m = ' %s %s' % (state, str(msg))
     if more:
         m += '\n\t' + _pformat(more).replace('\n', '\n\t')
     if verbose or isinstance(exitcode, int):
@@ -49,6 +50,7 @@ def shell_notify(msg, state=False, more=None, exitcode=None, verbose=True):
     if isinstance(exitcode, int):
         _exit(exitcode)
     return dict(message=msg, more=more, verbose=verbose)
+
 
 def shell_run(cmd, cin=None, cwd=None, timeout=10, critical=True, verbose=True):
     '''
@@ -120,13 +122,14 @@ def shell_run(cmd, cin=None, cwd=None, timeout=10, critical=True, verbose=True):
         res.update(dict(critical=critical))
 
         shell_notify(
-            'error in shell command \'%s\'' %(res.get('command')),
+            'error in shell command \'%s\'' % (res.get('command')),
             state=True if critical else None,
             more=res,
             verbose=verbose
         )
 
     return res
+
 
 def get_timestamp(time=True, precice=False):
     '''
@@ -147,6 +150,7 @@ def get_timestamp(time=True, precice=False):
         if precice:
             f += '-%f'
     return _datetime.now().strftime(f)
+
 
 def get_hostname():
     '''

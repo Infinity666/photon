@@ -2,6 +2,7 @@
 .. |yaml_loaders| replace:: :func:`util.structures.yaml_str_join` and :func:`util.structures.yaml_loc_join`
 '''
 
+
 class Settings(object):
     '''
     Settings is a class which provides access to compiled settings loaded from YAML-files.
@@ -103,11 +104,12 @@ class Settings(object):
             else:
                 self.__settings[skey] = y
             shell_notify(
-                'load %s data and %s it into settings' %('got' if sdict else 'read', 'merged' if merge else 'imported'),
+                'load %s data and %s it into settings' % ('got' if sdict else 'read', 'merged' if merge else 'imported'),
                 more=dict(skey=skey, sdesc=sdesc, merge=merge, writeback=writeback),
                 verbose=self.__verbose
             )
-        if writeback and y != self.__settings: write_yaml(sdesc, self.__settings)
+        if writeback and y != self.__settings:
+            write_yaml(sdesc, self.__settings)
         return y
 
     @property

@@ -1,4 +1,3 @@
-
 IDENT = 'photon'
 
 from .settings import Settings

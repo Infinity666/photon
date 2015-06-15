@@ -30,8 +30,9 @@ class Mail(object):
         to = to_list(to)
         cc = to_list(cc)
         bcc = to_list(bcc)
-        if not subject: subject = '%s mailer' %(IDENT)
-        subject = '%s - %s' %(subject, get_timestamp())
+        if not subject:
+            subject = '%s mailer' % (IDENT)
+        subject = '%s - %s' % (subject, get_timestamp())
 
         self.__sender = sender
         self.__recipients = list(_chain(to, cc, bcc))
@@ -40,11 +41,12 @@ class Mail(object):
 
         self.__message = _MIMEMultipart()
         self.__message.add_header('To', ', '.join(to))
-        if cc: self.__message.add_header('CC', ', '.join(cc))
+        if cc:
+            self.__message.add_header('CC', ', '.join(cc))
         self.__message.add_header('From', sender)
         self.__message.add_header('Subject', subject)
         self.__message.add_header('Date', _formatdate())
-        self.__message.add_header('X-Mailer', '%s mailer' %(IDENT))
+        self.__message.add_header('X-Mailer', '%s mailer' % (IDENT))
 
         self.m(
             'mail tool startup done',

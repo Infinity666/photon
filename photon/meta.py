@@ -20,7 +20,7 @@ class Meta(object):
         self.__verbose = verbose
         self.__meta = {
             'header': {
-                'ident': '%s-%4X' %(IDENT, _randint(0x1000, 0xffff)),
+                'ident': '%s-%4X' % (IDENT, _randint(0x1000, 0xffff)),
                 'initialized': get_timestamp(),
                 'verbose': verbose
             },
@@ -54,7 +54,7 @@ class Meta(object):
 
         self.__meta['header'].update({'stage': s})
         self.log = shell_notify(
-            '%s stage' %('new clean' if clean else 'loaded'),
+            '%s stage' % ('new clean' if clean else 'loaded'),
             more=dict(meta=s, clean=clean),
             verbose=self.__verbose
         )
@@ -77,10 +77,12 @@ class Meta(object):
         j = mdict if mdict else read_json(mdesc)
         if j and isinstance(j, dict):
             self.__meta['header'].update({mkey: mdesc})
-            if merge: self.__meta = dict_merge(self.__meta, j)
-            else: self.__meta['import'][mkey] = j
+            if merge:
+                self.__meta = dict_merge(self.__meta, j)
+            else:
+                self.__meta['import'][mkey] = j
             self.log = shell_notify(
-                'load %s data and %s it into meta' %('got' if mdict else 'read', 'merged' if merge else 'imported'),
+                'load %s data and %s it into meta' % ('got' if mdict else 'read', 'merged' if merge else 'imported'),
                 more=dict(mkey=mkey, mdesc=mdesc, merge=merge),
                 verbose=self.__verbose
             )

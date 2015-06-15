@@ -17,6 +17,7 @@ def read_file(filename):
         with open(filename, 'r') as f:
             return f.read()
 
+
 def read_yaml(filename, add_constructor=None):
     '''
     Reads YAML files
@@ -39,6 +40,7 @@ def read_yaml(filename, add_constructor=None):
     if y:
         return _yaml.load(y)
 
+
 def read_json(filename):
     '''
     Reads json files
@@ -52,6 +54,7 @@ def read_json(filename):
     j = read_file(filename)
     if j:
         return _loads(j)
+
 
 def write_file(filename, content):
     '''
@@ -68,6 +71,7 @@ def write_file(filename, content):
         with open(filename, 'w') as f:
             return f.write(content)
 
+
 def write_yaml(filename, content):
     '''
     Writes YAML files
@@ -82,6 +86,7 @@ def write_yaml(filename, content):
     y = _yaml.dump(content, indent=4, default_flow_style=False)
     if y:
         return write_file(filename, y)
+
 
 def write_json(filename, content):
     '''

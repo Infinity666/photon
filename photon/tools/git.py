@@ -3,6 +3,7 @@
 .. |param_remote_url| replace:: The remote URL of the repository
 '''
 
+
 class Git(object):
     '''
     The git tool helps to deal with git repositories.
@@ -29,7 +30,8 @@ class Git(object):
         self.m = check_m(m)
         self.__local = search_location(local, create_in=local)
         self.__remote_url = remote_url
-        if not mbranch: mbranch = 'master'
+        if not mbranch:
+            mbranch = 'master'
         self.__mbranch = mbranch
 
         if self.m(
@@ -46,7 +48,7 @@ class Git(object):
                 )
             self.m(
                 'cloning into repo',
-                cmdd=dict(cmd='git clone %s %s' %(self.remote_url, self.local))
+                cmdd=dict(cmd='git clone %s %s' % (self.remote_url, self.local))
             )
 
         self.m(
@@ -78,7 +80,6 @@ class Git(object):
         '''
 
         return self._get_remote().get('out')
-
 
     @property
     def commit(self):
@@ -152,10 +153,14 @@ class Git(object):
         if status:
             for w in status:
                 s, t = w[:2], w[3:]
-                if '?' in s: o.append(t)
-                if 'M' in s: m.append(t)
-                if 'D' in s: f.append(t)
-                if 'U' in s: g.append(t)
+                if '?' in s:
+                    o.append(t)
+                if 'M' in s:
+                    m.append(t)
+                if 'D' in s:
+                    f.append(t)
+                if 'U' in s:
+                    g.append(t)
         clean = False if o + m + f + g else True
         return dict(untracked=o, modified=m, deleted=f, conflicting=g, clean=clean)
 
@@ -167,7 +172,8 @@ class Git(object):
         '''
 
         branch = self._get_branch().get('stdout')
-        if branch: return ''.join([b for b in branch if '*' in b]).replace('*', '').strip()
+        if branch:
+            return ''.join([b for b in branch if '*' in b]).replace('*', '').strip()
 
     @branch.setter
     def branch(self, branch):
@@ -175,9 +181,10 @@ class Git(object):
         .. seealso:: :attr:`branch`
         '''
 
-        if not branch: branch = self.__mbranch
+        if not branch:
+            branch = self.__mbranch
         tracking = '' if branch in self._get_branch(remotes=True).get('out') else '-B'
-        self._checkout(treeish='%s %s' %(tracking, branch))
+        self._checkout(treeish='%s %s' % (tracking, branch))
 
     @property
     def tag(self):
@@ -231,14 +238,14 @@ class Git(object):
             for f in changes.get('untracked', []) + changes.get('modified', []):
                 self.m(
                     'adding file to repository',
-                    cmdd=(dict(cmd='git add %s' %(f), cwd=self.local)),
+                    cmdd=(dict(cmd='git add %s' % (f), cwd=self.local)),
                     more=f,
                     critical=False
                 )
             for f in changes.get('deleted', []):
                 self.m(
                     'deleting file from repository',
-                    cmdd=(dict(cmd='git rm %s' %(f), cwd=self.local)),
+                    cmdd=(dict(cmd='git rm %s' % (f), cwd=self.local)),
                     more=f,
                     critical=False
                 )
@@ -247,7 +254,7 @@ class Git(object):
 
             self.m(
                 'auto commiting changes',
-                cmdd=dict(cmd='git commit -m "%s %s auto commit"' %(hostname, IDENT), cwd=self.local),
+                cmdd=dict(cmd='git commit -m "%s %s auto commit"' % (hostname, IDENT), cwd=self.local),
                 more=changes
             )
 
@@ -255,7 +262,7 @@ class Git(object):
 
             self.m(
                 'auto merging branches',
-                cmdd=dict(cmd='git merge %s -m "%s %s auto merge"' %(hostname, hostname, IDENT), cwd=self.local),
+                cmdd=dict(cmd='git merge %s -m "%s %s auto merge"' % (hostname, hostname, IDENT), cwd=self.local),
                 more=dict(branch=old_branch, temp_branch=hostname)
             )
 
@@ -273,8 +280,8 @@ class Git(object):
         remote = self.remote
         branch = self.branch
         return self.m(
-            'pushing changes to %s/%s' %(remote, branch),
-            cmdd=dict(cmd='git push -u %s %s' %(remote, branch), cwd=self.local),
+            'pushing changes to %s/%s' % (remote, branch),
+            cmdd=dict(cmd='git push -u %s %s' % (remote, branch), cwd=self.local),
             more=dict(remote=remote, branch=branch)
         )
 
@@ -287,7 +294,7 @@ class Git(object):
 
         return self.m(
             'getting current remote',
-            cmdd=dict(cmd='git remote show %s' %('-n' if cached else ''), cwd=self.local),
+            cmdd=dict(cmd='git remote show %s' % ('-n' if cached else ''), cwd=self.local),
             verbose=False
         )
 
@@ -299,11 +306,11 @@ class Git(object):
         :param format: Use formatted output with specified format string
         '''
 
-        num = '-n %s' %(num) if num else ''
-        format = '--format="%s"' %(format) if format else ''
+        num = '-n %s' % (num) if num else ''
+        format = '--format="%s"' % (format) if format else ''
         return self.m(
             'getting git log',
-            cmdd=dict(cmd='git log %s %s' %(num, format), cwd=self.local),
+            cmdd=dict(cmd='git log %s %s' % (num, format), cwd=self.local),
             verbose=False
         )
 
@@ -316,7 +323,7 @@ class Git(object):
 
         return self.m(
             'getting git branch information',
-            cmdd=dict(cmd='git branch %s' %('-r' if remotes else ''), cwd=self.local),
+            cmdd=dict(cmd='git branch %s' % ('-r' if remotes else ''), cwd=self.local),
             verbose=False
         )
 
@@ -328,8 +335,8 @@ class Git(object):
         '''
 
         return self.m(
-            'checking out "%s"' %(treeish),
-            cmdd=dict(cmd='git checkout %s' %(treeish), cwd=self.local),
+            'checking out "%s"' % (treeish),
+            cmdd=dict(cmd='git checkout %s' % (treeish), cwd=self.local),
             verbose=False
         )
 

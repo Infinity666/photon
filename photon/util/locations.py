@@ -5,6 +5,7 @@
 
 from os import path as _path
 
+
 def get_locations():
     '''
     Compiles default locations
@@ -37,6 +38,7 @@ def get_locations():
         'data_dir': data_dir
     }
 
+
 def make_locations(locations=None, verbose=True):
     '''
     Creates folders
@@ -66,6 +68,7 @@ def make_locations(locations=None, verbose=True):
     if verbose and r:
         shell_notify('path created', state=None, more=r)
     return r
+
 
 def search_location(loc, locations=None, critical=False, create_in=None, verbose=True):
     '''
@@ -111,6 +114,7 @@ def search_location(loc, locations=None, critical=False, create_in=None, verbose
         make_locations(locations=[create_in], verbose=verbose)
         return _path.join(create_in, loc)
 
+
 def change_location(src, tgt, move=False, verbose=True):
     '''
     Copies/moves/deletes locations
@@ -145,9 +149,10 @@ def change_location(src, tgt, move=False, verbose=True):
                 _remove(src)
         if verbose:
             shell_notify(
-                '%s location' %('deleted' if not tgt and move else 'moved' if move else 'copied'),
+                '%s location' % ('deleted' if not tgt and move else 'moved' if move else 'copied'),
                 more=dict(src=src, tgt=tgt)
             )
+
 
 def backup_location(src, loc=None):
     '''
@@ -169,6 +174,6 @@ def backup_location(src, loc=None):
         loc = _path.dirname(src)
 
     pth = _path.join(_path.basename(src), _path.realpath(loc))
-    out = '%s_backup_%s' %(_path.basename(src), get_timestamp())
+    out = '%s_backup_%s' % (_path.basename(src), get_timestamp())
 
     change_location(src, search_location(out, create_in=pth))

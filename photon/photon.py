@@ -34,7 +34,7 @@ class Photon(object):
 
         self.s2m
         self.meta.log = shell_notify(
-            '%s startup done' %(IDENT),
+            '%s startup done' % (IDENT),
             more=dict(defaults=defaults, config=config, meta=meta, verbose=verbose),
             verbose=False
         )
@@ -72,7 +72,7 @@ class Photon(object):
 
         from .util.system import shell_notify, shell_run
 
-        if verbose == None:
+        if verbose is None:
             verbose = self.__verbose
 
         res = dict()
@@ -106,8 +106,8 @@ class Photon(object):
 
         from photon import IDENT
 
-        m = '%s settings' %(IDENT)
-        self.meta.load(m, 'import %s' %(m), mdict=self.settings.get)
+        m = '%s settings' % (IDENT)
+        self.meta.load(m, 'import %s' % (m), mdict=self.settings.get)
 
     def git_handler(self, *args, **kwargs):
         '''
@@ -133,9 +133,12 @@ class Photon(object):
         from .tools.mail import Mail
 
         m = Mail(self.m, *args, **kwargs)
-        if punchline: m.text = '-> %s <-' %(punchline)
-        if add_meta: m.text = self.meta.log
-        if add_settings: m.text = self.settings.get
+        if punchline:
+            m.text = '-> %s <-' % (punchline)
+        if add_meta:
+            m.text = self.meta.log
+        if add_settings:
+            m.text = self.settings.get
         return m
 
     def ping_handler(self, *args, **kwargs):
@@ -170,6 +173,7 @@ class Photon(object):
         from .tools.template import Template
 
         return Template(self.m, *args, **kwargs)
+
 
 def check_m(pm):
     '''

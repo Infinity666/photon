@@ -85,6 +85,6 @@ class Template(object):
 
         write_file(filename, res)
         return self.m(
-            'template %s' %('appended' if append else 'written'),
+            'template %s' % ('appended' if append else 'written'),
             more=dict(fields=self.__fields, file=filename)
         )

@@ -22,11 +22,13 @@ class Signal(object):
 
         if not isinstance(pid, int):
             if cmdd_if_no_pid:
-                self.m('running post command',
+                self.m(
+                    'running post command',
                     cmdd=cmdd_if_no_pid,
                     critical=True
                 )
-            self.m('could not determine pid%s' %(' from file' if pidfile else '!'),
+            self.m(
+                'could not determine pid%s' % (' from file' if pidfile else '!'),
                 more=dict(pid=pid, pidfile=pidfile),
                 state=True
             )
@@ -52,8 +54,8 @@ class Signal(object):
         .. |kill_verbose| replace:: with visible shell warning
         '''
         return self.m(
-            'killing process %s with "%s"' %(self.__pid, sig),
-            cmdd=dict(cmd='%s kill -%s %d' %(self.__sudo, sig, self.__pid)),
+            'killing process %s with "%s"' % (self.__pid, sig),
+            cmdd=dict(cmd='%s kill -%s %d' % (self.__sudo, sig, self.__pid)),
             verbose=verbose
         )
 

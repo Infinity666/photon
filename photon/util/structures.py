@@ -3,6 +3,7 @@
 .. |yaml_loader_seealso| replace:: The YAML files mentioned in |allexamples|
 '''
 
+
 def yaml_str_join(l, n):
     '''
     YAML loader to join strings
@@ -25,10 +26,11 @@ def yaml_str_join(l, n):
 
     for num, seq in enumerate(s):
         if seq == 'hostname':
-            s[num] = '%s' %(get_hostname())
+            s[num] = '%s' % (get_hostname())
         elif seq == 'timestamp':
-            s[num] = '%s' %(get_timestamp())
+            s[num] = '%s' % (get_timestamp())
     return ''.join([str(i) for i in s])
+
 
 def yaml_loc_join(l, n):
     '''
@@ -49,8 +51,9 @@ def yaml_loc_join(l, n):
 
     for num, seq in enumerate(s):
         if seq in locations:
-            s[num] = '%s' %(locations[seq])
+            s[num] = '%s' % (locations[seq])
     return _path.join(*s)
+
 
 def dict_merge(o, v):
     '''
@@ -65,7 +68,8 @@ def dict_merge(o, v):
 
     from copy import deepcopy as _deepcopy
 
-    if not isinstance(v, dict): return v
+    if not isinstance(v, dict):
+        return v
     res = _deepcopy(o)
     for key in v.keys():
         if res.get(key) and isinstance(res[key], dict):
@@ -73,6 +77,7 @@ def dict_merge(o, v):
         else:
             res[key] = _deepcopy(v[key])
     return res
+
 
 def to_list(i, use_keys=False):
     '''
@@ -101,4 +106,4 @@ def to_list(i, use_keys=False):
         for e in i.keys() if use_keys else i.values():
             res.append(to_list(e)) if isinstance(e, dict) else res.append(e)
         return res
-    shell_notify('type for %s uncovered' %(i), state=True, more=type(i))
+    shell_notify('type for %s uncovered' % (i), state=True, more=type(i))
