@@ -1,6 +1,8 @@
 '''
-.. |yaml_loader_returns| replace:: with keywords extended. Used in :func:`settings.Settings.load`
-.. |yaml_loader_seealso| replace:: The YAML files mentioned in |allexamples|
+.. |yaml_loader_returns| replace::
+    with keywords extended. Used in :func:`settings.Settings.load`
+.. |yaml_loader_seealso| replace::
+    The YAML files mentioned in |allexamples|
 '''
 
 
@@ -11,11 +13,14 @@ def yaml_str_join(l, n):
     The keywords are as following:
 
     * `hostname`: Your hostname (from :func:`util.system.get_hostname`)
+
     * `timestamp`: Current timestamp (from :func:`util.system.get_timestamp`)
 
-    :returns: A `non character` joined string |yaml_loader_returns|
+    :returns:
+        A `non character` joined string |yaml_loader_returns|
 
-    .. note:: Be careful with timestamps when using a `config` in :ref:`settings`.
+    .. note::
+        Be careful with timestamps when using a `config` in :ref:`settings`.
 
     .. seealso:: |yaml_loader_seealso|
     '''
@@ -36,9 +41,11 @@ def yaml_loc_join(l, n):
     '''
     YAML loader to join paths
 
-    The keywords come directly from :func:`util.locations.get_locations`. See there!
+    The keywords come directly from :func:`util.locations.get_locations`.
+    See there!
 
-    :returns: A `path seperator` (``/``) joined string |yaml_loader_returns|
+    :returns:
+        A `path seperator` (``/``) joined string |yaml_loader_returns|
 
     .. seealso:: |yaml_loader_seealso|
     '''
@@ -59,11 +66,16 @@ def dict_merge(o, v):
     '''
     Recursively climbs through dictionaries and merges them together.
 
-    :param o: The first dictionary
-    :param v: The second dictionary
-    :returns: A dictionary (who would have guessed?)
+    :param o:
+        The first dictionary
+    :param v:
+        The second dictionary
+    :returns:
+        A dictionary (who would have guessed?)
 
-    .. note:: Make sure `o` & `v` are indeed dictionaries, bad things will happen otherwise!
+    .. note::
+        Make sure `o` & `v` are indeed dictionaries,
+        bad things will happen otherwise!
     '''
 
     from copy import deepcopy as _deepcopy
@@ -86,11 +98,16 @@ def to_list(i, use_keys=False):
     :param i: Item to convert
 
         * If `i` is ``None``, the result is an empty list
-        * If `i` is 'string', the result won't be ``['s', 't', 'r',...]`` rather more like ``['string']``
+
+        * If `i` is 'string', the result won't be \
+        ``['s', 't', 'r',...]`` rather more like ``['string']``
+
         * If `i` is a nested dictionary, the result will be a flattened list.
 
-    :param use_keys: If i is a dictionary, use the keys instead of values
-    :returns: All items in i as list
+    :param use_keys:
+        If i is a dictionary, use the keys instead of values
+    :returns:
+        All items in i as list
     '''
 
     from .system import shell_notify

@@ -16,9 +16,12 @@ Welcome to the Photon Documentation.
 Structure
 ---------
 
-Photon aimes to be modular and can be divided into :ref:`core`, it's :ref:`util` and some :ref:`tools`, provided through :ref:`photon` itself.
+Photon aimes to be modular and can be divided into
+:ref:`core`, it's :ref:`util` and some :ref:`tools`,
+provided through :ref:`photon` itself.
 
-If you just want to use Photon in your Scripts as a normal User you may especially be interested in the parts :ref:`photon` and :ref:`tools`.
+If you just want to use Photon in your Scripts as a normal User you
+may especially be interested in the parts :ref:`photon` and :ref:`tools`.
 
 .. toctree::
    :maxdepth: 2

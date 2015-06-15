@@ -13,10 +13,13 @@ As well as used by the :ref:`tools`:
 
 .. seealso:: |alltools|
 
-.. note:: If you have no explicit reason, do **not** use the functions here directly.
+.. note::
+    If you have no explicit reason, do **not** use the functions here directly.
 
     * Always try to work trough :class:`photon.Photon` and it's handlers.
-    * If you discover you are repeatedly calling backend functions consider adding a tool for that job!
+
+    * If you discover you are repeatedly calling backend functions \
+    consider adding a tool for that job!
 
 .. _util_files:
 

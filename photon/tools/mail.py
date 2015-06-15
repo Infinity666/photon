@@ -3,14 +3,20 @@ class Mail(object):
     '''
     The Mail tool helps to send out mails.
 
-    :param to: Where to send the mail ('user@example.com')
-    :param sender: Yourself ('me@example.com')
+    :param to:
+        Where to send the mail ('user@example.com')
+    :param sender:
+        Yourself ('me@example.com')
 
-        * set a reverse DNS entry for ``example.com`` so your mail does not get caught up in spamfilters.
+        * set a reverse DNS entry for ``example.com`` \
+        so your mail does not get caught up in spamfilters.
 
-    :param subject: The subject line
-    :param cc: One or a list of CCs
-    :param bcc: One or a list of BCCs
+    :param subject:
+        The subject line
+    :param cc:
+        One or a list of CCs
+    :param bcc:
+        One or a list of BCCs
     '''
 
     def __init__(self, m, to, sender, subject=None, cc=None, bcc=None):
@@ -57,8 +63,10 @@ class Mail(object):
     @property
     def text(self):
         '''
-        :param text: Add some more text
-        :returns: All text & headers as raw mail source
+        :param text:
+            Add some more text
+        :returns:
+            All text & headers as raw mail source
         '''
 
         return self.__message.as_string().encode('UTF-8')
@@ -85,14 +93,17 @@ class Mail(object):
     @property
     def send(self):
         '''
-        :returns: A dictionary with the following:
+        :returns:
+            A dictionary with the following:
 
             * 'sender': The `sender`
             * 'recipients': All recipients, compiled from `to`, `cc` and `bcc`
             * 'result': The :py:meth:`smtplib.SMTP.sendmail`-result
             * 'exception': The exception message (if any)
 
-        .. note:: You need to have a postfix/sendmail running and listening on localhost.
+        .. note::
+            You need to have a postfix/sendmail running
+            and listening on localhost.
         '''
 
         from smtplib import SMTP as _SMTP, SMTPException as _SMTPException

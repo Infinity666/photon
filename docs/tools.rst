@@ -5,7 +5,9 @@
 Tools
 =====
 
-This are the tools for the user using Photon. You should not directly use them, instead they will get provided to you by :ref:`photon`.
+This are the tools for the user using Photon.
+You should not directly use them,
+instead they will get provided to you by :ref:`photon`.
 
 .. seealso:: |allcore|
 

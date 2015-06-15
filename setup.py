@@ -1,20 +1,22 @@
 '''
 Photon - a shell backend as python module
-''' # do not use restructured text here!
+'''  # do not use restructured text here!
 
 from setuptools import setup
 from os import path as _path
 from info import pkg_name, release, url, author, email
 
 __long_desc = __doc__
-with open(_path.join(_path.dirname(_path.abspath(__file__)), 'README.rst'), 'r') as readme:
+with open(
+    _path.join(_path.dirname(_path.abspath(__file__)), 'README.rst'), 'r'
+) as readme:
     __long_desc = readme.read()
 
 setup(
     name=pkg_name(),
     version=release(),
     url=url(),
-    download_url='%sarchive/%s.tar.gz' %(url(), release()),
+    download_url='%sarchive/%s.tar.gz' % (url(), release()),
     license='BSD',
     author=author(),
     author_email=email(),

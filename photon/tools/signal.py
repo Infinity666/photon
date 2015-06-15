@@ -1,10 +1,16 @@
 
 class Signal(object):
     '''
-    The Signal tool can send signals to processes via ``kill``, returning results.
+    The Signal tool can send signals to processes via ``kill``,
+    returning the results.
 
-    :param pid: Either the full path to the pidfile (e.g. :file:`/var/run/proc.pid`) or the pid as number
-    :param sudo: Prepend sudo before command. (Make sure to be root yourself if set to ``False`` or expect errors. Further for unattended operation add the user to :file:`sudoers` file.)
+    :param pid:
+        Either the full path to the pidfile (e.g. :file:`/var/run/proc.pid`)
+        or the pid as number
+    :param sudo:
+        Prepend sudo before command.
+        (Make sure to be root yourself if set to ``False`` or expect errors.
+        Further for unattended operation add the user to :file:`sudoers` file.)
     '''
 
     def __init__(self, m, pid, sudo=True, cmdd_if_no_pid=None):
@@ -28,7 +34,9 @@ class Signal(object):
                     critical=True
                 )
             self.m(
-                'could not determine pid%s' % (' from file' if pidfile else '!'),
+                'could not determine pid%s' % (
+                    ' from file' if pidfile else '!'
+                ),
                 more=dict(pid=pid, pidfile=pidfile),
                 state=True
             )
@@ -38,7 +46,10 @@ class Signal(object):
 
         self.m(
             'signal tool startup done',
-            more=dict(pid=self.__pid, pidfile=pidfile if pidfile else 'passed directly'),
+            more=dict(
+                pid=self.__pid,
+                pidfile=pidfile if pidfile else 'passed directly'
+            ),
             verbose=False
         )
 
@@ -46,11 +57,15 @@ class Signal(object):
         '''
         Helper class preventing code duplication..
 
-        :param sig: Signal to use (e.g. "HUP", "ALRM")
-        :param verbose: Overwrite :func:`photon.Photon.m`'s `verbose`
-        :returns: |kill_return| with specified `pid`
+        :param sig:
+            Signal to use (e.g. "HUP", "ALRM")
+        :param verbose:
+            Overwrite :func:`photon.Photon.m`'s `verbose`
+        :returns:
+            |kill_return| with specified `pid`
 
-        .. |kill_return| replace:: :func:`photon.Photon.m`'s result of killing `pid`
+        .. |kill_return| replace::
+            :func:`photon.Photon.m`'s result of killing `pid`
         .. |kill_verbose| replace:: with visible shell warning
         '''
         return self.m(
@@ -62,7 +77,8 @@ class Signal(object):
     @property
     def alrm(self):
         '''
-        :returns: |kill_return| using SIGALRM
+        :returns:
+            |kill_return| using SIGALRM
         '''
 
         return self.__signal('ALRM')
@@ -70,7 +86,8 @@ class Signal(object):
     @property
     def hup(self):
         '''
-        :returns: |kill_return| using SIGHUP
+        :returns:
+            |kill_return| using SIGHUP
         '''
 
         return self.__signal('HUP')
@@ -78,7 +95,8 @@ class Signal(object):
     @property
     def int(self):
         '''
-        :returns: |kill_return| using SIGINT |kill_verbose|
+        :returns:
+            |kill_return| using SIGINT |kill_verbose|
         '''
 
         return self.__signal('INT', verbose=True)
@@ -86,7 +104,8 @@ class Signal(object):
     @property
     def kill(self):
         '''
-        :returns: |kill_return| using SIGKILL |kill_verbose|
+        :returns:
+            |kill_return| using SIGKILL |kill_verbose|
         '''
 
         return self.__signal('KILL', verbose=True)
@@ -94,7 +113,8 @@ class Signal(object):
     @property
     def quit(self):
         '''
-        :returns: |kill_return| using SIGQUIT |kill_verbose|
+        :returns:
+            |kill_return| using SIGQUIT |kill_verbose|
         '''
 
         return self.__signal('QUIT', verbose=True)
@@ -102,7 +122,8 @@ class Signal(object):
     @property
     def stop(self):
         '''
-        :returns: |kill_return| using SIGSTOP |kill_verbose|
+        :returns:
+            |kill_return| using SIGSTOP |kill_verbose|
         '''
 
         return self.__signal('STOP', verbose=True)
@@ -110,7 +131,8 @@ class Signal(object):
     @property
     def usr1(self):
         '''
-        :returns: |kill_return| using SIGUSR1
+        :returns:
+            |kill_return| using SIGUSR1
         '''
 
         return self.__signal('USR1')
@@ -118,7 +140,8 @@ class Signal(object):
     @property
     def usr2(self):
         '''
-        :returns: |kill_return| using SIGUSR2
+        :returns:
+            |kill_return| using SIGUSR2
         '''
 
         return self.__signal('USR2')

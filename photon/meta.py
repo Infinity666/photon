@@ -1,12 +1,17 @@
 
 class Meta(object):
     '''
-    Meta is a class which bounds to an actual json-file on disk. It provides a logger storing the entries in that json-file.
+    Meta is a class which bounds to an actual json-file on disk.
+    It provides a logger storing the entries in that json-file.
 
-    It is also possible to import contents. By staging out to a different directory meta-files are left behind for further debugging or to see what was going on.
+    It is also possible to import contents.
+    By staging out to a different directory meta-files are left behind
+    for further debugging or to see what was going on.
 
-    :param meta: Initial, clean meta file to use. See :meth:`stage` for more
-    :param verbose: Sets the `verbose` flag for the underlying :ref:`util` functions
+    :param meta:
+        Initial, clean meta file to use. See :meth:`stage` for more
+    :param verbose:
+        Sets the `verbose` flag for the underlying :ref:`util` functions
     '''
     def __init__(self, meta='meta.json', verbose=True):
 
@@ -30,13 +35,16 @@ class Meta(object):
         self.__lock = Lock()
         self.stage(meta, clean=True)
 
-    def stage(self, s, clean=False):
+    def stage(self, name, clean=False):
         '''
         Switch stage
 
-        :param s: Filename of new meta file. |filelocate|
+        :param name:
+            Filename of new meta file. |filelocate|
 
-            * File must not already exist, will be created in 'data_dir' from :func:`util.locations.get_locations`
+            * File must not already exist, will be created in 'data_dir' \
+            from :func:`util.locations.get_locations`
+
             * Can also be a full path to place it anywhere desired
 
         :param clean: What to do with preexisting meta files?
@@ -48,14 +56,14 @@ class Meta(object):
         from .util.locations import search_location
         from .util.system import shell_notify
 
-        s = search_location(s, create_in='data_dir')
+        name = search_location(name, create_in='data_dir')
         if not clean:
-            self.load('stage', s, merge=True)
+            self.load('stage', name, merge=True)
 
-        self.__meta['header'].update({'stage': s})
+        self.__meta['header'].update({'stage': name})
         self.log = shell_notify(
             '%s stage' % ('new clean' if clean else 'loaded'),
-            more=dict(meta=s, clean=clean),
+            more=dict(meta=name, clean=clean),
             verbose=self.__verbose
         )
 
@@ -63,11 +71,21 @@ class Meta(object):
         '''
         Loads a dictionary into current meta
 
-        :param mkey: Type of data to load. Is be used to reference the data from the 'header' within meta
-        :param mdesc: Either filename of json-file to load or further description of imported data when `mdict` is used
-        :param dict mdict: Directly pass data as dictionary instead of loading it from a json-file. Make sure to set `mkey` and `mdesc` accordingly
-        :param merge: Merge received data into current meta or place it under 'import' within meta
-        :returns: The loaded (or directly passed) content
+        :param mkey:
+            Type of data to load.
+            Is be used to reference the data from the 'header' within meta
+        :param mdesc:
+            Either filename of json-file to load or further description
+            of imported data when `mdict` is used
+        :param dict mdict:
+            Directly pass data as dictionary instead of
+            loading it from a json-file.
+            Make sure to set `mkey` and `mdesc` accordingly
+        :param merge:
+            Merge received data into current meta or place it
+            under 'import' within meta
+        :returns:
+            The loaded (or directly passed) content
         '''
 
         from .util.files import read_json
@@ -82,7 +100,10 @@ class Meta(object):
             else:
                 self.__meta['import'][mkey] = j
             self.log = shell_notify(
-                'load %s data and %s it into meta' % ('got' if mdict else 'read', 'merged' if merge else 'imported'),
+                'load %s data and %s it into meta' % (
+                    'got' if mdict else 'read',
+                    'merged' if merge else 'imported'
+                ),
                 more=dict(mkey=mkey, mdesc=mdesc, merge=merge),
                 verbose=self.__verbose
             )
@@ -94,7 +115,10 @@ class Meta(object):
         :param elem: Add a new log entry to the meta.
 
             * Can be anything.
-            * The log is a dictionary with keys generated from the output of :func:`util.system.get_timestamp` and `elem` as value
+
+            * The log is a dictionary with keys \
+            generated from the output of :func:`util.system.get_timestamp` \
+            and `elem` as value
 
         :returns: Current meta
         '''

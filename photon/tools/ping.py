@@ -1,12 +1,24 @@
+rxlss = '(?P<loss>[\d.]+)[%] packet loss\n'
+rxmst = 'time=([\d.]*) ms\n'
+rxrtt = '(?P<min>[\d.]+)/(?P<avg>[\d.]+)/(?P<max>[\d.]+)/(?P<stddev>[\d.]+) ms'
+
 
 class Ping(object):
     '''
-    The Ping tool helps to send pings, returning detailed results each probe, and calculates a summary of all probes.
+    The Ping tool helps to send pings, returning detailed results each probe,
+    and calculates a summary of all probes.
 
-    :param six: Either use ``ping`` or ``ping6``
-    :param net_if: Specify network interface to send pings from
-    :param num: How many pings to send each probe
-    :param max_pool_size: Hosts passed to :func:`probe` in form of a list, will be processed in parallel. Specify the maximum size of the thread pool workers here. If skipped, the number of current CPUs is used
+    :param six:
+        Either use ``ping`` or ``ping6``
+    :param net_if:
+        Specify network interface to send pings from
+    :param num:
+        How many pings to send each probe
+    :param max_pool_size:
+        Hosts passed to :func:`probe` in form of a list,
+        will be processed in parallel.
+        Specify the maximum size of the thread pool workers here.
+        If skipped, the number of current CPUs is used
     '''
 
     def __init__(self, m, six=False, net_if=None, num=5, max_pool_size=None):
@@ -30,24 +42,34 @@ class Ping(object):
 
         self.m(
             'ping tool startup done',
-            more=dict(pingc=self.__ping_cmd, net_if=self.__net_if, num=self.__num),
+            more=dict(
+                pingc=self.__ping_cmd,
+                net_if=self.__net_if,
+                num=self.__num
+            ),
             verbose=False
         )
 
     @property
     def probe(self):
         '''
-        :param hosts: One or a list of hosts (URLs, IP-addresses) to send pings to
+        :param hosts:
+            One or a list of hosts (URLs, IP-addresses) to send pings to
 
-            * If you need to check multiple hosts, it is best practice to pass them together as a list.
-            * This will probe all hosts in parallel, with ``max_pool_size`` workers.
+            * If you need to check multiple hosts, it is best \
+            to pass them together as a list.
 
-        :returns: A dictionary with all hosts probed as keys specified as following:
+            * This will probe all hosts in parallel, \
+            with ``max_pool_size`` workers.
+
+        :returns:
+            A dictionary with all hosts probed as keys specified as following:
 
         * 'up': ``True`` or ``False`` depending if ping was successful
         * 'loss': The packet loss as list (if 'up')
         * 'ms': A list of times each packet sent (if 'up')
-        * 'rtt': A dictionary with the fields *avg*, *min*, *max* & *stddev* (if 'up')
+        * 'rtt': A dictionary with the fields \
+        *avg*, *min*, *max* & *stddev* (if 'up')
         '''
 
         return self.__probe_results
@@ -66,7 +88,9 @@ class Ping(object):
             ping = self.m(
                 '',
                 cmdd=dict(
-                    cmd='%s -c %d %s %s' % (self.__ping_cmd, self.__num, self.__net_if, host)
+                    cmd='%s -c %d %s %s' % (
+                        self.__ping_cmd, self.__num, self.__net_if, host
+                    )
                 ),
                 critical=False,
                 verbose=False
@@ -78,16 +102,24 @@ class Ping(object):
             if up:
                 p = ping.get('out')
 
-                loss = _search('(?P<loss>[\d.]+)[%] packet loss\n', p)
-                ms = _findall('time=([\d.]*) ms\n', p)
-                rtt = _search('(?P<min>[\d.]+)/(?P<avg>[\d.]+)/(?P<max>[\d.]+)/(?P<stddev>[\d.]+) ms', p)
+                loss = _search(rxlss, p)
+                ms = _findall(rxmst, p)
+                rtt = _search(rxrtt, p)
 
                 if loss:
                     loss = loss.group('loss')
-                self.__probe_results[host].update(dict(ms=ms, loss=loss, rtt=rtt.groupdict()))
+                self.__probe_results[host].update(dict(
+                    ms=ms,
+                    loss=loss,
+                    rtt=rtt.groupdict()
+                ))
 
         hosts = to_list(hosts)
-        pool_size = len(hosts) if len(hosts) <= self.__max_pool_size else self.__max_pool_size
+        pool_size = (
+            len(hosts)
+            if len(hosts) <= self.__max_pool_size else
+            self.__max_pool_size
+        )
 
         pool = _Pool(pool_size)
         pool.map(__send_probe, hosts)
@@ -97,7 +129,8 @@ class Ping(object):
     @property
     def status(self):
         '''
-        :returns: A dictionary with the following:
+        :returns:
+            A dictionary with the following:
 
         * 'num': Total number of hosts already probed
         * 'up': Number of hosts up
