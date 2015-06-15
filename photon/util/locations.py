@@ -103,7 +103,7 @@ def search_location(loc, locations=None, critical=False, create_in=None, verbose
         return _path.abspath(_path.expanduser(loc))
 
     if critical:
-        shell_notify('could not locate' %(loc), state=True, more=dict(file=loc, locations=locations))
+        shell_notify('could not locate', state=True, more=dict(file=loc, locations=locations))
 
     if create_in:
         if isinstance(locations, dict):

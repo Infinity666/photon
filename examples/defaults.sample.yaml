@@ -92,6 +92,6 @@
 # This turns into:
 #     name: my_awesome_server_software
 #     main: /home/herbert/my_awesome_server_software/main
-#     main_exec: /home/herbert/my_awesome_server_software/main/run.py
+#     main_run: /home/herbert/my_awesome_server_software/main/run.py
 #     backup_dir: /home/herbert/.local/share/photon/my_awesome_server_software/backup-YYYY.MM.DD-HH.MM.SS
 #     git-remote: https://github.com/user404/my_awesome_server_software.git
