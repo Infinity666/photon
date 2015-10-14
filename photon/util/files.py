@@ -1,3 +1,9 @@
+from json import dumps as _dumps
+from json import loads as _loads
+from os import path as _path
+
+import yaml as _yaml
+
 
 def read_file(filename):
     '''
@@ -14,7 +20,6 @@ def read_file(filename):
         To check if a file really exists
         use :func:`util.locations.search_location`
     '''
-    from os import path as _path
 
     if filename and _path.exists(filename):
         with open(filename, 'r') as f:
@@ -37,8 +42,6 @@ def read_yaml(filename, add_constructor=None):
         :func:`util.structures.yaml_loc_join`
     '''
 
-    import yaml as _yaml
-
     y = read_file(filename)
     if add_constructor:
         if not isinstance(add_constructor, list):
@@ -59,8 +62,6 @@ def read_json(filename):
         Loaded json content as represented data structure
     '''
 
-    from json import loads as _loads
-
     j = read_file(filename)
     if j:
         return _loads(j)
@@ -79,8 +80,6 @@ def write_file(filename, content):
         The size of the data written
     '''
 
-    from os import path as _path
-
     if filename and _path.exists(_path.dirname(filename)) and content:
         with open(filename, 'w') as f:
             return f.write(content)
@@ -98,8 +97,6 @@ def write_yaml(filename, content):
         The size written
     '''
 
-    import yaml as _yaml
-
     y = _yaml.dump(content, indent=4, default_flow_style=False)
     if y:
         return write_file(filename, y)
@@ -116,8 +113,6 @@ def write_json(filename, content):
     :returns:
         The size written
     '''
-
-    from json import dumps as _dumps
 
     j = _dumps(content, indent=4, sort_keys=True)
     if j:

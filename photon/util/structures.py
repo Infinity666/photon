@@ -4,6 +4,8 @@
 .. |yaml_loader_seealso| replace::
     The YAML files mentioned in |allexamples|
 '''
+from copy import deepcopy as _deepcopy
+from os import path as _path
 
 
 def yaml_str_join(l, n):
@@ -25,7 +27,7 @@ def yaml_str_join(l, n):
     .. seealso:: |yaml_loader_seealso|
     '''
 
-    from .system import get_hostname, get_timestamp
+    from photon.util.system import get_hostname, get_timestamp
 
     s = l.construct_sequence(n)
 
@@ -50,8 +52,7 @@ def yaml_loc_join(l, n):
     .. seealso:: |yaml_loader_seealso|
     '''
 
-    from os import path as _path
-    from .locations import get_locations
+    from photon.util.locations import get_locations
 
     locations = get_locations()
     s = l.construct_sequence(n)
@@ -77,8 +78,6 @@ def dict_merge(o, v):
         Make sure `o` & `v` are indeed dictionaries,
         bad things will happen otherwise!
     '''
-
-    from copy import deepcopy as _deepcopy
 
     if not isinstance(v, dict):
         return v
@@ -110,7 +109,7 @@ def to_list(i, use_keys=False):
         All items in i as list
     '''
 
-    from .system import shell_notify
+    from photon.util.system import shell_notify
 
     if not i:
         return []

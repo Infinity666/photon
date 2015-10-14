@@ -8,7 +8,17 @@
     it will be filled with the output of :func:`get_locations`.
 '''
 
+from os import environ as _environ
+from os import listdir as _listdir
+from os import makedirs as _makedirs
 from os import path as _path
+from os import remove as _remove
+from os import sep as _sep
+from shutil import copy2 as _copy2
+from shutil import rmtree as _rmtree
+from sys import argv as _argv
+
+from photon import IDENT
 
 
 def get_locations():
@@ -35,10 +45,6 @@ def get_locations():
 
         * |param_locations_none|
     '''
-
-    from os import environ as _environ
-    from sys import argv as _argv
-    from photon import IDENT
 
     home_dir = _path.expanduser('~')
     conf_dir = _path.join(
@@ -79,9 +85,8 @@ def make_locations(locations=None, verbose=True):
         * |param_locations_none|
     '''
 
-    from os import makedirs as _makedirs
-    from .system import shell_notify
-    from .structures import to_list
+    from photon.util.structures import to_list
+    from photon.util.system import shell_notify
 
     if not locations:
         locations = get_locations().values()
@@ -131,8 +136,8 @@ def search_location(loc, locations=None,
         * |param_locations_none|
     '''
 
-    from .system import shell_notify
-    from .structures import to_list
+    from photon.util.structures import to_list
+    from photon.util.system import shell_notify
 
     if not locations:
         locations = get_locations()
@@ -180,9 +185,7 @@ def change_location(src, tgt, move=False, verbose=True):
         Show warnings
     '''
 
-    from os import path as _path, listdir as _listdir, remove as _remove
-    from shutil import copy2 as _copy2, rmtree as _rmtree
-    from .system import shell_notify
+    from photon.util.system import shell_notify
 
     if _path.exists(src):
         if tgt:
@@ -230,8 +233,7 @@ def backup_location(src, loc=None):
         * Otherwise the specified path will be used.
     '''
 
-    from os import path as _path, sep as _sep
-    from .system import get_timestamp
+    from photon.util.system import get_timestamp
 
     src = _path.realpath(src)
     if not loc or not loc.startswith(_sep):

@@ -3,6 +3,13 @@
     This method is just a helper method within photon.
     If you need this functionality use :func:`photon.Photon.m` instead
 '''
+from datetime import datetime as _datetime
+from pprint import pformat as _pformat
+from shlex import split as _split
+from subprocess import PIPE as _PIPE
+from subprocess import Popen as _Popen
+from subprocess import TimeoutExpired as _TimeoutExpired
+from sys import exit as _exit
 
 
 def shell_notify(msg, state=False, more=None, exitcode=None, verbose=True):
@@ -45,9 +52,6 @@ def shell_notify(msg, state=False, more=None, exitcode=None, verbose=True):
     :returns:
         A dictionary containing untouched `msg`, `more` and `verbose`
     '''
-
-    from sys import exit as _exit
-    from pprint import pformat as _pformat
 
     if state is True:
         state = '[FATAL]'
@@ -118,10 +122,6 @@ def shell_run(cmd,
         * 'out': The most urgent message as joined string. \
         ('exception' > 'stderr' > 'stdout')
     '''
-
-    from shlex import split as _split
-    from subprocess import Popen as _Popen, PIPE as _PIPE
-    from subprocess import TimeoutExpired as _TimeoutExpired
 
     res = dict(command=cmd)
     if cin:
@@ -194,8 +194,6 @@ def get_timestamp(time=True, precice=False):
 
     .. seealso:: `strftime.org <http://strftime.org/>`_ is awesome!
     '''
-
-    from datetime import datetime as _datetime
 
     f = '%Y.%m.%d'
     if time:
