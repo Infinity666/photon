@@ -1,3 +1,7 @@
+from photon.photon import check_m
+from photon.util.files import read_file
+from photon.util.locations import search_location
+
 
 class Signal(object):
     '''
@@ -15,10 +19,6 @@ class Signal(object):
 
     def __init__(self, m, pid, sudo=True, cmdd_if_no_pid=None):
         super().__init__()
-
-        from ..photon import check_m
-        from ..util.files import read_file
-        from ..util.locations import search_location
 
         self.m = check_m(m)
 

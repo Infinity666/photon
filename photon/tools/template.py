@@ -1,3 +1,9 @@
+from string import Template as _Template
+
+from photon.photon import check_m
+from photon.util.files import read_file, write_file
+from photon.util.locations import backup_location, search_location
+
 
 class Template(object):
     '''
@@ -24,10 +30,6 @@ class Template(object):
 
     def __init__(self, m, template, fields=None):
         super().__init__()
-
-        from ..photon import check_m
-        from ..util.files import read_file
-        from ..util.locations import search_location
 
         self.m = check_m(m)
 
@@ -61,10 +63,8 @@ class Template(object):
             If no fields were set up beforehand, :func:`raw` is used.
         '''
 
-        from string import Template
-
         if self.__fields:
-            return Template(self.raw).substitute(self.__fields)
+            return _Template(self.raw).substitute(self.__fields)
         return self.raw
 
     @sub.setter
@@ -86,9 +86,6 @@ class Template(object):
             Create a backup of `filename` before writing.
             Only applies when `append` is set
         '''
-
-        from ..util.files import read_file, write_file
-        from ..util.locations import backup_location
 
         res = self.sub
         if append:

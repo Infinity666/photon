@@ -1,3 +1,11 @@
+from multiprocessing import cpu_count as _cpu_count
+from multiprocessing.dummy import Pool as _Pool
+from re import findall as _findall
+from re import search as _search
+
+from photon.photon import check_m
+from photon.util.structures import to_list
+
 rxlss = '(?P<loss>[\d.]+)[%] packet loss\n'
 rxmst = 'time=([\d.]*) ms\n'
 rxrtt = '(?P<min>[\d.]+)/(?P<avg>[\d.]+)/(?P<max>[\d.]+)/(?P<stddev>[\d.]+) ms'
@@ -24,9 +32,6 @@ class Ping(object):
     def __init__(self, m, six=False, net_if=None, num=5, max_pool_size=None):
         super().__init__()
 
-        from ..photon import check_m
-        from multiprocessing import cpu_count
-
         self.m = check_m(m)
         self.__ping_cmd = 'ping6' if six else 'ping'
         self.__net_if = '-I %s' % (net_if) if net_if else ''
@@ -34,7 +39,7 @@ class Ping(object):
             num = 1
         self.__num = num
         if not max_pool_size:
-            max_pool_size = cpu_count()
+            max_pool_size = _cpu_count()
         if max_pool_size < 1:
             max_pool_size = 1
         self.__max_pool_size = max_pool_size
@@ -79,10 +84,6 @@ class Ping(object):
         '''
         .. seealso:: :attr:`probe`
         '''
-
-        from multiprocessing.dummy import Pool as _Pool
-        from re import findall as _findall, search as _search
-        from ..util.structures import to_list
 
         def __send_probe(host):
             ping = self.m(

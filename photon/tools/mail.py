@@ -1,3 +1,19 @@
+from email import charset as _charset
+from email.mime.multipart import MIMEMultipart as _MIMEMultipart
+from email.mime.text import MIMEText as _MIMEText
+from email.utils import formatdate as _formatdate
+from itertools import chain as _chain
+from pprint import pformat as _pformat
+from smtplib import SMTP as _SMTP
+from smtplib import SMTPException as _SMTPException
+from socket import error as _error
+
+from photon import IDENT
+
+from photon.photon import check_m
+from photon.util.structures import to_list
+from photon.util.system import get_timestamp
+
 
 class Mail(object):
     '''
@@ -21,15 +37,6 @@ class Mail(object):
 
     def __init__(self, m, to, sender, subject=None, cc=None, bcc=None):
         super().__init__()
-
-        from itertools import chain as _chain
-        from email import charset as _charset
-        from email.mime.multipart import MIMEMultipart as _MIMEMultipart
-        from email.utils import formatdate as _formatdate
-        from photon import IDENT
-        from ..photon import check_m
-        from ..util.structures import to_list
-        from ..util.system import get_timestamp
 
         self.m = check_m(m)
 
@@ -77,9 +84,6 @@ class Mail(object):
         .. seealso:: :attr:`text`
         '''
 
-        from email.mime.text import MIMEText as _MIMEText
-        from pprint import pformat as _pformat
-
         if text:
             if not isinstance(text, str):
                 text = _pformat(text)
@@ -105,9 +109,6 @@ class Mail(object):
             You need to have a postfix/sendmail running
             and listening on localhost.
         '''
-
-        from smtplib import SMTP as _SMTP, SMTPException as _SMTPException
-        from socket import error as _error
 
         res = dict(sender=self.__sender, recipients=self.__recipients)
         try:

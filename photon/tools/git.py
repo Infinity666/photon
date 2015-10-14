@@ -2,6 +2,11 @@
 .. |param_local| replace:: The local folder of the repository
 .. |param_remote_url| replace:: The remote URL of the repository
 '''
+from photon import IDENT
+
+from photon.photon import check_m
+from photon.util.locations import search_location
+from photon.util.system import get_hostname
 
 
 class Git(object):
@@ -31,9 +36,6 @@ class Git(object):
 
     def __init__(self, m, local, remote_url=None, mbranch=None):
         super().__init__()
-
-        from ..util.locations import search_location
-        from ..photon import check_m
 
         self.m = check_m(m)
         self.__local = search_location(local, create_in=local)
@@ -264,9 +266,6 @@ class Git(object):
 
         |appteardown| if conflicts are discovered
         '''
-
-        from photon import IDENT
-        from ..util.system import get_hostname
 
         hostname = get_hostname()
         old_branch = self.branch
