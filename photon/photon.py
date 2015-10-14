@@ -1,3 +1,12 @@
+from photon import IDENT, Meta, Settings
+
+from .tools.git import Git
+from .tools.mail import Mail
+from .tools.ping import Ping
+from .tools.signal import Signal
+from .tools.template import Template
+from .util.system import shell_notify, shell_run
+
 
 class Photon(object):
     '''
@@ -39,9 +48,6 @@ class Photon(object):
     def __init__(self, defaults,
                  config='config.yaml', meta='meta.json', verbose=True):
         super().__init__()
-
-        from photon import Settings, Meta, IDENT
-        from .util.system import shell_notify
 
         self.settings = Settings(defaults, config=config, verbose=verbose)
         self.meta = Meta(meta=meta, verbose=verbose)
@@ -106,8 +112,6 @@ class Photon(object):
             to pipe it's output into :func:`meta.Meta.log` before returning.
         '''
 
-        from .util.system import shell_notify, shell_run
-
         if verbose is None:
             verbose = self.__verbose
 
@@ -141,8 +145,6 @@ class Photon(object):
         Imports settings to meta
         '''
 
-        from photon import IDENT
-
         m = '%s settings' % (IDENT)
         self.meta.load(m, 'import %s' % (m), mdict=self.settings.get)
 
@@ -153,8 +155,6 @@ class Photon(object):
 
         .. seealso:: :ref:`tools_git`
         '''
-
-        from .tools.git import Git
 
         return Git(self.m, *args, **kwargs)
 
@@ -174,8 +174,6 @@ class Photon(object):
         .. seealso:: :ref:`tools_mail`
         '''
 
-        from .tools.mail import Mail
-
         m = Mail(self.m, *args, **kwargs)
         if punchline:
             m.text = '-> %s <-' % (punchline)
@@ -193,8 +191,6 @@ class Photon(object):
         .. seealso:: :ref:`tools_ping`
         '''
 
-        from .tools.ping import Ping
-
         return Ping(self.m, *args, **kwargs)
 
     def signal_handler(self, *args, **kwargs):
@@ -205,8 +201,6 @@ class Photon(object):
         .. seealso:: :ref:`tools_signal`
         '''
 
-        from .tools.signal import Signal
-
         return Signal(self.m, *args, **kwargs)
 
     def template_handler(self, *args, **kwargs):
@@ -216,8 +210,6 @@ class Photon(object):
 
         .. seealso:: :ref:`tools_template`
         '''
-
-        from .tools.template import Template
 
         return Template(self.m, *args, **kwargs)
 
@@ -233,8 +225,6 @@ def check_m(pm):
         Now to be proven correct m-function,
         tears down whole application otherwise.
     '''
-
-    from .util.system import shell_notify
 
     if not any([
         callable(pm),

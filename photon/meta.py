@@ -1,3 +1,13 @@
+from random import randint as _randint
+from threading import Lock
+
+from photon import IDENT
+
+from .util.files import read_json, write_json
+from .util.locations import search_location
+from .util.structures import dict_merge
+from .util.system import get_timestamp, shell_notify
+
 
 class Meta(object):
     '''
@@ -16,11 +26,6 @@ class Meta(object):
     def __init__(self, meta='meta.json', verbose=True):
 
         super().__init__()
-
-        from photon import IDENT
-        from random import randint as _randint
-        from threading import Lock
-        from .util.system import get_timestamp
 
         self.__verbose = verbose
         self.__meta = {
@@ -53,9 +58,6 @@ class Meta(object):
             * ``True``: Replace preexisting meta with current one
         '''
 
-        from .util.locations import search_location
-        from .util.system import shell_notify
-
         name = search_location(name, create_in='data_dir')
         if not clean:
             self.load('stage', name, merge=True)
@@ -87,10 +89,6 @@ class Meta(object):
         :returns:
             The loaded (or directly passed) content
         '''
-
-        from .util.files import read_json
-        from .util.structures import dict_merge
-        from .util.system import shell_notify
 
         j = mdict if mdict else read_json(mdesc)
         if j and isinstance(j, dict):
@@ -130,9 +128,6 @@ class Meta(object):
         '''
         .. seealso:: :attr:`log`
         '''
-
-        from .util.files import read_json, write_json
-        from .util.system import get_timestamp
 
         if elem:
             self.__meta['log'].update({get_timestamp(precice=True): elem})

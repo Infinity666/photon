@@ -3,6 +3,11 @@
     and :func:`util.structures.yaml_loc_join`
 '''
 
+from .util.files import read_yaml, write_yaml
+from .util.locations import get_locations, search_location
+from .util.structures import dict_merge, yaml_loc_join, yaml_str_join
+from .util.system import shell_notify
+
 
 class Settings(object):
     '''
@@ -78,10 +83,6 @@ class Settings(object):
     def __init__(self, defaults, config='config.yaml', verbose=True):
 
         super().__init__()
-
-        from .util.system import shell_notify
-        from .util.locations import get_locations, search_location
-        from .util.structures import yaml_str_join, yaml_loc_join
 
         self.__verbose = verbose
         self.__settings = {
@@ -159,10 +160,6 @@ class Settings(object):
 
         .. seealso:: |yaml_loaders|
         '''
-
-        from .util.files import read_yaml, write_yaml
-        from .util.structures import dict_merge
-        from .util.system import shell_notify
 
         y = sdict if sdict else read_yaml(sdesc, add_constructor=loaders)
         if y and isinstance(y, dict):
