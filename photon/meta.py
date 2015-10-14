@@ -3,10 +3,10 @@ from threading import Lock
 
 from photon import IDENT
 
-from .util.files import read_json, write_json
-from .util.locations import search_location
-from .util.structures import dict_merge
-from .util.system import get_timestamp, shell_notify
+from photon.util.files import read_json, write_json
+from photon.util.locations import search_location
+from photon.util.structures import dict_merge
+from photon.util.system import get_timestamp, shell_notify
 
 
 class Meta(object):

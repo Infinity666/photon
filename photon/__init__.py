@@ -1,5 +1,5 @@
 IDENT = 'photon'
 
-from .settings import Settings
-from .meta import Meta
-from .photon import Photon
+from photon.settings import Settings
+from photon.meta import Meta
+from photon.photon import Photon

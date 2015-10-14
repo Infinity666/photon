@@ -3,10 +3,10 @@
     and :func:`util.structures.yaml_loc_join`
 '''
 
-from .util.files import read_yaml, write_yaml
-from .util.locations import get_locations, search_location
-from .util.structures import dict_merge, yaml_loc_join, yaml_str_join
-from .util.system import shell_notify
+from photon.util.files import read_yaml, write_yaml
+from photon.util.locations import get_locations, search_location
+from photon.util.structures import dict_merge, yaml_loc_join, yaml_str_join
+from photon.util.system import shell_notify
 
 
 class Settings(object):

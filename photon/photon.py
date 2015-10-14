@@ -1,11 +1,38 @@
-from photon import IDENT, Meta, Settings
+from photon import IDENT
+from photon.meta import Meta
+from photon.settings import Settings
 
-from .tools.git import Git
-from .tools.mail import Mail
-from .tools.ping import Ping
-from .tools.signal import Signal
-from .tools.template import Template
-from .util.system import shell_notify, shell_run
+
+def check_m(pm):
+    '''
+    Shared helper function for all :ref:`tools` to check if the passed
+    m-function is indeed :func:`photon.Photon.m`
+
+    :params pm:
+        Suspected m-function
+    :returns:
+        Now to be proven correct m-function,
+        tears down whole application otherwise.
+    '''
+
+    if not any([
+        callable(pm),
+        pm.__name__ != Photon.m.__name__,
+        pm.__doc__ != Photon.m.__doc__
+    ]):
+        shell_notify(
+            'wrong "m-function" passed!',
+            state=True,
+            more=pm.__name__
+        )
+    return pm
+
+from photon.tools.git import Git
+from photon.tools.mail import Mail
+from photon.tools.ping import Ping
+from photon.tools.signal import Signal
+from photon.tools.template import Template
+from photon.util.system import shell_notify, shell_run
 
 
 class Photon(object):
@@ -212,28 +239,3 @@ class Photon(object):
         '''
 
         return Template(self.m, *args, **kwargs)
-
-
-def check_m(pm):
-    '''
-    Shared helper function for all :ref:`tools` to check if the passed
-    m-function is indeed :func:`photon.Photon.m`
-
-    :params pm:
-        Suspected m-function
-    :returns:
-        Now to be proven correct m-function,
-        tears down whole application otherwise.
-    '''
-
-    if not any([
-        callable(pm),
-        pm.__name__ != Photon.m.__name__,
-        pm.__doc__ != Photon.m.__doc__
-    ]):
-        shell_notify(
-            'wrong "m-function" passed!',
-            state=True,
-            more=pm.__name__
-        )
-    return pm
