@@ -1,22 +1,27 @@
 #!/usr/bin/env python3
 
+from argparse import ArgumentParser
+from json import dumps
+from os import path, sep
+from pprint import pformat
+
+from photon import Settings
+from yaml import dump
+
 
 def _p(s):
     print(s)
 
 
 def _pp(s):
-    from pprint import pformat
     return _p(pformat(s))
 
 
 def _j(s):
-    from json import dumps
     return _p(dumps(s, indent=4, sort_keys=True))
 
 
 def _y(s):
-    from yaml import dump
     return _p(dump(s, indent=4, default_flow_style=False))
 
 
@@ -42,7 +47,6 @@ def fmt(structure, ftype):
 
 
 def args():
-    from argparse import ArgumentParser
     p = ArgumentParser(
         prog='photon settings tool',
         description='Reads photon settings files to display \
@@ -86,7 +90,6 @@ def args():
 
 
 def main(defaults, setting, config=None, verbose=True):
-    from photon import Settings
     res = Settings(defaults, config=config, verbose=verbose).get
     for s in setting:
         if s in res:
@@ -97,7 +100,6 @@ def main(defaults, setting, config=None, verbose=True):
 
 
 if __name__ == '__main__':
-    from os import sep, path
     a = args()
 
     if a.config and sep in a.config:

@@ -1,4 +1,3 @@
-
 from photon import Photon
 
 photon = Photon('mail.sample.yaml')

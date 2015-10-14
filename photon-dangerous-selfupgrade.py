@@ -1,8 +1,12 @@
 #!/usr/bin/env python3
 
+from argparse import ArgumentParser
+from os import path
+
+from photon import Photon
+
 
 def args():
-    from argparse import ArgumentParser
     p = ArgumentParser(
         prog='photon selfupgrade',
         description='Upgrade photon_core and one to many repositories',
@@ -24,9 +28,6 @@ def args():
 
 
 def main(sudo, repos=None):
-    from os import path
-    from photon import Photon
-
     p = Photon(
         dict(sudo=sudo, repos=repos),
         config=None,

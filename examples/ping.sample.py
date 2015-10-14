@@ -1,5 +1,5 @@
-
 from pprint import pprint
+
 from photon import Photon
 
 photon = Photon('ping.sample.yaml')
@@ -9,7 +9,8 @@ hosts = photon.settings.get['hosts']
 ping = photon.ping_handler()
 
 ###
-# Let's start off with localhost to demonstrate the handling of the probe-function:
+# Let's start off with localhost to demonstrate the handling
+# of the probe-function:
 
 pprint(hosts)
 
@@ -17,9 +18,11 @@ a = hosts['addresses'][0]
 ping.probe = a
 
 if ping.probe[a]['up']:
-    print('%s is reachable - %s ms rtt in average' %(a, ping.probe[a]['rtt']['avg']))
+    print('%s is reachable - %s ms rtt in average' % (
+        a, ping.probe[a]['rtt']['avg']
+    ))
 else:
-    print('%s could not be reached!' %(a))
+    print('%s could not be reached!' % (a))
 
 pprint(ping.probe)
 
@@ -27,8 +30,10 @@ print('-' * 8)
 
 
 ###
-# You can also pass a complete list to probe. This will be faster, because the list is processed in parallel.
-# The status per host will be overwritten with new information if it encounters the same host again:
+# You can also pass a complete list to probe. This will be faster, because
+# the list is processed in parallel.
+# The status per host will be overwritten with new information if it
+# encounters the same host again:
 
 ping.probe = hosts['addresses']
 pprint(ping.probe)

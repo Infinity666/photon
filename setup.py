@@ -2,9 +2,11 @@
 Photon - a shell backend as python module
 '''  # do not use restructured text here!
 
-from setuptools import setup
 from os import path as _path
-from info import pkg_name, release, url, author, email
+
+from setuptools import setup
+
+from info import author, email, pkg_name, release, url
 
 __long_desc = __doc__
 with open(
