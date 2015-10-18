@@ -46,27 +46,27 @@ def fmt(structure, ftype):
         FTYPES[ftype](structure)
 
 
-def args():
-    p = ArgumentParser(
+def argparse():
+    parser = ArgumentParser(
         prog='photon settings tool',
         description='Reads photon settings files to display \
             and/or save the output',
         epilog='-.-',
         add_help=True
     )
-    p.add_argument(
+    parser.add_argument(
         '--defaults', '-d',
         action='store',
         default='defaults.yaml',
         help='Specify defaults file to load'
     )
-    p.add_argument(
+    parser.add_argument(
         '--config', '-c',
         action='store',
         default=None,
         help='Specify config file to load and writeback'
     )
-    p.add_argument(
+    parser.add_argument(
         '--formatter', '-f',
         action='store',
         default='pp',
@@ -75,23 +75,23 @@ def args():
             Choose between p_rint p_retty_p_rint (default), \
             j_son, y_aml or nested t_abs'
     )
-    p.add_argument(
+    parser.add_argument(
         '--verbose', '-v',
         action='store_true',
         default=False,
         help='Show info and warn messages'
     )
-    p.add_argument(
-        'setting',
+    parser.add_argument(
+        'settings',
         nargs='*',
         help='Space separated list into settings'
     )
-    return p.parse_args()
+    return parser.parse_args()
 
 
-def main(defaults, setting, config=None, verbose=True):
+def main(defaults, settings, config=None, verbose=True):
     res = Settings(defaults, config=config, verbose=verbose).get
-    for s in setting:
+    for s in settings:
         if s in res:
             res = res[s]
         else:
@@ -100,15 +100,15 @@ def main(defaults, setting, config=None, verbose=True):
 
 
 if __name__ == '__main__':
-    a = args()
+    args = argparse()
 
-    if a.config and sep in a.config:
-        a.config = path.abspath(path.expanduser(a.config))
+    if args.config and sep in args.config:
+        args.config = path.abspath(path.expanduser(args.config))
 
     fmt(
         main(
-            a.defaults, a.setting,
-            config=a.config, verbose=a.verbose
+            args.defaults, args.settings,
+            config=args.config, verbose=args.verbose
         ),
-        a.formatter
+        args.formatter
     )

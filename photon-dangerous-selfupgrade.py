@@ -6,42 +6,42 @@ from os import path
 from photon import Photon
 
 
-def args():
-    p = ArgumentParser(
+def argparse():
+    parser = ArgumentParser(
         prog='photon selfupgrade',
         description='Upgrade photon_core and one to many repositories',
         epilog='You really _want_ to see the world burn or what?! Be careful!',
         add_help=True
     )
-    p.add_argument(
+    parser.add_argument(
         '--sudo', '-s',
         action='store_true',
         default=False,
         help='use sudo to upgrade photon_core'
     )
-    p.add_argument(
+    parser.add_argument(
         '--repos', '-r',
         nargs='*',
         help='List to the basepath of additional git repositories to update'
     )
-    return p.parse_args()
+    return parser.parse_args()
 
 
 def main(sudo, repos=None):
-    p = Photon(
+    photon = Photon(
         dict(sudo=sudo, repos=repos),
         config=None,
         meta='photon_selfupgrade.json'
     )
-    s = p.settings.get
-    if s['repos']:
-        for repo in s['repos']:
+    settings = photon.settings.get
+    if settings['repos']:
+        for repo in settings['repos']:
             if path.exists(repo) and path.exists(path.join(repo, '.git')):
-                p.git_handler(repo)._pull()
+                photon.git_handler(repo)._pull()
             else:
-                p.m('skipping non repo', more=dict(repo=repo))
+                photon.m('skipping non repo', more=dict(repo=repo))
 
-    upres = p.m(
+    upres = photon.m(
         'attempting selfupgrade',
         cmdd=dict(
             cmd='%s pip3 install -U --pre photon_core' % (
@@ -52,11 +52,11 @@ def main(sudo, repos=None):
         critical=False
     )
     if upres.get('returncode') == 0:
-        p.m('all went well')
+        photon.m('all went well')
     else:
-        p.m('I am dead! ' * 23, state=True)
+        photon.m('I am dead! ' * 23, state=True)
 
 if __name__ == '__main__':
-    a = args()
+    args = argparse()
 
-    main(a.sudo, a.repos)
+    main(args.sudo, args.repos)
