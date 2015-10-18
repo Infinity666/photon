@@ -42,14 +42,14 @@ You can install/update the package via pip3 [#pip3]_:
 .. topic:: Bleeding-Edge
 
     Development is still at an very early stage, expect anything to change
-    completely at any time.
-
-    As long we still have a leading zero in the version (see *info* file)
-    use *pip3* with the ``--pre`` switch:
+    any time.
 
     .. code-block:: sh
 
-        pip3 install -U photon_core --pre
+        pip3 install -U photon_core
+
+    To update to some alpha or beta version (see *info* file)
+    use *pip3* with the ``--pre`` switch.
 
 .. topic:: Versions
 

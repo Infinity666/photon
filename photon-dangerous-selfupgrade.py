@@ -20,6 +20,12 @@ def argparse():
         help='use sudo to upgrade photon_core'
     )
     parser.add_argument(
+        '--pre', '-p',
+        action='store_true',
+        default=False,
+        help='upgrade photon_core to next alpha/beta release'
+    )
+    parser.add_argument(
         '--repos', '-r',
         nargs='*',
         help='List to the basepath of additional git repositories to update'
@@ -27,7 +33,7 @@ def argparse():
     return parser.parse_args()
 
 
-def main(sudo, repos=None):
+def main(sudo, pre=False, repos=None):
     photon = Photon(
         dict(sudo=sudo, repos=repos),
         config=None,
@@ -44,8 +50,9 @@ def main(sudo, repos=None):
     upres = photon.m(
         'attempting selfupgrade',
         cmdd=dict(
-            cmd='%s pip3 install -U --pre photon_core' % (
-                'sudo' if sudo else ''
+            cmd='%s pip3 install -U %s photon_core' % (
+                'sudo' if sudo else '',
+                '--pre' if pre else ''
             )
         ),
         more=dict(sudo=sudo),
@@ -59,4 +66,4 @@ def main(sudo, repos=None):
 if __name__ == '__main__':
     args = argparse()
 
-    main(args.sudo, args.repos)
+    main(args.sudo, args.pre, args.repos)
