@@ -35,14 +35,17 @@ class Ping(object):
         self.m = check_m(m)
         self.__ping_cmd = 'ping6' if six else 'ping'
         self.__net_if = '-I %s' % (net_if) if net_if else ''
-        if num < 1:
+
+        if not num:
             num = 1
-        self.__num = num
+        self.__num = '-c %d' % (num)
+
         if not max_pool_size:
             max_pool_size = _cpu_count()
         if max_pool_size < 1:
             max_pool_size = 1
         self.__max_pool_size = max_pool_size
+
         self.__probe_results = dict()
 
         self.m(
@@ -89,9 +92,12 @@ class Ping(object):
             ping = self.m(
                 '',
                 cmdd=dict(
-                    cmd='%s -c %d %s %s' % (
-                        self.__ping_cmd, self.__num, self.__net_if, host
-                    )
+                    cmd=' '.join([
+                        self.__ping_cmd,
+                        self.__num,
+                        self.__net_if,
+                        host
+                    ])
                 ),
                 critical=False,
                 verbose=False
