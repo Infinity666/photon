@@ -1,11 +1,6 @@
 Photon
 ======
 
-.. image:: _static/photon_logo.png
-    :scale: 25%
-    :align: right
-    :alt: Photon logo, not a moustache
-
 Welcome to the Photon Documentation.
 
 |
