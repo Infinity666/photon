@@ -21,7 +21,7 @@ Some functionality here is bought from the :ref:`util`:
 Git Tool
 --------
 
-.. automodule:: tools.git
+.. automodule:: photon.tools.git
     :members:
     :undoc-members:
     :private-members:
@@ -32,7 +32,7 @@ Git Tool
 Mail Tool
 ---------
 
-.. automodule:: tools.mail
+.. automodule:: photon.tools.mail
     :members:
     :undoc-members:
     :private-members:
@@ -63,7 +63,7 @@ Mail Tool Example
 Ping Tool
 ---------
 
-.. automodule:: tools.ping
+.. automodule:: photon.tools.ping
     :members:
     :undoc-members:
     :private-members:
@@ -94,7 +94,7 @@ Ping Tool Example
 Signal Tool
 -----------
 
-.. automodule:: tools.signal
+.. automodule:: photon.tools.signal
     :members:
     :undoc-members:
     :private-members:
@@ -105,7 +105,7 @@ Signal Tool
 Template Tool
 -------------
 
-.. automodule:: tools.template
+.. automodule:: photon.tools.template
     :members:
     :undoc-members:
     :private-members:

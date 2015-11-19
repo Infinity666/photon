@@ -18,15 +18,15 @@ As well as used by the :ref:`tools`:
 
     * Always try to work trough :class:`photon.Photon` and it's handlers.
 
-    * If you discover you are repeatedly calling backend functions \
-    consider adding a tool for that job!
+    * If you discover you are repeatedly calling backend functions
+        consider adding a tool for that job!
 
 .. _util_files:
 
 Files
 -----
 
-.. automodule:: util.files
+.. automodule:: photon.util.files
     :members:
     :undoc-members:
 
@@ -36,7 +36,7 @@ Files
 Locations
 ---------
 
-.. automodule:: util.locations
+.. automodule:: photon.util.locations
     :members:
     :undoc-members:
 
@@ -46,7 +46,7 @@ Locations
 Structures
 ----------
 
-.. automodule:: util.structures
+.. automodule:: photon.util.structures
     :members:
     :undoc-members:
 
@@ -56,6 +56,6 @@ Structures
 System
 ------
 
-.. automodule:: util.system
+.. automodule:: photon.util.system
     :members:
     :undoc-members:

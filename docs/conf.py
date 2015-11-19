@@ -21,8 +21,7 @@ import os
 # documentation root, use os.path.abspath to make it absolute, like shown here.
 #sys.path.insert(0, os.path.abspath('.'))
 
-sys.path.insert(0, os.path.join(os.path.abspath('..'), 'photon'))
-sys.path.append(os.path.abspath('..'))
+sys.path.insert(0, os.path.abspath('..'))
 
 from info import version, release, contributors, contributors_str
 
@@ -131,7 +130,7 @@ html_theme = 'classic'
 
 # The name of an image file (relative to this directory) to place at the top
 # of the sidebar.
-#html_logo = None
+html_logo = '_static/photon_logo.png'
 
 # The name of an image file (within the static path) to use as favicon of the
 # docs.  This file should be a Windows icon file (.ico) being 16x16 or 32x32

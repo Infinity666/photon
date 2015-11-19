@@ -22,7 +22,7 @@ Bundling :ref:`Settings` and :ref:`Meta` together plus adding the
 Settings
 --------
 
-.. automodule:: settings
+.. automodule:: photon.settings
     :members:
     :undoc-members:
     :private-members:
@@ -45,11 +45,11 @@ Example Settings File
 
 .. seealso::
 
-    * `!loc_join`: :func:`util.structures.yaml_loc_join` \
-    (get locations by keyword and join paths)
+    * `!loc_join`: :func:`util.structures.yaml_loc_join`
+        (get locations by keyword and join paths)
 
-    * `!str_join`: :func:`util.structures.yaml_str_join` \
-    (get variables by keyword and join strings)
+    * `!str_join`: :func:`util.structures.yaml_str_join`
+        (get variables by keyword and join strings)
 
 .. seealso:: |allexamples|
 
@@ -59,7 +59,7 @@ Example Settings File
 Meta
 ----
 
-.. automodule:: meta
+.. automodule:: photon.meta
     :members:
     :undoc-members:
     :private-members:
@@ -70,7 +70,7 @@ Meta
 Photon
 ------
 
-.. automodule:: photon
+.. automodule:: photon.photon
     :members:
     :undoc-members:
     :private-members:
