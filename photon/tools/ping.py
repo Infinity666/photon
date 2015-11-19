@@ -22,6 +22,8 @@ class Ping(object):
         Specify network interface to send pings from
     :param num:
         How many pings to send each probe
+    :param packetsize:
+        Specifies the number of data bytes to be sent
     :param max_pool_size:
         Hosts passed to :func:`probe` in form of a list,
         will be processed in parallel.
@@ -29,7 +31,8 @@ class Ping(object):
         If skipped, the number of current CPUs is used
     '''
 
-    def __init__(self, m, six=False, net_if=None, num=5, max_pool_size=None):
+    def __init__(self, m, six=False, net_if=None, num=5,
+                 packetsize=None, max_pool_size=None):
         super().__init__()
 
         self.m = check_m(m)
@@ -39,6 +42,12 @@ class Ping(object):
         if not num:
             num = 1
         self.__num = '-c %d' % (num)
+
+        if not packetsize:
+            packetsize = ''
+        if packetsize and packetsize > 1:
+            packetsize = '-s %s' % (packetsize)
+        self.__packetsize = packetsize
 
         if not max_pool_size:
             max_pool_size = _cpu_count()
@@ -96,6 +105,7 @@ class Ping(object):
                         self.__ping_cmd,
                         self.__num,
                         self.__net_if,
+                        self.__packetsize,
                         host
                     ])
                 ),
